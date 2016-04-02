@@ -11,7 +11,7 @@ class
 
 note
 	design: "[
-
+		The purpose of the HTML library is to generate well-formed HTML.
 		]"
 
 end
