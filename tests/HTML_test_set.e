@@ -28,8 +28,8 @@ inherit
 
 feature -- Test routines
 
-	HTML_tests
-			-- `HTML_tests'
+	HTML_creation_tests
+			-- `HTML_creation_tests'
 		local
 		 l_a_hyperlink: HTML_A_HYPERLINK
 		 l_base: HTML_BASE
@@ -64,36 +64,67 @@ feature -- Test routines
 		 l_ul: HTML_UL
 		do
 			create l_a_hyperlink
+			create l_a_hyperlink.make_with_content (<<>>)
 			create l_base
+			create l_base.make_with_content (<<>>)
 			create l_body
+			create l_body.make_with_content (<<>>)
 			create l_br
+			create l_br.make_with_content (<<>>)
 			create l_div
+			create l_div.make_with_content (<<>>)
 			create l_footer
+			create l_footer.make_with_content (<<>>)
 			create l_h1
+			create l_h1.make_with_content (<<>>)
 			create l_h2
+			create l_h2.make_with_content (<<>>)
 			create l_h3
+			create l_h3.make_with_content (<<>>)
 			create l_h4
+			create l_h4.make_with_content (<<>>)
 			create l_h5
+			create l_h5.make_with_content (<<>>)
 			create l_h6
+			create l_h6.make_with_content (<<>>)
 			create l_head
+			create l_head.make_with_content (<<>>)
 			create l_form
+			create l_form.make_with_content (<<>>)
 			create l_img
+			create l_img.make_with_content (<<>>)
 			create l_input
+			create l_input.make_with_content (<<>>)
 			create l_li
+			create l_li.make_with_content (<<>>)
 			create l_link
+			create l_link.make_with_content (<<>>)
 			create l_meta
+			create l_meta.make_with_content (<<>>)
 			create l_nav
+			create l_nav.make_with_content (<<>>)
 			create l_ol
+			create l_ol.make_with_content (<<>>)
 			create l_p
+			create l_p.make_with_content (<<>>)
 			create l_page
+			create l_page.make_with_content (<<>>)
 			create l_script
+			create l_script.make_with_content (<<>>)
 			create l_style
+			create l_style.make_with_content (<<>>)
 			create l_table
+			create l_table.make_with_content (<<>>)
 			create l_td
+			create l_td.make_with_content (<<>>)
 			create l_th
+			create l_th.make_with_content (<<>>)
 			create l_title
+			create l_title.make_with_content (<<>>)
 			create l_tr
+			create l_tr.make_with_content (<<>>)
 			create l_ul
+			create l_ul.make_with_content (<<>>)
 		end
 
 end

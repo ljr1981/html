@@ -9,6 +9,10 @@ class
 inherit
 	HTML_TAG
 
+create
+	default_create,
+	make_with_content
+
 feature -- Output
 
 	html_content: STRING

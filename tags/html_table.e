@@ -12,6 +12,10 @@ inherit
 			attribute_list
 		end
 
+create
+	default_create,
+	make_with_content
+
 feature -- HTML Attributes
 
 	table_border: attached like attribute_tuple_anchor
