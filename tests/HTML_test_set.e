@@ -30,8 +30,70 @@ feature -- Test routines
 
 	HTML_tests
 			-- `HTML_tests'
+		local
+		 l_a_hyperlink: HTML_A_HYPERLINK
+		 l_base: HTML_BASE
+		 l_body: HTML_BODY
+		 l_br: HTML_BR
+		 l_div: HTML_DIV
+		 l_footer: HTML_FOOTER
+		 l_h1: HTML_H1
+		 l_h2: HTML_H2
+		 l_h3: HTML_H3
+		 l_h4: HTML_H4
+		 l_h5: HTML_H5
+		 l_h6: HTML_H6
+		 l_head: HTML_HEAD
+		 l_form: HTML_HTML_FORM
+		 l_img: HTML_IMG
+		 l_input: HTML_INPUT
+		 l_li: HTML_LI
+		 l_link: HTML_LINK
+		 l_meta: HTML_META
+		 l_nav: HTML_NAV
+		 l_ol: HTML_OL
+		 l_p: HTML_P
+		 l_page: HTML_PAGE
+		 l_script: HTML_SCRIPT
+		 l_style: HTML_STYLE
+		 l_table: HTML_TABLE
+		 l_td: HTML_TD
+		 l_th: HTML_TH
+		 l_title: HTML_TITLE
+		 l_tr: HTML_TR
+		 l_ul: HTML_UL
 		do
-			do_nothing -- yet ...
+			create l_a_hyperlink
+			create l_base
+			create l_body
+			create l_br
+			create l_div
+			create l_footer
+			create l_h1
+			create l_h2
+			create l_h3
+			create l_h4
+			create l_h5
+			create l_h6
+			create l_head
+			create l_form
+			create l_img
+			create l_input
+			create l_li
+			create l_link
+			create l_meta
+			create l_nav
+			create l_ol
+			create l_p
+			create l_page
+			create l_script
+			create l_style
+			create l_table
+			create l_td
+			create l_th
+			create l_title
+			create l_tr
+			create l_ul
 		end
 
 end
