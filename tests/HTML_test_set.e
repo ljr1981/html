@@ -44,7 +44,7 @@ feature -- Test routines
 		 l_h5: HTML_H5
 		 l_h6: HTML_H6
 		 l_head: HTML_HEAD
-		 l_form: HTML_HTML_FORM
+		 l_form: HTML_FORM
 		 l_img: HTML_IMG
 		 l_input: HTML_INPUT
 		 l_li: HTML_LI

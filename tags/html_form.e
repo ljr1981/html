@@ -4,7 +4,7 @@ note
 		]"
 
 class
-	HTML_HTML_FORM
+	HTML_FORM
 
 inherit
 	ANY
