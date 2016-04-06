@@ -7,18 +7,12 @@ class
 	HTML_BODY
 
 inherit
-	HTML_ANY
-
 	HTML_TAG
-		undefine
-			default_create,
-			out
-		end
 
 create
 	default_create,
 	make_with_content
-	
+
 feature -- Output
 
 	html_content: STRING

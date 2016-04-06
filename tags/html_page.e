@@ -10,14 +10,9 @@ class
 	HTML_PAGE
 
 inherit
-	HTML_ANY
-
 	HTML_TAG
 		export {NONE}
 			html_content_items
-		undefine
-			default_create,
-			out
 		redefine
 			html_out,
 			make_with_content

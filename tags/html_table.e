@@ -7,12 +7,7 @@ class
 	HTML_TABLE
 
 inherit
-	HTML_ANY
-
 	HTML_TAG
-		undefine
-			default_create,
-			out
 		redefine
 			attribute_list
 		end

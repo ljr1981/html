@@ -7,13 +7,7 @@ class
 	HTML_OL
 
 inherit
-	HTML_ANY
-
 	HTML_TAG
-		undefine
-			default_create,
-			out
-		end
 
 feature -- Output
 

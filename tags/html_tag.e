@@ -7,6 +7,11 @@ deferred class
 	HTML_TAG
 
 inherit
+	HTML_ANY
+		undefine
+			out
+		end
+		
 	FW_ATTRIBUTE_HELPER
 		redefine
 			attribute_separator,

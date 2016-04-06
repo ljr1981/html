@@ -7,13 +7,7 @@ class
 	HTML_H3
 
 inherit
-	HTML_ANY
-
 	HTML_TAG
-		undefine
-			default_create,
-			out
-		end
 
 create
 	default_create,
