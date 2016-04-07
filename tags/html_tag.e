@@ -87,6 +87,12 @@ feature -- Attributes
 
 feature -- Settings
 
+	add_content (a_item: attached like content_anchor)
+			-- `add_content' `a_item' to `html_content_items'
+		do
+			html_content_items.force (a_item)
+		end
+
 	set_text_content (a_text: like text_content)
 			-- `set_text_content' with `a_text'.
 		do

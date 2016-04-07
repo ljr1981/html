@@ -15,7 +15,8 @@ inherit
 			html_content_items
 		redefine
 			html_out,
-			make_with_content
+			make_with_content,
+			add_content
 		end
 
 create
@@ -55,6 +56,18 @@ feature -- Output
 			-- <Precursor>
 
 feature -- Settings
+
+	add_content (a_item: attached like content_anchor)
+			-- `add_content' `a_item' to `html_content_items'
+		do
+			if attached body as al_body then
+				al_body.add_content (a_item)
+			else
+				create body.make_with_content (<<a_item>>)
+			end
+		ensure then
+			has_content: attached body
+		end
 
 	set_head (a_head: like head)
 			-- `set_head' with `a_head' into `head'.
