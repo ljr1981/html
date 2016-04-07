@@ -30,6 +30,25 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Style
+
+	style_rule: CSS_RULE
+			-- `style_rule'.
+		attribute
+			create Result
+		end
+
+	style_out: STRING
+			-- `style_out' string representation of `style_rule'.
+		do
+			Result := style_rule.out
+			across
+				html_content_items as ic_items
+			loop
+				Result.append_string_general (ic_items.item.style_out)
+			end
+		end
+
 feature -- Attributes
 
 	global_accesskey: attached like attribute_tuple_anchor

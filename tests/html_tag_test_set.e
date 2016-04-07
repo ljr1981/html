@@ -105,6 +105,20 @@ feature -- Test routines
 			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br></br><div></div><footer></footer><div></div><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
 		end
 
+	html_style_tests
+			-- `html_style_tests'.
+		local
+			l_table: HTML_TABLE
+		do
+			create l_table
+			l_table.style_rule.border.attr_value := "1px solid black"
+			assert_strings_equal ("style_1", "{border:1px solid black;}", l_table.style_out)
+			l_table.style_rule.border_collapse.attr_value := "collapse"
+			assert_strings_equal ("style_2", "{border:1px solid black; border-collapse:collapse;}", l_table.style_out)
+			l_table.style_rule.page_break_inside.attr_value := "avoid"
+			assert_strings_equal ("style_2", "{border:1px solid black; border-collapse:collapse; page-break-inside:avoid;}", l_table.style_out)
+		end
+
 	html_text_tests
 			-- `html_text_tests'.
 		local
