@@ -11,7 +11,7 @@ inherit
 		undefine
 			out
 		end
-		
+
 	FW_ATTRIBUTE_HELPER
 		redefine
 			attribute_separator,
@@ -60,10 +60,30 @@ feature -- Attributes
 			create Result.make (Default_capacity)
 		end
 
+	text_content: STRING
+			-- `text_content' of Current {HTML_TAG}.
+		attribute
+			create Result.make_empty
+		end
+
+feature -- Settings
+
+	set_text_content (a_text: like text_content)
+			-- `set_text_content' with `a_text'.
+		do
+			text_content := a_text
+		ensure
+			set: text_content.same_string (a_text)
+		end
+
 feature -- Output
 
 	html_out: STRING
 			-- `html_out' of Current {HTML_TAG}.
+		note
+			design_question: "[
+
+				]"
 		do
 			create Result.make_empty
 			Result.append_string (start_tag)
@@ -78,6 +98,7 @@ feature -- Output
 				Result.append_string (ic_content_list.item.html_out)
 			end
 			Result.append_string (html_content)
+			Result.append_string (text_content)
 			Result.append_string (end_tag)
 		end
 
@@ -98,9 +119,23 @@ feature {NONE} -- Implementation: Constants
 	content_anchor: detachable HTML_TAG
 			-- `content_anchor' for Current {HTML_TAG}.
 
-	start_tag: STRING once ("object") Result := "<" + tag_name + tag_attributes_tag + ">" end
+	start_tag: STRING
+		once ("object")
+			if not tag_name.is_empty then
+				Result := "<" + tag_name + tag_attributes_tag + ">"
+			else
+				Result := ""
+			end
+		end
 
-	end_tag: STRING once ("object")  Result := "</" + tag_name + ">" end
+	end_tag: STRING
+		once ("object")
+			if not tag_name.is_empty then
+				Result := "</" + tag_name + ">"
+			else
+				Result := ""
+			end
+		end
 
 	tag_attributes_tag: STRING = "<<TAG_ATTRIBUTES>>"
 

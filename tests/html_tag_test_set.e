@@ -74,7 +74,7 @@ feature -- Test routines
 	general_html_tag_creation_tests
 			-- `general_html_tag_creation_tests'.
 		local
-			l_a: HTML_A_HYPERLINK
+			l_a: HTML_A
 			l_br: HTML_BR
 			l_div: HTML_DIV
 			l_footer: HTML_FOOTER
@@ -103,6 +103,44 @@ feature -- Test routines
 			create l_page.make_with_content (<<l_a, l_br, l_div, l_footer, l_form, l_h1>>)
 			l_page.set_head (create {HTML_HEAD})
 			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br></br><div></div><footer></footer><div></div><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
+		end
+
+	html_text_tests
+			-- `html_text_tests'.
+		local
+			l_a: HTML_A
+			l_br: HTML_BR
+			l_div: HTML_DIV
+			l_footer: HTML_FOOTER
+			l_form: HTML_FORM
+			l_h1: HTML_H1
+			l_h2: HTML_H2
+			l_h3: HTML_H3
+			l_page: HTML_PAGE
+			l_text: HTML_TEXT
+		do
+			create l_a
+			create l_br
+			create l_div
+			create l_footer
+			create l_form
+			create l_h1
+			create l_h2
+			create l_h3
+			create l_text
+
+			l_text.set_text_content ("This is some text.")
+			l_div.html_content_items.force (l_text)
+			assert_strings_equal ("div", "<div>This is some text.</div>", l_div.html_out)
+			create l_text.make_with_text ("Another line of text.")
+			l_div.html_content_items.force (l_text)
+			l_text.set_buffering_on
+			assert_strings_equal ("div", "<div>This is some text. Another line of text.</div>", l_div.html_out)
+			l_a.set_attribute_value (agent l_a.href, "http://www.w3schools.com")
+			l_a.set_text_content ("Visit W3Schools")
+			l_div.html_content_items.force (l_a)
+			l_div.html_content_items.force (create {HTML_TEXT}.make_with_text ("And this is the last line of text."))
+			assert_strings_equal ("div", "<div>This is some text. Another line of text.<a href=%"http://www.w3schools.com%">Visit W3Schools</a>And this is the last line of text.</div>", l_div.html_out)
 		end
 
 end

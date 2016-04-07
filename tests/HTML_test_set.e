@@ -31,7 +31,7 @@ feature -- Test routines
 	HTML_creation_tests
 			-- `HTML_creation_tests'
 		local
-		 l_a_hyperlink: HTML_A_HYPERLINK
+		 l_a_hyperlink: HTML_A
 		 l_base: HTML_BASE
 		 l_body: HTML_BODY
 		 l_br: HTML_BR
