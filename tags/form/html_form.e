@@ -22,7 +22,7 @@ feature -- Output
 			create Result.make_empty
 		end
 
-	tag_name: STRING = "div"
+	tag_name: STRING = "form"
 			-- <Precursor>
 
 ;note
