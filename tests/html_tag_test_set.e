@@ -150,7 +150,7 @@ feature -- Test routines
 			l_div.html_content_items.force (l_text)
 			l_text.set_buffering_on
 			assert_strings_equal ("div", "<div>This is some text. Another line of text.</div>", l_div.html_out)
-			l_a.set_attribute_value (agent l_a.href, "http://www.w3schools.com")
+			l_a.set_attribute_value (agent l_a.href_attribute, "http://www.w3schools.com")
 			l_a.set_text_content ("Visit W3Schools")
 			l_div.html_content_items.force (l_a)
 			l_div.html_content_items.force (create {HTML_TEXT}.make_with_text ("And this is the last line of text."))

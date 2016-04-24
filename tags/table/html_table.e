@@ -8,29 +8,13 @@ class
 
 inherit
 	HTML_TAG
-		redefine
-			attribute_list
+		export {ANY}
+			border_attribute
 		end
 
 create
 	default_create,
 	make_with_content
-
-feature -- HTML Attributes
-
-	table_border: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/att_table_border.asp"
-		attribute Result := ["0", "0", Void, "border", is_quoted] end
-
-	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
-			-- <Precursor>
-			-- HTML attributes for <table>
-		do
-			Result := Precursor
-			Result.force (table_border, "border")
-		ensure then
-			count: Result.count >= 4
-		end
 
 feature -- Output
 

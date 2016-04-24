@@ -8,29 +8,13 @@ class
 
 inherit
 	HTML_TAG
-		redefine
-			attribute_list
+		export {ANY}
+			href_attribute
 		end
 
 create
 	default_create,
 	make_with_content
-
-feature -- Attributes
-
-	href: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
-		attribute Result := ["", "", Void, "href", is_quoted] end
-
-	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
-			-- <Precursor>
-			-- HTML attributes for <table>
-		do
-			Result := Precursor
-			Result.force (href, href.attr_name)
-		ensure then
-			count: Result.count >= Default_capacity
-		end
 
 feature -- Output
 
