@@ -14,6 +14,11 @@ inherit
 
 	HTML_ATTRIBUTES
 
+	HTML_CONSTANTS
+		undefine
+			out
+		end
+
 feature {NONE} -- Initialization
 
 	make_with_content (a_content: ARRAY [attached like content_anchor])
@@ -102,6 +107,8 @@ feature -- Output
 	tag_name: STRING
 			-- `tag_name' for `html_out' of Current {HTML_TAG}.
 		deferred
+		ensure
+			valid_tags.has (Result)
 		end
 
 feature {NONE} -- Implementation
