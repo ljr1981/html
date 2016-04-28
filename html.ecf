@@ -8,7 +8,6 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="bem" location="$GITHUB\bem\bem.ecf"/>
 		<library name="css" location="$GITHUB\css\css.ecf"/>
 		<library name="framework" location="$GITHUB\framework\framework.ecf"/>
 		<library name="test_extension" location="$GITHUB\test_extension\test_extension.ecf"/>
