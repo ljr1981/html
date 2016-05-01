@@ -70,6 +70,12 @@ feature -- Settings
 			html_content_items.force (a_item)
 		end
 
+	add_text_content (a_text: STRING)
+			-- `add_text_content' as {HTML_TEXT} to `html_content_items'.
+		do
+			html_content_items.force (create {HTML_TEXT}.make_with_text (a_text))
+		end
+
 	set_text_content (a_text: like text_content)
 			-- `set_text_content' with `a_text'.
 		do
