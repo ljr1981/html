@@ -100,6 +100,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
 		attribute Result := ["", "", Void, "href", is_quoted] end
 
+	role: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3cshools.com"
+		attribute Result := ["", "", Void, "role", is_quoted] end
+
 feature -- Attribute List
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
@@ -108,14 +112,15 @@ feature -- Attribute List
 		do
 				-- Global
 			create Result.make (Default_capacity)
-			Result.force (global_accesskey, "accesskey")
-			Result.force (global_class, "class")
-			Result.force (global_id, "id")
-			Result.force (global_style, "style")
+			Result.force (global_accesskey, global_accesskey.attr_name)
+			Result.force (global_class, global_class.attr_name)
+			Result.force (global_id, global_id.attr_name)
+			Result.force (global_style, global_style.attr_name)
 
 				-- Common
-			Result.force (border_attribute, "border")
+			Result.force (border_attribute, border_attribute.attr_name)
 			Result.force (href_attribute, href_attribute.attr_name)
+			Result.force (role, role.attr_name)
 
 		ensure then
 			count: Result.count >= Default_capacity
