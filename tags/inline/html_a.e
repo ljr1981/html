@@ -9,12 +9,24 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
-			href_attribute
+			href_attribute,
+			data_rel,
+			data_transition
 		end
 
 create
 	default_create,
-	make_with_content
+	make_with_content,
+	make_with_link_and_text
+
+feature {NONE} -- Initialization
+
+	make_with_link_and_text (a_link, a_text: STRING)
+			-- `make_with_link_and_text' in `a_link' and `a_text'.
+		do
+			set_attribute_value (agent href_attribute, a_link)
+			add_content (create {HTML_TEXT}.make_with_text (a_text))
+		end
 
 feature -- Output
 

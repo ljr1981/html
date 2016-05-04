@@ -84,6 +84,12 @@ feature -- Settings
 			set: text_content.same_string (a_text)
 		end
 
+	set_class (a_class_names: STRING)
+			-- `set_class' of `global_class' with `a_class_names'.
+		do
+			set_attribute_value (agent global_class, a_class_names)
+		end
+
 feature -- Output
 
 	html_out: STRING

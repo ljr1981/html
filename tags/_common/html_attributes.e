@@ -104,6 +104,85 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3cshools.com"
 		attribute Result := ["", "", Void, "role", is_quoted] end
 
+feature -- Attributes: Datums
+
+	data_role: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-role", is_quoted] end
+
+	data_theme: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-theme", is_quoted] end
+		--data-theme	swatch letter (a-z) - Default "c"
+
+	data_id: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-id", is_quoted] end
+		--data-id	string - Unique ID. Required for persistent headers
+
+	data_position: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-position", is_unquoted] end
+		--data-position	fixed
+
+	data_fullscreen: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, "data-fullscreen", is_quoted] end
+		--data-fullscreen	true | false - Used in conjunction with fixed toolbars
+
+	data_add_back_btn: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, "data-add-back-btn", is_quoted] end
+		--data-add-back-btn	true | false - Auto add back button, header only
+
+	data_back_btn_text: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-back-btn-text", is_quoted] end
+		--data-back-btn-text	string
+
+	data_back_btn_theme: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-back-btn-theme", is_quoted] end
+		--data-back-btn-theme	swatch letter (a-z)
+
+	data_close_btn_text: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-close-btn-text", is_quoted] end
+		--data-close-btn-text	string - Text for the close button, dialog only
+
+	data_dom_cache: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, "data-dom-cache", is_quoted] end
+		--data-dom-cache	true | false
+
+	data_overlay_theme: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-overlay-theme", is_quoted] end
+		--data-overlay-theme	swatch letter (a-z) - Overlay theme when the page is opened in a dialog
+
+	data_title: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-title", is_quoted] end
+		--data-title	string - Title used when page is shown
+
+	data_url: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-url", is_quoted] end
+		--data-url	url - Value for updating the URL, instead of the url used to request the page
+
+	data_transition: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["slide", "slide|fade|none|pop", Void, "data-transition", is_quoted] end
+		--data-transition	slide | fade | none - Show/hide-transition when a tap/click occurs
+
+	data_rel: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["back", "back|dialog|external|popup", Void, "data-rel", is_quoted] end
+		--data-rel	back - To move one step back in history
+		--dialog - To open link styled as dialog, not tracked in history
+		--external - For linking to another domain
+		--popup - For opening a popup
+
 feature -- Attribute List
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
@@ -121,6 +200,23 @@ feature -- Attribute List
 			Result.force (border_attribute, border_attribute.attr_name)
 			Result.force (href_attribute, href_attribute.attr_name)
 			Result.force (role, role.attr_name)
+
+				-- Datums
+			Result.force (data_role, data_role.attr_name)
+			Result.force (data_theme, data_theme.attr_name)
+			Result.force (data_id, data_id.attr_name)
+			Result.force (data_position, data_position.attr_name)
+			Result.force (data_fullscreen, data_fullscreen.attr_name)
+			Result.force (data_add_back_btn, data_add_back_btn.attr_name)
+			Result.force (data_back_btn_text, data_back_btn_text.attr_name)
+			Result.force (data_back_btn_theme, data_back_btn_theme.attr_name)
+			Result.force (data_close_btn_text, data_close_btn_text.attr_name)
+			Result.force (data_dom_cache, data_dom_cache.attr_name)
+			Result.force (data_overlay_theme, data_overlay_theme.attr_name)
+			Result.force (data_title, data_title.attr_name)
+			Result.force (data_url, data_url.attr_name)
+			Result.force (data_transition, data_transition.attr_name)
+			Result.force (data_rel, data_rel.attr_name)
 
 		ensure then
 			count: Result.count >= Default_capacity
