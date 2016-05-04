@@ -183,6 +183,21 @@ feature -- Attributes: Datums
 		--external - For linking to another domain
 		--popup - For opening a popup
 
+	data_direction: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, "data-direction", is_quoted] end
+		--data-direction	reverse - Reverse transition animation (only for page or dialog)
+
+	data_icon: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["home", "home|delete|plus|arrow-u|arrow-d|check|gear|grid|star|custom|arrow-r|arrow-l|minus|refresh|forward|back|alert|info|search", Void, "data-icon", is_quoted] end
+		-- data-icon	home | delete | plus | arrow-u | arrow-d | check | gear | grid | star | custom | arrow-r | arrow-l | minus | refresh | forward | back | alert | info | search
+
+	data_inline: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, "data-inline", is_quoted] end
+		--data-inline	true | false - Auto add back button, header only
+
 feature -- Attribute List
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
@@ -217,7 +232,8 @@ feature -- Attribute List
 			Result.force (data_url, data_url.attr_name)
 			Result.force (data_transition, data_transition.attr_name)
 			Result.force (data_rel, data_rel.attr_name)
-
+			Result.force (data_icon, data_icon.attr_name)
+			Result.force (data_inline, data_inline.attr_name)
 		ensure then
 			count: Result.count >= Default_capacity
 		end

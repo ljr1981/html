@@ -8,10 +8,16 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			data_direction,
+			data_role,
+			data_theme
+		end
 
 create
 	default_create,
-	make_with_content
+	make_with_content,
+	make_with_raw_text
 
 feature -- Output
 
