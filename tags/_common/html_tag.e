@@ -31,6 +31,13 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_with_raw_text (a_text: STRING)
+			-- `make_with_raw_text' of `a_text'.
+			-- `a_text' goes <tag>here</tag>
+		do
+			set_text_content (a_text)
+		end
+
 feature -- Style
 
 	style_rule: CSS_RULE
@@ -120,7 +127,7 @@ feature -- Output
 			-- `tag_name' for `html_out' of Current {HTML_TAG}.
 		deferred
 		ensure
-			valid_tags.has (Result)
+			valid_tag: across valid_tags as ic some ic.item.same_string (Result) end
 		end
 
 feature {NONE} -- Implementation
