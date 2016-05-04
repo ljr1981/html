@@ -77,6 +77,23 @@ feature -- Settings
 			html_content_items.force (a_item)
 		end
 
+	add_contents (a_items: ARRAY [attached like content_anchor])
+			-- `add_contents' of `a_items' to `html_content_items'.
+		do
+			across
+				a_items as ic
+			loop
+				add_content (ic.item)
+			end
+		ensure
+			added: across a_items as ic all
+						across html_content_items as ic_content some
+							ic_content.item ~ ic.item
+						end
+					end
+		end
+
+
 	add_text_content (a_text: STRING)
 			-- `add_text_content' as {HTML_TEXT} to `html_content_items'.
 		do
