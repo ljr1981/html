@@ -11,9 +11,57 @@ inherit
 
 create
 	default_create,
-	make_with_level
+	make_with_level,
+	make_h1, make_xxlarge_headline,
+	make_h2, make_xlarge_headline,
+	make_h3, make_large_headline,
+	make_h4, make_medium_headline,
+	make_h5, make_small_headline,
+	make_h6, make_xsmall_headline
 
 feature {NONE} -- Initialization
+
+	make_h1,
+	make_xxlarge_headline (a_text: STRING)
+			-- `make_h1' (i.e. <h1>)
+		do
+			make_with_level (1, a_text)
+		end
+
+	make_h2,
+	make_xlarge_headline (a_text: STRING)
+			-- `make_h2' (i.e. <h2>)
+		do
+			make_with_level (2, a_text)
+		end
+
+	make_h3,
+	make_large_headline (a_text: STRING)
+			-- `make_h3' (i.e. <h3>)
+		do
+			make_with_level (3, a_text)
+		end
+
+	make_h4,
+	make_medium_headline (a_text: STRING)
+			-- `make_h4' (i.e. <h4>)
+		do
+			make_with_level (4, a_text)
+		end
+
+	make_h5,
+	make_small_headline (a_text: STRING)
+			-- `make_h5' (i.e. <h5>)
+		do
+			make_with_level (5, a_text)
+		end
+
+	make_h6,
+	make_xsmall_headline (a_text: STRING)
+			-- `make_h6' (i.e. <h6>)
+		do
+			make_with_level (6, a_text)
+		end
 
 	make_with_level (a_level: like level; a_text: STRING)
 		require

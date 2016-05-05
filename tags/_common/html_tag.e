@@ -94,12 +94,6 @@ feature -- Settings
 		end
 
 
-	add_text_content (a_text: STRING)
-			-- `add_text_content' as {HTML_TEXT} to `html_content_items'.
-		do
-			html_content_items.force (create {HTML_TEXT}.make_with_text (a_text))
-		end
-
 	set_text_content (a_text: like text_content)
 			-- `set_text_content' with `a_text'.
 		do
@@ -112,6 +106,24 @@ feature -- Settings
 			-- `set_class' of `global_class' with `a_class_names'.
 		do
 			set_attribute_value (agent global_class, a_class_names)
+		end
+
+feature -- Nested Creators
+
+	add_text_content (a_text: STRING)
+			-- `add_text_content' as {HTML_TEXT} to `html_content_items'.
+		do
+			html_content_items.force (create {HTML_TEXT}.make_with_text (a_text))
+		end
+
+	add_code_tag_content (a_text: STRING)
+		do
+			html_content_items.force (create {HTML_CODE}.make_with_content (<<create {HTML_TEXT}.make_with_text (a_text)>>))
+		end
+
+	add_a_tag_content_link_and_text (a_link, a_text: STRING)
+		do
+			html_content_items.force (create {HTML_A}.make_with_link_and_text (a_link, a_text))
 		end
 
 feature -- Output
