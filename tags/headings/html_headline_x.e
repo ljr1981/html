@@ -84,13 +84,6 @@ feature {NONE} -- Implementation: Access
 
 feature -- Output
 
-	html_content: STRING
-			-- <Precursor>
-			-- HTML output for Current {HTML_H1}.
-		do
-			create Result.make_empty
-		end
-
 	tag_name: STRING
 			-- <Precursor>
 		once ("object")

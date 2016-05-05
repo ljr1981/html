@@ -12,7 +12,8 @@ inherit
 create
 	default_create,
 	make_with_content,
-	make_with_text
+	make_with_text,
+	make_with_buffered_text
 
 feature {NONE} -- Initialization
 
@@ -24,44 +25,17 @@ feature {NONE} -- Initialization
 			set: text_content.same_string (a_text)
 		end
 
-feature -- Access
-
-	is_buffered: BOOLEAN
-			-- `is_buffered'
+	make_with_buffered_text (a_text: like text_content)
+			-- `make_with_buffered_text' using `a_text', prepended with a single space character.
+		do
+			make_with_text (a_text)
+			text_content.prepend_character (' ')
+		end
 
 feature -- Output
 
-	html_content: STRING
-			-- <Precursor>
-			-- HTML output for Current {HTML_TEXT}.
-		do
-			if is_buffered then
-				Result := " "
-			else
-				create Result.make_empty
-			end
-		end
-
 	tag_name: STRING = ""
 			-- <Precursor>
-
-feature -- Settings
-
-	set_buffering_on
-			-- `set_buffering_on' for `is_buffered'.
-		do
-			is_buffered := True
-		ensure
-			on: is_buffered
-		end
-
-	set_buffering_off
-			-- `set_buffering_off' for `is_buffered'.
-		do
-			is_buffered := False
-		ensure
-			off: not is_buffered
-		end
 
 ;note
 	design: "[

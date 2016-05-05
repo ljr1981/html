@@ -8,6 +8,10 @@ class
 
 inherit
 	HTML_TAG
+		redefine
+			html_out,
+			pretty_out
+		end
 
 create
 	default_create,
@@ -15,17 +19,68 @@ create
 
 feature -- Output
 
-	html_content: STRING
+	html_out: STRING
 			-- <Precursor>
 			-- HTML output for Current {HTML_HEAD}.
 		do
-			create Result.make_empty
+			Result := start_tag.twin
+
+				-- Tag attributes ...
+			if attached attributes_out as al_attributes_out and then not al_attributes_out.is_empty then
+				Result.replace_substring_all (tag_attributes_tag, " " + al_attributes_out)
+			else
+				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
+			end
+
 			if attached title as al_title then Result.append_string (al_title.html_out) end
 			if attached base as al_base then Result.append_string (al_base.html_out) end
 			if attached link as al_link then Result.append_string (al_link.html_out) end
 			if attached meta as al_meta then Result.append_string (al_meta.html_out) end
 			if attached script as al_script then Result.append_string (al_script.html_out) end
 			if attached style as al_style then Result.append_string (al_style.html_out) end
+
+			Result.append_string (end_tag)
+		end
+
+	pretty_out: STRING
+			-- <Precursor>
+			-- HTML output for Current {HTML_HEAD}.
+		do
+			Result := start_tag.twin
+			Result.append_character ('%N'); Result.append_character ('%T')
+
+				-- Tag attributes ...
+			if attached attributes_out as al_attributes_out and then not al_attributes_out.is_empty then
+				Result.replace_substring_all (tag_attributes_tag, " " + al_attributes_out)
+			else
+				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
+			end
+
+			if attached title as al_title then Result.append_string (al_title.html_out) end
+			Result.append_character ('%N'); Result.append_character ('%T')
+			if attached base as al_base then
+				Result.append_string (al_base.html_out)
+				Result.append_character ('%N'); Result.append_character ('%T')
+			end
+			if attached link as al_link then
+				Result.append_string (al_link.html_out)
+				Result.append_character ('%N'); Result.append_character ('%T')
+			end
+			if attached meta as al_meta then
+				Result.append_string (al_meta.html_out)
+				Result.append_character ('%N'); Result.append_character ('%T')
+			end
+			if attached script as al_script then
+				Result.append_string (al_script.html_out)
+				Result.append_character ('%N'); Result.append_character ('%T')
+			end
+			if attached style as al_style then
+				Result.append_string (al_style.html_out)
+				Result.append_character ('%N'); Result.append_character ('%T')
+			end
+
+			Result.append_string (end_tag)
+			Result.append_character ('%N'); Result.append_character ('%T')
 		end
 
 	tag_name: STRING = "head"

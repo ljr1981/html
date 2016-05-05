@@ -15,6 +15,7 @@ inherit
 			html_content_items
 		redefine
 			html_out,
+			pretty_out,
 			make_with_content,
 			add_content
 		end
@@ -40,16 +41,43 @@ feature -- Output
 			-- Add notion of `doctype' and other "<head>" items.
 		do
 			Result := doctype.twin
-			Result.append_string (Precursor)
-		end
+			Result.append_string (start_tag)
 
-	html_content: STRING
-			-- <Precursor>
-			-- HTML output for Current {HTML_PAGE}.
-		do
-			create Result.make_empty
+				-- Tag attributes ...
+			if attached attributes_out as al_attributes_out and then not al_attributes_out.is_empty then
+				Result.replace_substring_all (tag_attributes_tag, " " + al_attributes_out)
+			else
+				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
+			end
+
 			if attached head as al_head then Result.append_string (al_head.html_out) end
 			if attached body as al_body then Result.append_string (al_body.html_out) end
+
+			Result.append_string (end_tag)
+		end
+
+	pretty_out: STRING
+			-- <Precursor>
+			-- Add notion of `doctype' and other "<head>" items.
+		do
+			Result := doctype.twin
+			Result.append_string (start_tag)
+			Result.append_character ('%N'); Result.append_character ('%T')
+
+				-- Tag attributes ...
+			if attached attributes_out as al_attributes_out and then not al_attributes_out.is_empty then
+				Result.replace_substring_all (tag_attributes_tag, " " + al_attributes_out)
+			else
+				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
+			end
+
+			if attached head as al_head then Result.append_string (al_head.pretty_out) end
+			Result.append_character ('%N'); Result.append_character ('%T')
+			if attached body as al_body then Result.append_string (al_body.pretty_out) end
+			Result.append_character ('%N'); Result.append_character ('%T')
+
+			Result.append_string (end_tag)
+			Result.append_character ('%N'); Result.append_character ('%T')
 		end
 
 	tag_name: STRING = "html"

@@ -30,13 +30,6 @@ feature {NONE} -- Initialization
 
 feature -- Output
 
-	html_content: STRING
-			-- <Precursor>
-			-- HTML output for Current {HTML_A}.
-		do
-			create Result.make_empty
-		end
-
 	tag_name: STRING = "a"
 			-- <Precursor>
 

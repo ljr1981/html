@@ -15,13 +15,6 @@ create
 
 feature -- Output
 
-	html_content: STRING
-			-- <Precursor>
-			-- HTML output for Current {HTML_TEXTAREA}.
-		do
-			create Result.make_empty
-		end
-
 	tag_name: STRING = "textarea"
 			-- <Precursor>
 

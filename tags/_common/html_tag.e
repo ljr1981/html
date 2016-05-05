@@ -130,26 +130,14 @@ feature -- Output
 
 	html_out: STRING
 			-- `html_out' of Current {HTML_TAG}.
-		note
-			design_question: "[
-
-				]"
 		do
-			create Result.make_empty
-			Result.append_string (start_tag)
-			if attached attributes_out as al_attributes_out and then not al_attributes_out.is_empty then
-				Result.replace_substring_all (tag_attributes_tag, " " + al_attributes_out)
-			else
-				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
-			end
-			across
-				html_content_items as ic_content_list
-			loop
-				Result.append_string (ic_content_list.item.html_out)
-			end
-			Result.append_string (html_content)
-			Result.append_string (text_content)
-			Result.append_string (end_tag)
+			Result := common_out (not_pretty)
+		end
+
+	pretty_out: STRING
+			-- `pretty_out' of Current {HTML_TAG}.
+		do
+			Result := common_out (prettified)
 		end
 
 	tag_name: STRING
@@ -159,11 +147,49 @@ feature -- Output
 			valid_tag: across valid_tags as ic some ic.item.same_string (Result) end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Implementation: Output
 
-	html_content: like html_out
-			-- `html_content' that goes into `html_out' between `start_tag' and `end_tag'.
-		deferred
+	not_pretty: BOOLEAN = False
+	prettified: BOOLEAN = True
+
+	common_out (a_prettified: BOOLEAN): STRING
+			-- `common_out' of `a_prettified' (True/False).
+		do
+			create Result.make_empty
+
+				-- Start tag ...
+			Result.append_string (start_tag)
+			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+
+				-- Tag attributes ...
+			if attached attributes_out as al_attributes_out and then not al_attributes_out.is_empty then
+				Result.replace_substring_all (tag_attributes_tag, " " + al_attributes_out)
+			else
+				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
+			end
+			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+
+				-- Nested items ...
+			across
+				html_content_items as ic_content_list
+			loop
+
+				if a_prettified then
+					Result.append_string (ic_content_list.item.pretty_out)
+					Result.append_character ('%N')
+					Result.append_character ('%T')
+				else
+					Result.append_string (ic_content_list.item.html_out)
+				end
+			end
+
+				-- Nested `text_content'
+			Result.append_string (text_content)
+			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+
+				-- End tag ...
+			Result.append_string (end_tag)
+			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
 		end
 
 feature {NONE} -- Implementation: Constants

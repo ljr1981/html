@@ -44,9 +44,13 @@ feature -- Test routines
 		do
 			create l_html
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html></html>", l_html.html_out)
+			assert_strings_equal ("html_page_prettified", pretty_html, l_html.pretty_out)
+
 			create l_head
 			l_html.set_head (l_head)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head></html>", l_html.html_out)
+			assert_strings_equal ("html_head", "<!DOCTYPE html><html><head></head></html>", l_html.html_out)
+			assert_strings_equal ("html_head_prettified", pretty_head, l_html.pretty_out)
+
 			create l_body
 			l_html.set_body (l_body)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
@@ -70,6 +74,13 @@ feature -- Test routines
 			l_head.set_title (l_title)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><title></title><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
 		end
+
+feature -- Testing: Support
+
+	pretty_html: STRING = "<!DOCTYPE html><html>%N%T%N%T%N%T</html>%N%T"
+	pretty_head: STRING = "<!DOCTYPE html><html>%N%T<head>%N%T%N%T</head>%N%T%N%T%N%T</html>%N%T"
+
+feature -- Testing: Creation Tests
 
 	general_html_tag_creation_tests
 			-- `general_html_tag_creation_tests'.
@@ -158,9 +169,8 @@ feature -- Test routines
 			l_text.set_text_content ("This is some text.")
 			l_div.html_content_items.force (l_text)
 			assert_strings_equal ("div", "<div>This is some text.</div>", l_div.html_out)
-			create l_text.make_with_text ("Another line of text.")
+			create l_text.make_with_buffered_text ("Another line of text.")
 			l_div.html_content_items.force (l_text)
-			l_text.set_buffering_on
 			assert_strings_equal ("div", "<div>This is some text. Another line of text.</div>", l_div.html_out)
 			l_a.set_attribute_value (agent l_a.href_attribute, "http://www.w3schools.com")
 			l_a.set_text_content ("Visit W3Schools")
