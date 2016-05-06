@@ -2,10 +2,6 @@ note
 	description: "[
 		Respresentataion of {HTML_UNORDERED_LIST}
 		]"
-	design: "[
-
-		]"
-
 
 class
 	HTML_UNORDERED_LIST
@@ -25,6 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	make_with_html_list_items (a_list_items: ARRAY [HTML_LI])
+			-- `make_with_html_list_items'
 
 		do
 			item.do_nothing
@@ -41,6 +38,7 @@ feature -- Access
 
 	item: HTML_UL
 		attribute
+				-- `item'
 			create Result
 			html_content_items.force (Result)
 		ensure
