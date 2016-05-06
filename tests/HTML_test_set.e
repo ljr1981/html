@@ -135,10 +135,26 @@ feature -- Test routines
 		do
 			create l_ul
 			assert_strings_equal ("empty_div_tags", empty_ul_any, l_ul.html_out)
+
+			create l_ul.make_with_html_list_items (<<>>)
+			assert_strings_equal ("empty_ul_tags", empty_ul, l_ul.html_out)
+
+			create l_ul.make_with_text_list_items (<<"">>)
+			assert_strings_equal ("empty_li_tags", empty_ul_li, l_ul.html_out)
+
+			create l_ul.make_with_html_list_items (<<create {HTML_LI}.make_with_raw_text ("Bugs Bunny"), create {HTML_LI}.make_with_raw_text ("Daffy Duck"), create {HTML_LI}.make_with_raw_text ("Marvin the Martian")>>)
+			assert_strings_equal ("ul_li_objects", ul_li_objects, l_ul.html_out)
+
+			create l_ul.make_with_text_list_items (<<"Bugs Bunny", "Daffy Duck", "Marvin the Martian">>)
+			assert_strings_equal ("ul_li_strings", ul_li_strings, l_ul.html_out)
 		end
 
 feature {NONE} -- Testing: {HTML_UNORDERED_LIST} Support
 
 	empty_ul_any: STRING = "<div></div>"
+	empty_ul: STRING = "<div><ul></ul></div>"
+	empty_ul_li: STRING = "<div><ul><li></li></ul></div>"
+	ul_li_objects: STRING = "<div><ul><li>Bugs Bunny</li><li>Daffy Duck</li><li>Marvin the Martian</li></ul></div>"
+	ul_li_strings: STRING = "<div><ul><li>Bugs Bunny</li><li>Daffy Duck</li><li>Marvin the Martian</li></ul></div>"
 
 end
