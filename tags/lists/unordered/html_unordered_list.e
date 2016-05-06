@@ -23,7 +23,6 @@ feature {NONE} -- Initialization
 
 	make_with_html_list_items (a_list_items: ARRAY [HTML_LI])
 			-- `make_with_html_list_items' in `a_list_items' into `item' content.
-
 		do
 			item.do_nothing
 			across
@@ -37,7 +36,6 @@ feature {NONE} -- Initialization
 
 	make_with_text_list_items (a_text_list_items: ARRAY [STRING])
 			--`make_with_text_list_items' in `a_list_items' into `item' content.
-
 		do
 			item.do_nothing
 			across
@@ -56,7 +54,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item: HTML_UL
-			-- `item' content for {HTML_UNORDERED_LIST}
+			-- `item' content for {HTML_UNORDERED_LIST}.
 		attribute
 			create Result
 			html_content_items.force (Result)

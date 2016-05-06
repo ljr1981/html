@@ -127,9 +127,10 @@ feature -- Test routines
 			create l_ul.make_with_content (<<>>)
 		end
 
-	html_components_tests
-		-- `html_components_tests'
+feature -- Testing: {HTML_UNORDERED_LIST}
 
+	html_unordered_list_creation_tests
+			-- `wc_unordered_list_creation_tests'.
 		local
 			l_ul: HTML_UNORDERED_LIST
 		do
@@ -139,8 +140,14 @@ feature -- Test routines
 			create l_ul.make_with_html_list_items (<<>>)
 			assert_strings_equal ("empty_ul_tags", empty_ul, l_ul.html_out)
 
+			create l_ul.make_with_html_list_items (<<create {HTML_LI}>>)
+			assert_strings_equal ("empty_ul_li", empty_ul_li, l_ul.html_out)
+
+			create l_ul.make_with_text_list_items (<<>>)
+			assert_strings_equal ("empty_ul_tags2", empty_ul, l_ul.html_out)
+
 			create l_ul.make_with_text_list_items (<<"">>)
-			assert_strings_equal ("empty_li_tags", empty_ul_li, l_ul.html_out)
+			assert_strings_equal ("empty_ul_li2", empty_ul_li, l_ul.html_out)
 
 			create l_ul.make_with_html_list_items (<<create {HTML_LI}.make_with_raw_text ("Bugs Bunny"), create {HTML_LI}.make_with_raw_text ("Daffy Duck"), create {HTML_LI}.make_with_raw_text ("Marvin the Martian")>>)
 			assert_strings_equal ("ul_li_objects", ul_li_objects, l_ul.html_out)
