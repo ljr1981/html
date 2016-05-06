@@ -128,7 +128,7 @@ feature -- Test routines
 		end
 
 	html_components_tests
-		-- `HTML_COMPONENTS_TESTS'
+		-- `html_components_tests'
 
 		local
 			l_ul: HTML_UNORDERED_LIST

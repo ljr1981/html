@@ -21,7 +21,7 @@ create
 feature {NONE} -- Initialization
 
 	make_with_html_list_items (a_list_items: ARRAY [HTML_LI])
-			-- `make_with_html_list_items'
+			-- `make_with_html_list_item' in `a_list_items' into `item' content.
 
 		do
 			item.do_nothing
@@ -37,8 +37,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	item: HTML_UL
+			-- `item' content for {HTML_UNORDERED_LIST}
 		attribute
-				-- `item'
 			create Result
 			html_content_items.force (Result)
 		ensure
