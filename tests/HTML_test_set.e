@@ -127,4 +127,19 @@ feature -- Test routines
 			create l_ul.make_with_content (<<>>)
 		end
 
+	HTML_COMPONENTS_TESTS
+		-- `HTML_COMPONENTS_TESTS'
+
+		local
+			l_ul: HTML_UNORDERED_LIST
+
+		do
+			create l_ul
+			assert_strings_equal ("empty_div_tags",empty_ul_any,l_ul.html_out)
+		end
+
+feature {NONE} -- Testing: {HTML_UNORDERED_LIST} Support
+
+	empty_ul_any: STRING = "<div></div>"
+
 end
