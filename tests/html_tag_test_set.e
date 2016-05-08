@@ -179,6 +179,21 @@ feature -- Testing: Creation Tests
 			assert_strings_equal ("div", "<div>This is some text. Another line of text.<a href=%"http://www.w3schools.com%">Visit W3Schools</a>And this is the last line of text.</div>", l_div.html_out)
 		end
 
+feature -- Testing: {HTML_SCRIPT}
+
+	html_script_test
+			-- `html_script_test'.
+		local
+			l_script: HTML_SCRIPT
+		do
+			create l_script
+			l_script.set_attribute_value (agent l_script.src, "jquery-2.3.3.js")
+			assert_strings_equal ("jquery_script", "<script src=%"jquery-2.3.3.js%"></script>", l_script.html_out)
+
+			create l_script.make_with_src ("jquery-2.3.3.js")
+			assert_strings_equal ("jquery_script", "<script src=%"jquery-2.3.3.js%"></script>", l_script.html_out)
+		end
+
 end
 
 

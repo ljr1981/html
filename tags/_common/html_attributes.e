@@ -104,6 +104,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3cshools.com"
 		attribute Result := ["", "", Void, "role", is_quoted] end
 
+	src: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/src.asp"
+		attribute Result := ["", "", Void, "src", is_quoted] end
+
 feature -- Attributes: Datums
 
 	data_role: attached like attribute_tuple_anchor
@@ -215,6 +219,7 @@ feature -- Attribute List
 			Result.force (border_attribute, border_attribute.attr_name)
 			Result.force (href_attribute, href_attribute.attr_name)
 			Result.force (role, role.attr_name)
+			Result.force (src, src.attr_name)
 
 				-- Datums
 			Result.force (data_role, data_role.attr_name)
