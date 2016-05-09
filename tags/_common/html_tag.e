@@ -126,6 +126,13 @@ feature -- Settings
 			set_attribute_value (agent on_click, a_value)
 		end
 
+	set_height_width (a_height, a_width: STRING)
+			-- `set_height_width' with `a_height' and `a_width'.
+		do
+			set_height (a_height)
+			set_width (a_width)
+		end
+
 	set_width (a_value: STRING)
 			-- `set_width' with `a_value'.
 		do
@@ -136,6 +143,13 @@ feature -- Settings
 			-- `set_height' with `a_value'.
 		do
 			set_attribute_value (agent height, a_value)
+		end
+
+	set_source,
+	set_src (a_value: STRING)
+			-- `set_source' (aka `set_src') with `a_value'.
+		do
+			set_attribute_value (agent src, a_value)
 		end
 
 feature -- Nested Creators
