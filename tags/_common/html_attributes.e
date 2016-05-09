@@ -96,9 +96,21 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_table_border.asp"
 		attribute Result := ["0", "0", Void, "border", is_quoted] end
 
-	href_attribute: attached like attribute_tuple_anchor
+	height: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/height.asp"
+		attribute Result := ["", "", Void, "height", is_quoted] end
+
+	href: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
 		attribute Result := ["", "", Void, "href", is_quoted] end
+
+	on_click: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/onclick.asp"
+		attribute Result := ["", "", Void, "onclick", is_quoted] end
+
+	rel: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/rel.asp"
+		attribute Result := ["", "", Void, "rel", is_quoted] end
 
 	role: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3cshools.com"
@@ -108,17 +120,9 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/src.asp"
 		attribute Result := ["", "", Void, "src", is_quoted] end
 
-	on_click: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/onclick.asp"
-		attribute Result := ["", "", Void, "onclick", is_quoted] end
-
 	width: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/width.asp"
 		attribute Result := ["", "", Void, "width", is_quoted] end
-
-	height: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/height.asp"
-		attribute Result := ["", "", Void, "height", is_quoted] end
 
 feature -- Attributes: Datums
 
@@ -229,12 +233,13 @@ feature -- Attribute List
 
 				-- Common
 			Result.force (border_attribute, border_attribute.attr_name)
-			Result.force (href_attribute, href_attribute.attr_name)
+			Result.force (href, href.attr_name)
 			Result.force (role, role.attr_name)
 			Result.force (src, src.attr_name)
 			Result.force (on_click, on_click.attr_name)
 			Result.force (height, height.attr_name)
 			Result.force (width, width.attr_name)
+			Result.force (rel, rel.attr_name)
 
 				-- Datums
 			Result.force (data_role, data_role.attr_name)

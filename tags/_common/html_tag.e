@@ -168,6 +168,25 @@ feature -- Setting: Attributes
 			set_attribute_value (agent global_class, a_class_names)
 		end
 
+	set_height (a_value: STRING)
+			-- `set_height' with `a_value'.
+		do
+			set_attribute_value (agent height, a_value)
+		end
+
+	set_height_width (a_height, a_width: STRING)
+			-- `set_height_width' with `a_height' and `a_width'.
+		do
+			set_height (a_height)
+			set_width (a_width)
+		end
+
+	set_href (a_value: STRING)
+			-- `set_href' with `a_value'.
+		do
+			set_attribute_value (agent href, a_value)
+		end
+
 	set_id (a_value: STRING)
 			-- `set_id' with `a_value'.
 		do
@@ -180,23 +199,10 @@ feature -- Setting: Attributes
 			set_attribute_value (agent on_click, a_value)
 		end
 
-	set_height_width (a_height, a_width: STRING)
-			-- `set_height_width' with `a_height' and `a_width'.
+	set_rel (a_value: STRING)
+			-- `set_rel' with `a_value'.
 		do
-			set_height (a_height)
-			set_width (a_width)
-		end
-
-	set_width (a_value: STRING)
-			-- `set_width' with `a_value'.
-		do
-			set_attribute_value (agent width, a_value)
-		end
-
-	set_height (a_value: STRING)
-			-- `set_height' with `a_value'.
-		do
-			set_attribute_value (agent height, a_value)
+			set_attribute_value (agent rel, a_value)
 		end
 
 	set_source,
@@ -204,6 +210,12 @@ feature -- Setting: Attributes
 			-- `set_source' (aka `set_src') with `a_value'.
 		do
 			set_attribute_value (agent src, a_value)
+		end
+
+	set_width (a_value: STRING)
+			-- `set_width' with `a_value'.
+		do
+			set_attribute_value (agent width, a_value)
 		end
 
 feature -- Nested Creators
@@ -318,6 +330,67 @@ feature {NONE} -- Implementation: JavaScript
 		attribute
 			create Result.make_empty
 		end
+
+feature -- External CSS
+
+	external_css_files: ARRAYED_LIST [attached like external_css]
+			-- `external_css_files' from `external_css' and `html_content_items'.
+		do
+			create Result.make (1)
+			if attached external_css as al_link then
+				Result.force (al_link)
+			end
+			across
+				html_content_items as ic_content
+			loop
+				Result.append (ic_content.item.external_css_files)
+			end
+		end
+
+feature {NONE} -- Implementation: Ext CSS
+
+	external_css: detachable HTML_LINK
+			-- `external_css' based on qualified `external_css_file_name'.
+		do
+			if not external_css_file_name.is_empty then
+				create Result
+				Result.set_rel ("stylesheet")
+				Result.set_href (external_css_file_name)
+			end
+		end
+
+	external_css_file_name: STRING attribute create Result.make_empty end
+			-- `external_css_file_name' (if any). Empty if not.
+
+feature -- External JS
+
+	external_js_files: ARRAYED_LIST [attached like external_js]
+			-- `external_js_files' from `external_js' and `html_content_items'.
+		do
+			create Result.make (1)
+			if attached external_js as al_link then
+				Result.force (al_link)
+			end
+			across
+				html_content_items as ic_content
+			loop
+				Result.append (ic_content.item.external_js_files)
+			end
+		end
+
+feature {NONE} -- Implementation: Ext JS
+
+	external_js: detachable HTML_SCRIPT
+			-- `external_js' based on qualified `external_js_file_name'.
+		do
+			if not external_js_file_name.is_empty then
+				create Result
+				Result.set_source (external_js_file_name)
+			end
+		end
+
+	external_js_file_name: STRING attribute create Result.make_empty end
+			-- `external_js_file_name' (if any). Empty if not.
 
 feature {NONE} -- Implementation: Constants
 
