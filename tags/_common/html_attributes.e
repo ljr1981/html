@@ -108,6 +108,18 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/src.asp"
 		attribute Result := ["", "", Void, "src", is_quoted] end
 
+	on_click: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/onclick.asp"
+		attribute Result := ["", "", Void, "onclick", is_quoted] end
+
+	width: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/width.asp"
+		attribute Result := ["", "", Void, "width", is_quoted] end
+
+	height: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/height.asp"
+		attribute Result := ["", "", Void, "height", is_quoted] end
+
 feature -- Attributes: Datums
 
 	data_role: attached like attribute_tuple_anchor
@@ -220,6 +232,9 @@ feature -- Attribute List
 			Result.force (href_attribute, href_attribute.attr_name)
 			Result.force (role, role.attr_name)
 			Result.force (src, src.attr_name)
+			Result.force (on_click, on_click.attr_name)
+			Result.force (height, height.attr_name)
+			Result.force (width, width.attr_name)
 
 				-- Datums
 			Result.force (data_role, data_role.attr_name)

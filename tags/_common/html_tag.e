@@ -38,6 +38,12 @@ feature {NONE} -- Initialization
 			set_text_content (a_text)
 		end
 
+	make_with_src (a_source_text: STRING)
+			-- `make_with_src' (i.e. source) using `a_string'.
+		do
+			set_attribute_value (agent src, a_source_text)
+		end
+
 feature -- Style
 
 	style_rule: CSS_RULE
@@ -106,6 +112,30 @@ feature -- Settings
 			-- `set_class' of `global_class' with `a_class_names'.
 		do
 			set_attribute_value (agent global_class, a_class_names)
+		end
+
+	set_id (a_value: STRING)
+			-- `set_id' with `a_value'.
+		do
+			set_attribute_value (agent global_id, a_value)
+		end
+
+	set_on_click (a_value: STRING)
+			-- `set_on_click' with `a_value'.
+		do
+			set_attribute_value (agent on_click, a_value)
+		end
+
+	set_width (a_value: STRING)
+			-- `set_width' with `a_value'.
+		do
+			set_attribute_value (agent width, a_value)
+		end
+
+	set_height (a_value: STRING)
+			-- `set_height' with `a_value'.
+		do
+			set_attribute_value (agent height, a_value)
 		end
 
 feature -- Nested Creators

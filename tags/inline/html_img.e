@@ -8,10 +8,14 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			src
+		end
 
 create
 	default_create,
-	make_with_content
+	make_with_content,
+	make_with_src
 
 feature -- Output
 

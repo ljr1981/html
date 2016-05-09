@@ -20,14 +20,6 @@ create
 	make_with_src,
 	make_with_javascript
 
-feature {NONE} -- Initialization
-
-	make_with_src (a_source_text: STRING)
-			-- `make_with_src' (i.e. source) using `a_string'.
-		do
-			set_attribute_value (agent src, a_source_text)
-		end
-
 feature -- Output
 
 	tag_name: STRING = "script"
