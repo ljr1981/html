@@ -9,7 +9,8 @@ class
 inherit
 	HTML_ANY
 		undefine
-			out
+			out,
+			default_create
 		end
 
 	HTML_DIV
@@ -30,6 +31,7 @@ feature {NONE} -- Initialization
 			loop
 				item.html_content_items.force (ic_list_items.item)
 			end
+			default_create
 		ensure
 			set: across a_list_items as ic all item.html_content_items.has (ic.item) end
 		end
@@ -43,6 +45,7 @@ feature {NONE} -- Initialization
 			loop
 				item.html_content_items.force (create {HTML_LI}.make_with_raw_text (ic_text_list_items.item))
 			end
+			default_create
 		ensure
 			set: across a_text_list_items as ic all
 						across item.html_content_items as ic_html some

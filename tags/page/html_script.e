@@ -25,6 +25,9 @@ feature -- Output
 	tag_name: STRING = "script"
 			-- <Precursor>
 
+invariant
+	no_script: script_source.is_empty implies not attached script_source_content implies scripts.count = 0
+
 ;note
 	design: "[
 Tag    Description

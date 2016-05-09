@@ -26,6 +26,7 @@ feature {NONE} -- Initialization
 		do
 			set_attribute_value (agent href_attribute, a_link)
 			add_content (create {HTML_TEXT}.make_with_text (a_text))
+			default_create
 		end
 
 feature -- Output

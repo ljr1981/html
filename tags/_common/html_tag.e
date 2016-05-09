@@ -10,16 +10,30 @@ inherit
 	HTML_ANY
 		undefine
 			out
+		redefine
+			default_create
 		end
 
 	HTML_ATTRIBUTES
+		undefine
+			default_create
+		end
 
 	HTML_CONSTANTS
 		undefine
+			default_create,
 			out
 		end
 
 feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			if not script_source.is_empty and then attached script_source_content as al_script_content then
+				add_script (al_script_content)
+			end
+		end
 
 	make_with_content (a_content: ARRAY [attached like content_anchor])
 			-- `make_with_content' using `a_content' into `html_content_items'
@@ -29,6 +43,7 @@ feature {NONE} -- Initialization
 			loop
 				html_content_items.force (ic_content.item)
 			end
+			default_create
 		end
 
 	make_with_raw_text (a_text: STRING)
@@ -36,12 +51,14 @@ feature {NONE} -- Initialization
 			-- `a_text' goes <tag>here</tag>
 		do
 			set_text_content (a_text)
+			default_create
 		end
 
 	make_with_src (a_source_text: STRING)
 			-- `make_with_src' (i.e. source) using `a_string'.
 		do
 			set_attribute_value (agent src, a_source_text)
+			default_create
 		end
 
 feature -- Style
@@ -284,6 +301,22 @@ feature {NONE} -- Implementation: Output
 				-- End tag ...
 			Result.append_string (end_tag)
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+		end
+
+feature {NONE} -- Implementation: JavaScript
+
+	script_source_content: detachable HTML_SCRIPT
+			-- Optional `script_source_content' from `script_source'.
+		do
+			if not script_source.is_empty then
+				create Result.make_with_javascript (script_source)
+			end
+		end
+
+	script_source: STRING
+			-- Optional `script_source' like JavaScript.
+		attribute
+			create Result.make_empty
 		end
 
 feature {NONE} -- Implementation: Constants
