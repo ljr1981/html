@@ -185,6 +185,7 @@ feature -- Testing: {HTML_SCRIPT}
 			-- `html_script_test'.
 		local
 			l_script: HTML_SCRIPT
+			l_body: HTML_BODY
 		do
 			create l_script
 			l_script.set_attribute_value (agent l_script.src, "jquery-2.3.3.js")
@@ -192,6 +193,13 @@ feature -- Testing: {HTML_SCRIPT}
 
 			create l_script.make_with_src ("jquery-2.3.3.js")
 			assert_strings_equal ("jquery_script", "<script src=%"jquery-2.3.3.js%"></script>", l_script.html_out)
+
+			create l_body
+			l_body.add_script (l_script)
+			assert_strings_equal ("body_jquery_script", "<body><script src=%"jquery-2.3.3.js%"></script></body>", l_body.html_out)
+
+			l_body.add_content (create {HTML_DIV}.make_with_raw_text ("some_text"))
+			assert_strings_equal ("body_jquery_script", "<body><div>some_text</div><script src=%"jquery-2.3.3.js%"></script></body>", l_body.html_out)
 		end
 
 end

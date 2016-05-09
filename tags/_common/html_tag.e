@@ -63,6 +63,8 @@ feature -- Style
 			end
 		end
 
+feature -- HTML Content
+
 	html_content_items: ARRAYED_LIST [attached like content_anchor]
 			-- `html_content_items' for Current {HTML_TAG}
 		attribute
@@ -75,7 +77,19 @@ feature -- Style
 			create Result.make_empty
 		end
 
-feature -- Settings
+feature -- HTML Scripts
+
+	scripts: ARRAYED_LIST [HTML_SCRIPT]
+			-- `scripts' placed in Current {HTML_TAG}.
+		note
+			design: "[
+
+				]"
+		attribute
+			create Result.make (1)
+		end
+
+feature -- Setting: Content
 
 	add_content (a_item: attached like content_anchor)
 			-- `add_content' `a_item' to `html_content_items'
@@ -99,6 +113,27 @@ feature -- Settings
 					end
 		end
 
+feature -- Setting: Scripts
+
+	add_script (a_script: HTML_SCRIPT)
+			-- `add_script' `a_script' to `scripts'.
+		do
+			scripts.force (a_script)
+		ensure
+			has: scripts.has (a_script)
+		end
+
+	add_scripts (a_scripts: ARRAY [HTML_SCRIPT])
+			-- `add_scripts' in `a_scripts' to `scripts'.
+		do
+			across
+				a_scripts as ic
+			loop
+				scripts.force (ic.item)
+			end
+		end
+
+feature -- Setting: Text Content
 
 	set_text_content (a_text: like text_content)
 			-- `set_text_content' with `a_text'.
@@ -107,6 +142,8 @@ feature -- Settings
 		ensure
 			set: text_content.same_string (a_text)
 		end
+
+feature -- Setting: Attributes
 
 	set_class (a_class_names: STRING)
 			-- `set_class' of `global_class' with `a_class_names'.
@@ -230,6 +267,19 @@ feature {NONE} -- Implementation: Output
 				-- Nested `text_content'
 			Result.append_string (text_content)
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+
+				-- Nested `scripts'
+			across
+				scripts as ic_scripts
+			loop
+				if a_prettified then
+					Result.append_string (ic_scripts.item.pretty_out)
+					Result.append_character ('%N')
+					Result.append_character ('%T')
+				else
+					Result.append_string (ic_scripts.item.html_out)
+				end
+			end
 
 				-- End tag ...
 			Result.append_string (end_tag)
