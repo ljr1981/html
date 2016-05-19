@@ -12,6 +12,12 @@ inherit
 			for
 		end
 
+	HTML_FORM_COMPONENT
+		undefine
+			default_create,
+			out
+		end
+
 create
 	default_create,
 	make_with_content

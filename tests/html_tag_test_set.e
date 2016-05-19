@@ -2,9 +2,6 @@ note
 	description: "[
 		Eiffel tests that can be executed by testing tool.
 	]"
-	author: "EiffelStudio test wizard"
-	date: "$Date$"
-	revision: "$Revision$"
 	testing: "type/manual"
 
 class
@@ -89,20 +86,52 @@ feature -- Testing: Creation Tests
 			l_br: HTML_BR
 			l_div: HTML_DIV
 			l_footer: HTML_FOOTER
-			l_form: HTML_FORM
 			l_h1: HTML_H1
 			l_h2: HTML_H2
 			l_h3: HTML_H3
 			l_page: HTML_PAGE
+				-- Forms
+			l_form: HTML_FORM
+			l_button: HTML_BUTTON
+			l_check_group: HTML_CHECKBOX_GROUP
+			l_fieldset: HTML_FIELDSET
+			l_input: HTML_INPUT
+			l_label: HTML_LABEL
+			l_legend: HTML_LEGEND
+			l_optgroup: HTML_OPTGROUP
+			l_option: HTML_OPTION
+			l_radio: HTML_RADIO_INPUT_FIELD
+			l_radio_group: HTML_RADIO_INPUT_FIELD_GROUP
+			l_select: HTML_SELECT
+			l_textarea: HTML_TEXTAREA
+			l_text: HTML_TEXT_INPUT_FIELD
+			l_text_group: HTML_TEXT_INPUT_FIELD_GROUP
 		do
 			create l_a
 			create l_br
 			create l_div
-			create l_footer
 			create l_form
 			create l_h1
 			create l_h2
 			create l_h3
+			create l_footer
+
+				-- Form creations
+			create l_form
+			create l_button
+			create l_check_group.make_with_data ("check_label", "check_name", <<"value_1">>, False)
+			create l_fieldset
+			create l_input
+			create l_label
+			create l_legend
+			create l_optgroup
+			create l_option
+			create l_radio.make_with_data ("radio_label", "radio_name", "radio_value", False)
+			create l_radio_group.make_with_data ("group_label", <<["radio_label", "radio_name", "radio_value", False]>>)
+			create l_select
+			create l_textarea
+			create l_text.make_with_data ("text_label", "text_name", "10", "10", False)
+			create l_text_group.make_with_data (<<["text_label", "text_name", "10", "10", False]>>)
 
 			l_h1.html_content_items.force (l_h2)
 			l_h2.html_content_items.force (l_h3)
@@ -113,7 +142,7 @@ feature -- Testing: Creation Tests
 
 			create l_page.make_with_content (<<l_a, l_br, l_div, l_footer, l_form, l_h1>>)
 			l_page.set_head (create {HTML_HEAD})
-			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br></br><div></div><footer></footer><form></form><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
+			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br/><div></div><footer></footer><form></form><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
 		end
 
 	html_style_tests

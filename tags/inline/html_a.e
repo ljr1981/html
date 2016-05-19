@@ -10,7 +10,12 @@ inherit
 	HTML_TAG
 		export {ANY}
 			href,
+			data_direction,
+			data_icon,
+			data_inline,
 			data_rel,
+			data_role,
+			data_theme,
 			data_transition
 		end
 

@@ -8,6 +8,12 @@ class
 
 inherit
 	HTML_TAG
+		export {NONE}
+			add_content,
+			add_contents
+		redefine
+			common_out
+		end
 
 create
 	default_create,
@@ -15,11 +21,9 @@ create
 
 feature -- Output
 
-	html_content: STRING
-			-- <Precursor>
-			-- HTML output for Current {HTML_BR}.
+	common_out (a_prettified: BOOLEAN): STRING_8
 		do
-			create Result.make_empty
+			Result := "<br/>"
 		end
 
 	tag_name: STRING = "br"

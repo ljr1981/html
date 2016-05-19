@@ -15,6 +15,10 @@ inherit
 		end
 
 	HTML_ATTRIBUTES
+		export {ANY}
+			href, set_href,
+			src, set_source, set_src,
+			rel, set_rel
 		undefine
 			default_create
 		end
@@ -158,64 +162,6 @@ feature -- Setting: Text Content
 			text_content := a_text
 		ensure
 			set: text_content.same_string (a_text)
-		end
-
-feature -- Setting: Attributes
-
-	set_class (a_class_names: STRING)
-			-- `set_class' of `global_class' with `a_class_names'.
-		do
-			set_attribute_value (agent global_class, a_class_names)
-		end
-
-	set_height (a_value: STRING)
-			-- `set_height' with `a_value'.
-		do
-			set_attribute_value (agent height, a_value)
-		end
-
-	set_height_width (a_height, a_width: STRING)
-			-- `set_height_width' with `a_height' and `a_width'.
-		do
-			set_height (a_height)
-			set_width (a_width)
-		end
-
-	set_href (a_value: STRING)
-			-- `set_href' with `a_value'.
-		do
-			set_attribute_value (agent href, a_value)
-		end
-
-	set_id (a_value: STRING)
-			-- `set_id' with `a_value'.
-		do
-			set_attribute_value (agent global_id, a_value)
-		end
-
-	set_on_click (a_value: STRING)
-			-- `set_on_click' with `a_value'.
-		do
-			set_attribute_value (agent on_click, a_value)
-		end
-
-	set_rel (a_value: STRING)
-			-- `set_rel' with `a_value'.
-		do
-			set_attribute_value (agent rel, a_value)
-		end
-
-	set_source,
-	set_src (a_value: STRING)
-			-- `set_source' (aka `set_src') with `a_value'.
-		do
-			set_attribute_value (agent src, a_value)
-		end
-
-	set_width (a_value: STRING)
-			-- `set_width' with `a_value'.
-		do
-			set_attribute_value (agent width, a_value)
 		end
 
 feature -- Nested Creators

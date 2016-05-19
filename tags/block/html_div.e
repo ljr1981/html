@@ -9,6 +9,7 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			on_submit,
 			role
 		end
 

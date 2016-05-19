@@ -6,7 +6,36 @@ note
 class
 	HTML_CONSTANTS
 
+feature -- Magic Number Reducers
+
+	size_equals (a_value: INTEGER): STRING
+			-- Size
+		do
+			Result := a_value.out
+		end
+
+	maxlength_equals (a_value: INTEGER): STRING
+			-- Max length
+		do
+			Result := a_value.out
+		end
+
+	cols_equals (a_value: INTEGER): STRING
+			-- Columns
+		do
+			Result := a_value.out
+		end
+
+	rows_equals (a_value: INTEGER): STRING
+			-- Rows
+		do
+			Result := a_value.out
+		end
+
 feature -- Constants
+
+	include_break: BOOLEAN = True
+	no_break: BOOLEAN = False
 
 	valid_tags: ARRAYED_LIST [STRING]
 			-- `valid_tags' in HTML5.

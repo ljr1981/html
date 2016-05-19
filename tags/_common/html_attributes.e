@@ -100,6 +100,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_table_border.asp"
 		attribute Result := ["0", "0", Void, "border", is_quoted] end
 
+	cols: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_cols.asp"
+		attribute Result := ["", "", Void, "cols", is_quoted] end
+
 	for: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_for.asp"
 		attribute Result := ["", "", Void, "height", is_quoted] end
@@ -111,6 +115,14 @@ feature {NONE} -- Tag-specific Attributes
 	href: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
 		attribute Result := ["", "", Void, "href", is_quoted] end
+
+	method: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_method.asp"
+		attribute Result := ["", "", Void, "method", is_quoted] end
+
+	maxlength: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_maxlength.asp"
+		attribute Result := ["", "", Void, "maxlength", is_quoted] end
 
 	name: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_name.asp"
@@ -124,6 +136,15 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/attr_role.asp"
 		attribute Result := ["", "", Void, "role", is_quoted] end
 
+	rows: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_role.asp"
+		attribute Result := ["", "", Void, "role", is_quoted] end
+
+	size: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_rows.asp"
+		attribute Result := ["", "", Void, "size", is_quoted] end
+	no_size: INTEGER = 0
+
 	src: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_src.asp"
 		attribute Result := ["", "", Void, "src", is_quoted] end
@@ -132,9 +153,18 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/attr_type.asp"
 		attribute Result := ["", "", Void, "type", is_quoted] end
 
+	value: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_value.asp"
+		attribute Result := ["", "", Void, "value", is_quoted] end
+
 	width: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/width.asp"
-		attribute Result := ["", "", Void, "width", is_quoted] end
+		note EIS: "src=http://www.w3schools.com/tags/attr_width.asp"
+		attribute Result := ["soft", width_values, Void, "width", is_quoted] end
+	width_values: STRING = "soft|hard|physical"
+
+	wrap: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_textarea_wrap.asp"
+		attribute Result := ["", "", Void, "wrap", is_quoted] end
 
 feature -- Attributes: Global Events
 
@@ -198,7 +228,7 @@ feature -- Attributes: Global Events
 			--`on_unload'		script	Fires once a page has unloaded (or the browser window has been closed)
 		attribute Result := ["", "", Void, "onunload", is_quoted] end
 
-feature -- Attributes: Form Events
+feature {NONE} -- Attributes: Form Events
 
 	on_blur: attached like attribute_tuple_anchor
 			--`on_blur'			script	Fires the moment that the element loses focus
@@ -240,7 +270,7 @@ feature -- Attributes: Form Events
 			--`on_submit'		script	Fires when a form is submitted
 		attribute Result := ["", "", Void, "onsubmit", is_quoted] end
 
-feature -- Attributes: Keyboard Events
+feature {NONE} -- Attributes: Keyboard Events
 
 	on_key_down: attached like attribute_tuple_anchor
 			--`on_key_down'	script	Fires when a user is pressing a key
@@ -254,7 +284,7 @@ feature -- Attributes: Keyboard Events
 			--`on_key_up'	script	Fires when a user releases a key
 		attribute Result := ["", "", Void, "onkeyup", is_quoted] end
 
-feature -- Attributes: Mouse Events
+feature {NONE} -- Attributes: Mouse Events
 
 	on_click: attached like attribute_tuple_anchor
 			--`onclick'	script	Fires on a mouse click on the element
@@ -324,7 +354,7 @@ feature -- Attributes: Mouse Events
 			--`on_wheel'	script	Fires when the mouse wheel rolls up or down over an element
 		attribute Result := ["", "", Void, "onwheel", is_quoted] end
 
-feature -- Attributes: Clipboard Events
+feature {NONE} -- Attributes: Clipboard Events
 
 	on_copy: attached like attribute_tuple_anchor
 			--`on_copy'	script	Fires when the user copies the content of an element
@@ -338,7 +368,7 @@ feature -- Attributes: Clipboard Events
 			--`on_paste'	script	Fires when the user pastes some content in an element
 		attribute Result := ["", "", Void, "onpaste", is_quoted] end
 
-feature -- Attributes: Media Events
+feature {NONE} -- Attributes: Media Events
 
 	on_abort: attached like attribute_tuple_anchor
 			--`on_abort'	script	Script to be run on abort
@@ -428,7 +458,7 @@ feature -- Attributes: Media Events
 			--`on_waiting'	script	Script to be run when the media has paused but is expected to resume (like when the media pauses to buffer more data)
 		attribute Result := ["", "", Void, "onwaiting", is_quoted] end
 
-feature -- Attributes: Datums
+feature {NONE} -- Attributes: Datums
 
 	data_role: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
@@ -522,7 +552,139 @@ feature -- Attributes: Datums
 		attribute Result := ["false", "false|true", Void, "data-inline", is_quoted] end
 		--data-inline	true | false - Auto add back button, header only
 
-feature -- Attribute List
+feature -- Setters
+
+	set_class (a_class_names: STRING)
+			-- `set_class' of `global_class' with `a_class_names'.
+		do
+			set_attribute_value (agent global_class, a_class_names)
+		end
+
+	set_id (a_value: STRING)
+			-- `set_id' with `a_value'.
+		do
+			set_attribute_value (agent global_id, a_value)
+		end
+
+feature {NONE} -- Implementation: Setters
+
+	set_cols (a_cols: STRING)
+			-- `set_cols' with `a_cols'
+		do
+			set_attribute_value (agent cols, a_cols)
+		ensure
+			set: attached {STRING} cols.attr_value as al_value and then al_value.same_string (a_cols)
+		end
+
+	set_height (a_value: STRING)
+			-- `set_height' with `a_value'.
+		do
+			set_attribute_value (agent height, a_value)
+		end
+
+	set_height_width (a_height, a_width: STRING)
+			-- `set_height_width' with `a_height' and `a_width'.
+		do
+			set_height (a_height)
+			set_width (a_width)
+		end
+
+	set_href (a_value: STRING)
+			-- `set_href' with `a_value'.
+		do
+			set_attribute_value (agent href, a_value)
+		end
+
+	set_maxlength (a_maxlength: STRING)
+			-- `set_maxlength' with `a_maxlength'
+		do
+			set_attribute_value (agent maxlength, a_maxlength)
+		ensure
+			set: attached {STRING} maxlength.attr_value as al_value and then al_value.same_string (a_maxlength)
+		end
+
+	set_method (a_method: STRING)
+			-- `set_method' with `a_method'
+		do
+			set_attribute_value (agent method, a_method)
+		ensure
+			set: attached {STRING} method.attr_value as al_value and then al_value.same_string (a_method)
+		end
+
+	set_name (a_name: STRING)
+			-- `set_name' with `a_name'
+		do
+			set_attribute_value (agent name, a_name)
+		ensure
+			set: attached {STRING} name.attr_value as al_value and then al_value.same_string (a_name)
+		end
+
+	set_on_click (a_value: STRING)
+			-- `set_on_click' with `a_value'.
+		do
+			set_attribute_value (agent on_click, a_value)
+		end
+
+	set_rows (a_rows: STRING)
+			-- `set_rows' with `a_rows'
+		do
+			set_attribute_value (agent rows, a_rows)
+		ensure
+			set: attached {STRING} rows.attr_value as al_value and then al_value.same_string (a_rows)
+		end
+
+	set_rel (a_value: STRING)
+			-- `set_rel' with `a_value'.
+		do
+			set_attribute_value (agent rel, a_value)
+		end
+
+	set_size (a_size: STRING)
+			-- `set_size' with `a_size'
+		do
+			set_attribute_value (agent size, a_size)
+		ensure
+			set: attached {STRING} size.attr_value as al_value and then al_value.same_string (a_size)
+		end
+
+	set_source,
+	set_src (a_value: STRING)
+			-- `set_source' (aka `set_src') with `a_value'.
+		do
+			set_attribute_value (agent src, a_value)
+		end
+
+	set_type (a_type: STRING)
+			-- `set_type' with `a_type'
+		do
+			set_attribute_value (agent type, a_type)
+		ensure
+			set: attached {STRING} type.attr_value as al_value and then al_value.same_string (a_type)
+		end
+
+	set_value (a_value: STRING)
+			-- `set_value' with `a_value'
+		do
+			set_attribute_value (agent value, a_value)
+		ensure
+			set: attached {STRING} value.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_width (a_value: STRING)
+			-- `set_width' with `a_value'.
+		do
+			set_attribute_value (agent width, a_value)
+		end
+
+	set_wrap (a_wrap: STRING)
+			-- `set_wrap' with `a_wrap'
+		do
+			set_attribute_value (agent wrap, a_wrap)
+		ensure
+			set: attached {STRING} wrap.attr_value as al_value and then al_value.same_string (a_wrap)
+		end
+
+feature {NONE} -- Attribute List
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
 			-- <Precursor>
@@ -538,15 +700,22 @@ feature -- Attribute List
 				-- Common
 			Result.force (action, action.attr_name)
 			Result.force (border_attribute, border_attribute.attr_name)
+			Result.force (cols, cols.attr_name)
 			Result.force (for, for.attr_name)
-			Result.force (href, href.attr_name)
-			Result.force (name, name.attr_name)
-			Result.force (role, role.attr_name)
-			Result.force (src, src.attr_name)
 			Result.force (height, height.attr_name)
-			Result.force (width, width.attr_name)
+			Result.force (href, href.attr_name)
+			Result.force (maxlength, maxlength.attr_name)
+			Result.force (method, method.attr_name)
+			Result.force (name, name.attr_name)
 			Result.force (rel, rel.attr_name)
+			Result.force (role, role.attr_name)
+			Result.force (rows, rows.attr_name)
+			Result.force (size, size.attr_name)
+			Result.force (src, src.attr_name)
 			Result.force (type, type.attr_name)
+			Result.force (value, value.attr_name)
+			Result.force (width, width.attr_name)
+			Result.force (wrap, wrap.attr_name)
 
 				-- Datums
 			Result.force (data_role, data_role.attr_name)
@@ -651,11 +820,13 @@ feature -- Attribute List
 			count: Result.count >= Default_capacity
 		end
 
+feature {NONE} -- Constants
+
+	attribute_separator: STRING = "  "
+
 feature -- Constants
 
 	Default_capacity: INTEGER
 		once ("object") Result := 6 end
-
-	attribute_separator: STRING = "  "
 
 end

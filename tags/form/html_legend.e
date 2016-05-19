@@ -6,6 +6,15 @@ note
 class
 	HTML_LEGEND
 
+inherit
+	HTML_TAG
+
+	HTML_FORM_COMPONENT
+		undefine
+			default_create,
+			out
+		end
+
 feature -- Output
 
 	tag_name: STRING = "legend"
