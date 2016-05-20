@@ -19,7 +19,17 @@ create
 	default_create,
 	make_with_content,
 	make_with_src,
-	make_with_javascript
+	make_with_javascript,
+	make_with_javascript_file_name
+
+feature {NONE} -- Initialization
+
+	make_with_javascript_file_name (a_js_file_name: STRING)
+			-- `make_with_javascript_file_name' with `a_js_file_name'.
+		do
+			set_type ("text/javascript")
+			set_src (a_js_file_name)
+		end
 
 feature -- Output
 
