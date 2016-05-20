@@ -11,7 +11,8 @@ inherit
 		rename
 			make_with_raw_text as make_with_javascript
 		export {ANY}
-			src
+			src, set_src,
+			type, set_type
 		end
 
 create

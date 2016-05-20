@@ -17,8 +17,8 @@ inherit
 	HTML_ATTRIBUTES
 		export {ANY}
 			href, set_href,
-			src, set_source, set_src,
-			rel, set_rel
+			rel, set_rel,
+			src, set_source, set_src
 		undefine
 			default_create
 		end
@@ -65,6 +65,18 @@ feature {NONE} -- Initialization
 			default_create
 		end
 
+	make_restful_on_class (a_class, a_uri: STRING)
+		do
+			set_class (a_class)
+			make_restful (a_uri)
+		end
+
+	make_restful (a_uri: like rest_uri)
+			-- `make_restful' with `a_uri'.
+		do
+			set_rest_uri (a_uri)
+		end
+
 feature -- Style
 
 	style_rule: CSS_RULE
@@ -108,6 +120,75 @@ feature -- HTML Scripts
 				]"
 		attribute
 			create Result.make (1)
+		end
+
+feature -- RESTful
+
+	Rest_script: HTML_SCRIPT
+		local
+			l_script_text: STRING
+		do
+			l_script_text := "[
+$.fn.serializeObject = function() {
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function() {
+    if (o[this.name] !== undefined) {
+      if (!o[this.name].push) {
+        o[this.name] = [o[this.name]];
+      }
+      o[this.name].push(this.value || '');
+    } else {
+      o[this.name] = this.value || '';
+    }
+  });
+  return o;
+};
+
+$(function() {
+  $('<<REFERENCE>>').submit(function() {
+    var jsonData = JSON.stringify($('<<REFERENCE>>').serializeObject())
+    $.ajax({
+		url: '<<REST_URI>>',
+		type: 'POST',
+		contentType: 'application/json',
+		data: (jsonData)
+	});
+    return false;
+  });
+});
+]"
+			if is_restful then
+				l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
+				if attached {STRING} global_class.attr_value as al_reference and then not al_reference.is_empty then
+					l_script_text.replace_substring_all ("<<REFERENCE>>", "." + al_reference)
+				elseif attached {STRING} global_id.attr_value as al_reference and then not al_reference.is_empty then
+					l_script_text.replace_substring_all ("<<REFERENCE>>", "#" + al_reference)
+				else
+					l_script_text.replace_substring_all ("<<REFERENCE>>", tag_name)
+				end
+			end
+			create Result.make_with_javascript (l_script_text)
+			Result.set_type ("text/javascript")
+		end
+
+	is_restful: BOOLEAN
+
+	rest_uri: STRING
+		attribute
+			create Result.make_empty
+		end
+
+	set_rest_uri (a_uri: like rest_uri)
+		require
+			valid: not a_uri.is_empty
+		do
+			rest_uri := a_uri
+			is_restful := True
+			add_script (Rest_script)
+		ensure
+			is_restful: is_restful
+			set: rest_uri.same_string (a_uri)
 		end
 
 feature -- Setting: Content
