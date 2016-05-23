@@ -12,7 +12,7 @@ inherit
 create
 	default_create,
 	make_with_content
-
+	
 feature -- Output
 
 	tag_name: STRING = "ul"

@@ -22,7 +22,8 @@ inherit
 create
 	default_create,
 	make_with_content,
-	make_with_link_and_text
+	make_with_link_and_text,
+	make_with_id_and_href
 
 feature {NONE} -- Initialization
 
@@ -31,6 +32,13 @@ feature {NONE} -- Initialization
 		do
 			set_attribute_value (agent href, a_link)
 			add_content (create {HTML_TEXT}.make_with_text (a_text))
+			default_create
+		end
+
+	make_with_id_and_href (a_id, a_href: STRING)
+		do
+			set_id (a_id)
+			set_href (a_href)
 			default_create
 		end
 

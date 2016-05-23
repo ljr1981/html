@@ -62,6 +62,8 @@ feature -- Test routines
 		 l_title: HTML_TITLE
 		 l_tr: HTML_TR
 		 l_ul: HTML_UL
+		 l_video: HTML_VIDEO
+		 l_source: HTML_SOURCE
 		do
 			create l_a_hyperlink
 			create l_a_hyperlink.make_with_content (<<>>)
@@ -125,6 +127,9 @@ feature -- Test routines
 			create l_tr.make_with_content (<<>>)
 			create l_ul
 			create l_ul.make_with_content (<<>>)
+			create l_video
+			create l_video.make_with_height_width (400, 300, True)
+			assert_strings_equal ("video_with_controls", "<video height=%"400%"  width=%"300%" controls></video>", l_video.html_out)
 		end
 
 feature -- Testing: {HTML_UNORDERED_LIST}

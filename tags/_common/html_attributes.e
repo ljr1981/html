@@ -110,7 +110,7 @@ feature {NONE} -- Tag-specific Attributes
 
 	height: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_height.asp"
-		attribute Result := ["", "", Void, "for", is_quoted] end
+		attribute Result := ["", "", Void, "height", is_quoted] end
 
 	href: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
@@ -159,7 +159,7 @@ feature {NONE} -- Tag-specific Attributes
 
 	width: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_width.asp"
-		attribute Result := ["soft", width_values, Void, "width", is_quoted] end
+		attribute Result := ["", "", Void, "width", is_quoted] end
 	width_values: STRING = "soft|hard|physical"
 
 	wrap: attached like attribute_tuple_anchor

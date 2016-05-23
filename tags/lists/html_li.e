@@ -12,7 +12,21 @@ inherit
 create
 	default_create,
 	make_with_content,
-	make_with_raw_text
+	make_with_raw_text,
+	make_with_link_and_text
+
+feature {NONE} -- Initialization
+
+	make_with_link_and_text (a_link, a_text: STRING)
+			-- `make_with_link_and_text' in `a_link' and `a_text'.
+			-- Example: <li><a href="moonshot.html">What is a Moonshot?</a></li>
+		local
+			l_a: HTML_A
+		do
+			create l_a.make_with_link_and_text (a_link, a_text)
+			add_content (l_a)
+			default_create
+		end
 
 feature -- Output
 
