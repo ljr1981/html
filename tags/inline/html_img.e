@@ -17,6 +17,17 @@ create
 	make_with_content,
 	make_with_src
 
+feature -- Queries
+
+	with_id_and_src (a_id, a_src: STRING): like Current
+			-- `with_id_and_src' of `a_id' and `a_src'
+			-- Example: ...
+		do
+			set_id (a_id)
+			set_src (a_src)
+			Result := Current
+		end
+
 feature -- Output
 
 	tag_name: STRING = "img"

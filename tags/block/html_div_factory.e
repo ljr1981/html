@@ -35,6 +35,9 @@ feature -- Factories
 	new_video: HTML_VIDEO do create Result; last_new_video := Result end
 	last_new_video: like new_video attribute Result := new_video end
 
+	new_image: HTML_IMG do create Result; last_new_image := Result end
+	last_new_image: like new_image attribute Result := new_image end
+
 note
 	design_intent: "[
 		This object factory is intended to be used as a based

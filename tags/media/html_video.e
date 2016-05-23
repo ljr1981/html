@@ -97,6 +97,13 @@ feature -- Setters
 			make_with_video_and_controls (a_src, a_type, a_height, a_width)
 		end
 
+	set_looped_auto_play
+			-- `set_looped_auto_play' both to True.
+		do
+			set_auto_play
+			set_looped
+		end
+
 	set_auto_play
 			-- `set_auto_play' (`is_auto_play') True.
 		do

@@ -193,6 +193,7 @@ $(function() {
 
 feature -- Setting: Content
 
+	add_to_current,
 	add_content (a_item: attached like content_anchor)
 			-- `add_content' `a_item' to `html_content_items'
 		do
