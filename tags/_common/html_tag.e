@@ -265,12 +265,14 @@ feature -- Nested Creators
 
 feature -- Output
 
+	innerHTML_out,
 	html_out: STRING
 			-- `html_out' of Current {HTML_TAG}.
 		do
 			Result := common_out (not_pretty)
 		end
 
+	innerHTML_pretty_out,
 	pretty_out: STRING
 			-- `pretty_out' of Current {HTML_TAG}.
 		do
