@@ -89,6 +89,14 @@ feature {NONE} -- Initialization
 
 feature -- Setters
 
+	set_src_type_height_width_with_controls (a_src, a_type: STRING; a_height, a_width: INTEGER)
+			-- `set_src_type_height_width_with_controls'
+			-- Sets the video source, type (e.g. MP4), height, and width.
+			-- Also makes video/audio controls viewable.
+		do
+			make_with_video_and_controls (a_src, a_type, a_height, a_width)
+		end
+
 	set_auto_play
 			-- `set_auto_play' (`is_auto_play') True.
 		do

@@ -28,6 +28,19 @@ feature {NONE} -- Initialization
 			default_create
 		end
 
+feature -- Basic Operations
+
+	set_link_and_text (a_link, a_text: STRING)
+			-- `set_link_and_text' with `a_link' and `a_text'.
+			-- Example: <li><a href="moonshot.html">What is a Moonshot?</a></li>
+		local
+			l_a: HTML_A
+		do
+			create l_a.make_with_link_and_text (a_link, a_text)
+			add_content (l_a)
+			default_create
+		end
+
 feature -- Output
 
 	html_content: STRING

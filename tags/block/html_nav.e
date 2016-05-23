@@ -13,6 +13,17 @@ create
 	default_create,
 	make_with_content
 
+feature -- Basic Operations
+
+	add_link_and_text (a_link, a_text: STRING)
+			--
+		local
+			l_li: HTML_LI
+		do
+			create l_li.make_with_link_and_text (a_link, a_text)
+			add_content (l_li)
+		end
+
 feature -- Output
 
 	html_content: STRING
