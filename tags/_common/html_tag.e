@@ -154,12 +154,15 @@ $(function() {
 		contentType: 'application/json',
 		data: (jsonData)
 	});
+	<<REDIRECTION>>
     return false;
   });
 });
 ]"
 			if is_restful then
 				l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
+				check no_rest_uri_tag: not l_script_text.has_substring ("<<REST_URI>>") end
+
 				if attached {STRING} global_class.attr_value as al_reference and then not al_reference.is_empty then
 					l_script_text.replace_substring_all ("<<REFERENCE>>", "." + al_reference)
 				elseif attached {STRING} global_id.attr_value as al_reference and then not al_reference.is_empty then
@@ -167,9 +170,43 @@ $(function() {
 				else
 					l_script_text.replace_substring_all ("<<REFERENCE>>", tag_name)
 				end
+				check no_reference_tag: not l_script_text.has_substring ("<<REFERENCE>>") end
+
+				if is_redirection_needed then
+					l_script_text.replace_substring_all ("<<REDIRECTION>>", "window.location.assign(%"" + redirection_uri + "%")")
+				else
+					l_script_text.replace_substring_all ("<<REDIRECTION>>", "")
+				end
+				check no_redirection_tag: not l_script_text.has_substring ("<<REDIRECTION>>") end
 			end
 			create Result.make_with_javascript (l_script_text)
 			Result.set_type ("text/javascript")
+		end
+
+	is_redirection_needed: BOOLEAN
+			-- When `is_restful' is complete, `is_redirection_needed'?
+			-- Example: User pressed "Submit" --> Thank you page?
+
+	set_needs_redirection
+			-- `set_needs_redirection' make `is_redirection_needed' = True.
+		do
+			is_redirection_needed := True
+		ensure
+			set: is_redirection_needed
+		end
+
+	redirection_uri: STRING
+			-- `redirection_uri' if `is_redirection_needed'.
+		attribute
+			create Result.make_empty
+		end
+
+	set_redirection_uri (a_uri: like redirection_uri)
+			-- `set_redirection_uri' to `a_uri'.
+		do
+			redirection_uri := a_uri
+		ensure
+			set: redirection_uri.same_string (a_uri)
 		end
 
 	is_restful: BOOLEAN
