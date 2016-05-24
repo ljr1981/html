@@ -11,6 +11,12 @@ inherit
 
 feature -- Factories
 
+	new_form: HTML_FORM do create Result; last_new_form := Result end
+	last_new_form: like new_form attribute Result := new_form end
+
+	new_hx: HTML_HEADLINE_X do create Result; last_new_hx := Result end
+	last_new_hx: like new_hx attribute Result := new_hx end
+
 	new_div: HTML_DIV do create Result; last_new_div := Result end
 	last_new_div: like new_div attribute Result := new_div end
 
