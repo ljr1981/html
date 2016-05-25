@@ -22,6 +22,16 @@ create
 
 feature {NONE} -- Initialization
 
+	make_with_src_and_type (a_src, a_type: STRING)
+		local
+			l_source: HTML_SOURCE
+		do
+			create l_source
+			l_source.set_src (a_src)
+			l_source.set_type (a_type)
+			add_content (l_source)
+		end
+
 	make_with_video_and_controls (a_src, a_type: STRING; a_height, a_width: INTEGER)
 			-- `make_with_video_and_controls' using `a_src', `a_type', `a_height', and `a_width'.
 			-- Video/Audio controls will be displayed in the browser.
@@ -95,6 +105,19 @@ feature -- Setters
 			-- Also makes video/audio controls viewable.
 		do
 			make_with_video_and_controls (a_src, a_type, a_height, a_width)
+		end
+
+	set_src_type_height_width_without_controls (a_src, a_type: STRING; a_height, a_width: INTEGER)
+			-- `set_src_type_height_width_without_controls'
+			-- Sets the video source, type (e.g. MP4), height, and width.
+			-- Also makes video/audio controls viewable.
+		do
+			make_with_video_and_not_controls (a_src, a_type, a_height, a_width)
+		end
+
+	set_src_type (a_src, a_type: STRING)
+		do
+			make_with_src_and_type (a_src, a_type)
 		end
 
 	set_looped_auto_play
