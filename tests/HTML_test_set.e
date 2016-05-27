@@ -36,6 +36,7 @@ feature -- Test routines
 		 l_body: HTML_BODY
 		 l_br: HTML_BR
 		 l_div: HTML_DIV
+		 l_header: HTML_HEADER
 		 l_footer: HTML_FOOTER
 		 l_h1: HTML_H1
 		 l_h2: HTML_H2
@@ -75,6 +76,8 @@ feature -- Test routines
 			create l_br.make_with_content (<<>>)
 			create l_div
 			create l_div.make_with_content (<<>>)
+			create l_header
+			create l_header.make_with_content (<<>>)
 			create l_footer
 			create l_footer.make_with_content (<<>>)
 			create l_h1

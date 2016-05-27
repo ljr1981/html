@@ -12,7 +12,35 @@ inherit
 			href, set_href
 		end
 
-feature -- Setters
+create
+	default_create,
+	make_with_content
+
+feature -- Settings
+
+	add_image (a_image: HTML_IMG)
+			-- `add_image' `a_image' to Current.
+		note
+			TODO: "Move this up in inheritance (see HTML_FOOTER as well)"
+		do
+			add_to_current (a_image)
+		end
+
+	add_images (a_images: ARRAY [TUPLE [id, src: STRING]])
+			-- `add_images' `a_images' as {ARRAY} of `id' and `src'.
+		note
+			TODO: "Move this up in inheritance (see HTML_FOOTER as well)"
+		local
+			l_img: HTML_IMG
+		do
+			across
+				a_images as ic_images
+			loop
+				create l_img.make_with_src (ic_images.item.src)
+				l_img.set_id (ic_images.item.id)
+				add_content (l_img)
+			end
+		end
 
 	set_id_and_href (a_id, a_href: STRING)
 			-- `set_id_and_href' with `a_id' and `a_href'.

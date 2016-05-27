@@ -17,11 +17,16 @@ feature -- Settings
 
 	add_image (a_image: HTML_IMG)
 			-- `add_image' `a_image' to Current.
+		note
+			TODO: "Move this up in inheritance (see HTML_HEADER as well)"
 		do
 			add_to_current (a_image)
 		end
 
 	add_images (a_images: ARRAY [TUPLE [id, src: STRING]])
+			-- `add_images' `a_images' as {ARRAY} of `id' and `src'.
+		note
+			TODO: "Move this up in inheritance (see HTML_HEADER as well)"
 		local
 			l_img: HTML_IMG
 		do
