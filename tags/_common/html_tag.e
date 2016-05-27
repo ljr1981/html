@@ -233,8 +233,16 @@ feature -- Setting: Content
 	add_to_current,
 	add_content (a_item: attached like content_anchor)
 			-- `add_content' `a_item' to `html_content_items'
+		require
+			not_has: not html_content_items_has (a_item)
 		do
 			html_content_items.force (a_item)
+		end
+
+	html_content_items_has (a_item: attached like content_anchor): BOOLEAN
+			-- `html_content_items_has' `a_item'?
+		do
+			Result := html_content_items.has (a_item)
 		end
 
 	add_contents (a_items: ARRAY [attached like content_anchor])
