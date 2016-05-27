@@ -91,6 +91,15 @@ feature {NONE} -- Implementation: Access
 	level: INTEGER
 			-- `level' of Current
 
+feature -- Setters
+
+	set_h1, as_h1 do level := 1 ensure level = 1 end
+	set_h2, as_h2 do level := 2 ensure level = 2 end
+	set_h3, as_h3 do level := 3 ensure level = 3 end
+	set_h4, as_h4 do level := 4 ensure level = 4 end
+	set_h5, as_h5 do level := 5 ensure level = 5 end
+	set_h6, as_h6 do level := 6 ensure level = 6 end
+
 feature -- Output
 
 	tag_name: STRING

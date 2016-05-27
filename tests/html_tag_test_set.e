@@ -240,6 +240,12 @@ feature -- Testing: {HTML_HEADLINE_X}
 		do
 			create l_tag
 			assert_strings_equal ("hx", "<h1></h1>", l_tag.new_hx.html_out)
+			l_tag.new_hx.set_h1
+			l_tag.new_hx.set_h2
+			l_tag.new_hx.set_h3
+			l_tag.new_hx.set_h4
+			l_tag.new_hx.set_h5
+			l_tag.new_hx.set_h6
 		end
 
 end
