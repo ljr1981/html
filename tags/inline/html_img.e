@@ -19,13 +19,16 @@ create
 
 feature -- Queries
 
-	with_id_and_src (a_id, a_src: STRING): like Current
-			-- `with_id_and_src' of `a_id' and `a_src'
+	with_id_and_src (a_id, a_source: STRING): like Current
+			-- `with_id_and_src' of `a_id' and `a_source'
 			-- Example: ...
 		do
 			set_id (a_id)
-			set_src (a_src)
+			set_source (a_source)
 			Result := Current
+		ensure
+			id_set: global_id ~ a_id
+			src_set: source ~ a_source
 		end
 
 feature -- Output
