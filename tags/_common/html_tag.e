@@ -116,7 +116,11 @@ feature -- HTML Scripts
 			-- `scripts' placed in Current {HTML_TAG}.
 		note
 			design: "[
-
+				Such that:
+				
+				<tag> ... <script> ... </script></tag>
+				
+				This allows scripting to be placed right at the particular tag-level.
 				]"
 		attribute
 			create Result.make (1)
@@ -125,6 +129,22 @@ feature -- HTML Scripts
 feature -- RESTful
 
 	Rest_script: HTML_SCRIPT
+			-- `Rest_script' is one of (future) many.
+		note
+			design: "[
+				The serialaizeObject function is designed to serialize
+				a DOM object and all its enclosed objects as key:value
+				pairs (e.g. name:value where name and value are attributes
+				on the <tag>).
+				
+				The second function is designed to take the output of
+				serializeObject and form it up as JSON, sending it to
+				the Server at the <<REST_URI>> message address to be
+				processed by the Server.
+				
+				Finally, if there is redirection involved, then the
+				uri of the redirection is inserted into the JS-code.
+				]"
 		local
 			l_script_text: STRING
 		do
@@ -159,7 +179,7 @@ $(function() {
   });
 });
 ]"
-			if is_restful then
+			check is_restful: is_restful then
 				l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
 				check no_rest_uri_tag: not l_script_text.has_substring ("<<REST_URI>>") end
 
@@ -189,6 +209,8 @@ $(function() {
 
 	set_needs_redirection
 			-- `set_needs_redirection' make `is_redirection_needed' = True.
+		require
+			is_restful: is_restful
 		do
 			is_redirection_needed := True
 		ensure
@@ -210,13 +232,17 @@ $(function() {
 		end
 
 	is_restful: BOOLEAN
+			-- `is_restful' (e.g. is this <tag> involved in RESTful actions)?
 
 	rest_uri: STRING
+			-- `rest_uri'--if `is_restful', then what `rest_uri' are we using?
 		attribute
 			create Result.make_empty
 		end
 
 	set_rest_uri (a_uri: like rest_uri)
+			-- `set_rest_uri' with `a_uri' into `rest_uri'.
+			-- Ensure that `is_restful' is True and `add_script'.
 		require
 			valid: not a_uri.is_empty
 		do
@@ -241,6 +267,7 @@ feature -- Setting: Content
 
 	html_content_items_has (a_item: attached like content_anchor): BOOLEAN
 			-- `html_content_items_has' `a_item'?
+			-- Check if the content has `a_item', True if it does.
 		do
 			Result := html_content_items.has (a_item)
 		end
@@ -398,6 +425,8 @@ feature {NONE} -- Implementation: JavaScript
 			if not script_source.is_empty then
 				create Result.make_with_javascript (script_source)
 			end
+		ensure
+			attached Result implies not script_source.is_empty
 		end
 
 	script_source: STRING
@@ -429,7 +458,7 @@ feature {NONE} -- Implementation: Ext CSS
 		do
 			if not external_css_file_name.is_empty then
 				create Result
-				Result.set_rel ("stylesheet")
+				Result.set_rel (Stylesheet_kw)
 				Result.set_href (external_css_file_name)
 			end
 		end

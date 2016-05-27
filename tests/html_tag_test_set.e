@@ -231,6 +231,17 @@ feature -- Testing: {HTML_SCRIPT}
 			assert_strings_equal ("body_jquery_script", "<body><div>some_text</div><script src=%"jquery-2.3.3.js%"></script></body>", l_body.html_out)
 		end
 
+feature -- Testing: {HTML_HEADLINE_X}
+
+	html_headline_x_test
+			-- `html_headline_x_test'
+		local
+			l_tag: HTML_DIV_FACTORY
+		do
+			create l_tag
+			assert_strings_equal ("hx", "<h1></h1>", l_tag.new_hx.html_out)
+		end
+
 end
 
 

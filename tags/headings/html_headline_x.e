@@ -8,6 +8,9 @@ class
 
 inherit
 	HTML_TAG
+		redefine
+			default_create
+		end
 
 create
 	default_create,
@@ -20,6 +23,15 @@ create
 	make_h6, make_xsmall_headline
 
 feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			Precursor
+			level := 1
+		ensure then
+			set: level >= 1 and level <= 6
+		end
 
 	make_h1,
 	make_xxlarge_headline (a_text: STRING)
@@ -78,9 +90,6 @@ feature {NONE} -- Implementation: Access
 
 	level: INTEGER
 			-- `level' of Current
-		attribute
-			Result := 1
-		end
 
 feature -- Output
 
