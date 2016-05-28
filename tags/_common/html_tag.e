@@ -257,8 +257,12 @@ feature -- Setting: Content
 	add_to_current,
 	add_content (a_item: attached like content_anchor)
 			-- `add_content' `a_item' to `html_content_items'
+		note
+			EIS: "name=VNHO", "src=https://github.com/ljr1981/moonshot/blob/master/README.md"
 		require
-			not_has: not html_content_items_has (a_item)
+			not_has_but_has_object_as_reference: not html_content_items_has (a_item)
+				-- You cannot add an object reference to `html_content_items' more than once.
+				-- See EIS: VNHO
 		do
 			html_content_items.force (a_item)
 		end

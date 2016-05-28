@@ -44,6 +44,9 @@ feature -- Factories
 	new_image: HTML_IMG do create Result; last_new_image := Result end
 	last_new_image: like new_image attribute Result := new_image end
 
+	new_span: HTML_SPAN do create Result; last_new_span := Result end
+	last_new_span: like new_span attribute Result := new_span end
+
 note
 	design_intent: "[
 		This object factory is intended to be used as a based

@@ -65,6 +65,7 @@ feature -- Test routines
 		 l_ul: HTML_UL
 		 l_video: HTML_VIDEO
 		 l_source: HTML_SOURCE
+		 l_span: HTML_SPAN
 		do
 			create l_a_hyperlink
 			create l_a_hyperlink.make_with_content (<<>>)
@@ -133,6 +134,7 @@ feature -- Test routines
 			create l_video
 			create l_video.make_with_height_width (400, 300, True)
 			assert_strings_equal ("video_with_controls", "<video height=%"400%"  width=%"300%" controls></video>", l_video.html_out)
+			create l_span.make_with_content (<<>>)
 		end
 
 feature -- Testing: {HTML_UNORDERED_LIST}
@@ -171,5 +173,33 @@ feature {NONE} -- Testing: {HTML_UNORDERED_LIST} Support
 	empty_ul_li: STRING = "<div><ul><li></li></ul></div>"
 	ul_li_objects: STRING = "<div><ul><li>Bugs Bunny</li><li>Daffy Duck</li><li>Marvin the Martian</li></ul></div>"
 	ul_li_strings: STRING = "<div><ul><li>Bugs Bunny</li><li>Daffy Duck</li><li>Marvin the Martian</li></ul></div>"
+
+feature -- Testing: {HTML_SPAN}
+
+	html_span_tag_tests
+			-- `wc_span_tag_creation_test'.
+		local
+			l_span: HTML_SPAN
+		do
+			create l_span
+			assert_strings_equal ("empty_span_tags", empty_span_any, l_span.html_out)
+
+			create l_span.make_with_raw_text ("Bugs Bunny")
+			assert_strings_equal ("span_tag_content_string", span_tag_content_string, l_span.html_out)
+
+			create l_span.make_with_content (<<create {HTML_TEXT}.default_create>>)
+			assert_strings_equal ("empty_span_tags_empty_content", empty_span_any, l_span.html_out)
+
+			create l_span.make_with_content (<<create {HTML_TEXT}.make_with_text ("Bugs Bunny, "), create {HTML_TEXT}.make_with_text ("Daffy Duck, "), create {HTML_TEXT}.make_with_text ("Marvin the Martian")>>)
+			assert_strings_equal ("span_tag_content_objects", span_tag_content_objects, l_span.html_out)
+		end
+
+feature {NONE} -- Testing {HTML_SPAN} Support
+
+	empty_span_any: STRING = "<span></span>"
+	span_tag_content_string: STRING = "<span>Bugs Bunny</span>"
+	span_tag_empty_content: STRING = "<span></span>"
+	span_tag_content_object: STRING = "<span>Daffy Duck</span>"
+	span_tag_content_objects: STRING = "<span>Bugs Bunny, Daffy Duck, Marvin the Martian</span>"
 
 end
