@@ -209,8 +209,6 @@ $(function() {
 
 	set_needs_redirection
 			-- `set_needs_redirection' make `is_redirection_needed' = True.
-		require
-			is_restful: is_restful
 		do
 			is_redirection_needed := True
 		ensure

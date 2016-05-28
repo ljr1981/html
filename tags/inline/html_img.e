@@ -26,9 +26,6 @@ feature -- Queries
 			set_id (a_id)
 			set_source (a_source)
 			Result := Current
-		ensure
-			id_set: global_id ~ a_id
-			src_set: source ~ a_source
 		end
 
 feature -- Output
