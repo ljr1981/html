@@ -637,6 +637,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent on_click, a_value)
 		end
 
+	set_role (a_role: STRING)
+			-- `set_role' with `a_role'
+		do
+			set_attribute_value (agent role, a_role)
+		ensure
+			set: attached {STRING} role.attr_value as al_value and then al_value.same_string (a_role)
+		end
+
 	set_rows (a_rows: STRING)
 			-- `set_rows' with `a_rows'
 		do

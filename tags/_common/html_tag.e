@@ -18,12 +18,19 @@ inherit
 		export {ANY}
 			href, set_href,
 			rel, set_rel,
+			role, set_role,
 			src, set_source, set_src
 		undefine
 			default_create
 		end
 
 	HTML_CONSTANTS
+		undefine
+			default_create,
+			out
+		end
+
+	HTML_FACTORY
 		undefine
 			default_create,
 			out

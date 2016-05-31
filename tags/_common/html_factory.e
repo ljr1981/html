@@ -1,18 +1,30 @@
 note
 	description: "[
-		Representation of an effected {HTML_DIV_FACTORY}.
+		Abstract notion of an {HTML_FACTORY}
+		]"
+	design: "[
+		The intent is to provide a factory for {HTML_TAG} things.
 		]"
 
 class
-	HTML_DIV_FACTORY
-
-inherit
-	HTML_DIV
+	HTML_FACTORY
 
 feature -- Factories
 
 	new_form: HTML_FORM do create Result; last_new_form := Result end
 	last_new_form: like new_form attribute Result := new_form end
+
+	new_input: HTML_INPUT do create Result; last_new_input := Result end
+	last_new_input: like new_input attribute Result := new_input end
+
+	new_textarea: HTML_TEXTAREA do create Result; last_new_textarea := Result end
+	last_new_textarea: like new_textarea attribute Result := new_textarea end
+
+	new_label: HTML_LABEL do create Result; last_new_label := Result end
+	last_new_label: like new_label attribute Result := new_label end
+
+	new_button: HTML_BUTTON do create Result; last_new_button := Result end
+	last_new_button: like new_button attribute Result := new_button end
 
 	new_hx: HTML_HEADLINE_X do create Result; last_new_hx := Result end
 	last_new_hx: like new_hx attribute Result := new_hx end
@@ -46,12 +58,5 @@ feature -- Factories
 
 	new_span: HTML_SPAN do create Result; last_new_span := Result end
 	last_new_span: like new_span attribute Result := new_span end
-
-note
-	design_intent: "[
-		This object factory is intended to be used as a based
-		for web components, where one wants to easily add other
-		enclosed or contained components.
-		]"
 
 end

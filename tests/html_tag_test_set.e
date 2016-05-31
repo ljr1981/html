@@ -236,7 +236,7 @@ feature -- Testing: {HTML_HEADLINE_X}
 	html_headline_x_test
 			-- `html_headline_x_test'
 		local
-			l_tag: HTML_DIV_FACTORY
+			l_tag: HTML_DIV
 		do
 			create l_tag
 			assert_strings_equal ("hx", "<h1></h1>", l_tag.new_hx.html_out)

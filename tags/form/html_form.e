@@ -11,6 +11,7 @@ inherit
 		export {ANY}
 			on_submit,
 			method, set_method,
+			role, set_role,
 			action
 		end
 
@@ -21,8 +22,11 @@ create
 feature -- Adding Content
 
 	add_h2 (a_text: STRING)
+			-- `add_h2' with `a_text'
+			-- Example: <h2>Some text from a_text</h2>
 		do
-			add_content (create {HTML_HEADLINE_X}.make_h2 (a_text))
+			new_hx.set_text_content (a_text)
+			add_content (last_new_hx)
 		end
 
 	add_text_input_field_group (a_data: TUPLE [fields: ARRAY [TUPLE [label: STRING_8; name: STRING_8; maxlength: STRING_8; size: STRING_8; line_breaks: BOOLEAN]]])
