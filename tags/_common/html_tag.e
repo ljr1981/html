@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 
 	make_restful_on_class (a_class, a_uri: STRING)
 		do
-			set_class (a_class)
+			set_class_names (a_class)
 			make_restful (a_uri)
 		end
 
@@ -249,14 +249,18 @@ $(function() {
 			-- `set_rest_uri' with `a_uri' into `rest_uri'.
 			-- Ensure that `is_restful' is True and `add_script'.
 		require
-			valid: not a_uri.is_empty
+			not_empty_but_is_empty: not a_uri.is_empty
+				-- Setting an empty URI is not acceptible for RESTful server request.
+				-- There must be a server URI for the RESTful call.
 		do
 			rest_uri := a_uri
 			is_restful := True
 			add_script (Rest_script)
 		ensure
-			is_restful: is_restful
+			is_restful_but_not: is_restful
+					-- Promises that Current `is_restful' (prepped for RESTful calls).
 			set: rest_uri.same_string (a_uri)
+					-- Promises that passed `a_uri' was actually set into `rest_uri'.
 		end
 
 feature -- Setting: Content
@@ -290,11 +294,14 @@ feature -- Setting: Content
 				add_content (ic.item)
 			end
 		ensure
-			added: across a_items as ic all
+			expected_all_added_but_somethings_missing:
+					across a_items as ic all
 						across html_content_items as ic_content some
 							ic_content.item ~ ic.item
 						end
 					end
+				-- Promises that each ic.item in `a_items' list was added to the
+				--	`html_content_items', which is the goal of this feature.
 		end
 
 feature -- Setting: Scripts
@@ -304,7 +311,8 @@ feature -- Setting: Scripts
 		do
 			scripts.force (a_script)
 		ensure
-			has: scripts.has (a_script)
+			has_but_missing_script: scripts.has (a_script)
+				-- Promises that `scripts' will have `a_script' when finished.
 		end
 
 	add_scripts (a_scripts: ARRAY [HTML_SCRIPT])
@@ -315,6 +323,17 @@ feature -- Setting: Scripts
 			loop
 				scripts.force (ic.item)
 			end
+		ensure
+			has_all_but_missing_something: scripts.count = old scripts.count + a_scripts.count
+				-- Promises that `scripts' will have all `a_scripts' loaded when finished.
+		end
+
+	set_external_css_file_name (a_external_css_file_name: like external_css_file_name)
+			-- `set_external_css_file_name' with `a_external_css_file_name'
+		do
+			external_css_file_name := a_external_css_file_name
+		ensure
+			set: external_css_file_name ~ a_external_css_file_name
 		end
 
 feature -- Setting: Text Content
@@ -324,7 +343,8 @@ feature -- Setting: Text Content
 		do
 			text_content := a_text
 		ensure
-			set: text_content.same_string (a_text)
+			set_but_different: text_content.same_string (a_text)
+				-- Promises `text_content' will be precisely `same_string' as `a_text'.
 		end
 
 feature -- Nested Creators
@@ -435,7 +455,9 @@ feature {NONE} -- Implementation: JavaScript
 				create Result.make_with_javascript (script_source)
 			end
 		ensure
-			attached Result implies not script_source.is_empty
+			non_void_result_but_empty: attached Result implies not script_source.is_empty
+				-- Promises that a non-Void Result will not have an empty `script_source'.
+				-- A non-empty `script_source' implies a non-Void Result as JavaScript.
 		end
 
 	script_source: STRING
@@ -448,6 +470,8 @@ feature -- External CSS
 
 	external_css_files: ARRAYED_LIST [attached like external_css]
 			-- `external_css_files' from `external_css' and `html_content_items'.
+			-- Builds HTML_LINK items into a Result list for this and all contained
+			--	HTML elements.
 		do
 			create Result.make (1)
 			if attached external_css as al_link then
@@ -458,18 +482,36 @@ feature -- External CSS
 			loop
 				Result.append (ic_content.item.external_css_files)
 			end
+		ensure
+			external_css_content_but_empty: attached external_css implies not Result.is_empty
+				-- Promises that having an `external_css' reference means at least 1 link in Result.
+				-- More items in the Result means subordinate HTML elements also have `external_css_files'.
 		end
 
-feature {NONE} -- Implementation: Ext CSS
+feature {TEST_SET_BRIDGE} -- Implementation: Ext CSS
 
 	external_css: detachable HTML_LINK
-			-- `external_css' based on qualified `external_css_file_name'.
+			-- `external_css' as {HTML_LINK} based on qualified `external_css_file_name'.
 		do
 			if not external_css_file_name.is_empty then
 				create Result
 				Result.set_rel (Stylesheet_kw)
 				Result.set_href (external_css_file_name)
 			end
+		ensure
+			file_name_means_result_but_void: (not external_css_file_name.is_empty) implies attached Result
+				-- Promises that if `external_css_file_name' has content (not empty), then
+				--	a non-Void (attached) {HTML_LINK} is the Result.
+
+			rel_set_but_not: attached Result implies
+								attached {STRING} Result.rel.attr_value as al_value and then
+								al_value.same_string (Stylesheet_kw)
+				-- Promises that an attached Result has `Stylesheet_kw' as its rel.
+
+			href_set_but_not: attached Result implies
+								attached {STRING} Result.href.attr_value as al_value and then
+								al_value.same_string (external_css_file_name)
+				-- Promises that an attached Result has `external_css_file_name' set to href attribute name.
 		end
 
 	external_css_file_name: STRING attribute create Result.make_empty end

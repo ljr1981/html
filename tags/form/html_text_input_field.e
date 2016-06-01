@@ -26,12 +26,12 @@ feature {NONE} -- Initialization
 			-- `a_name' is the key of the key:value pair for JSON.
 			-- First Name:<input type="text" name="fname" maxlength="12" size="12"/> <br/>
 		do
-			set_class ("form-group")
+			set_class_names ("form-group")
 
 			new_label.set_text_content (a_label)
 			add_content (last_new_label)
 
-			last_new_input.set_class ("form-control")
+			last_new_input.set_class_names ("form-control")
 			last_new_input.set_maxlength (a_maxlength)
 			last_new_input.set_size (a_size)
 			add_content (last_new_input)

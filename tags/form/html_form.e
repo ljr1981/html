@@ -46,7 +46,12 @@ feature -- Adding Content
 
 	add_textarea (a_data: TUPLE [a_wrap, a_name, a_text: STRING_8; a_cols, a_rows: INTEGER_32; a_is_line_break: BOOLEAN])
 		do
-			add_content (create {HTML_TEXTAREA}.make_with_data (a_data.a_wrap, a_data.a_name, a_data.a_text, a_data.a_cols, a_data.a_rows, a_data.a_is_line_break))
+			new_textarea.set_wrap (a_data.a_wrap)
+			last_new_textarea.set_name (a_data.a_name)
+			last_new_textarea.add_text_content (a_data.a_text)
+			last_new_textarea.set_cols (a_data.a_cols.out)
+			last_new_textarea.set_rows (a_data.a_rows.out)
+			add_content (last_new_textarea)
 		end
 
 	add_select_with_options (a_data: TUPLE [a_label, a_name: STRING_8; a_size: INTEGER_32; a_values: ARRAY [STRING_8]; a_is_line_break: BOOLEAN])

@@ -139,7 +139,7 @@ feature {NONE} -- Tag-specific Attributes
 	name_kw: STRING = "name"
 
 	rel: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/attr_rel.asp"
+		note EIS: "src=http://www.w3schools.com/TAgs/att_a_rel.asp"
 		attribute Result := ["", "", Void, rel_kw, is_quoted] ensure Result.attr_name.same_string (rel_kw) end
 
 	role: attached like attribute_tuple_anchor
@@ -566,10 +566,58 @@ feature {NONE} -- Attributes: Datums
 
 feature -- Setters
 
-	set_class (a_class_names: STRING)
-			-- `set_class' of `global_class' with `a_class_names'.
+	set_class_names (a_class_names: STRING)
+			-- `set_class_names' of `global_class' with `a_class_names'.
+		require
+			valid_but_has_invalid_characters: across a_class_names as ic all ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_ ").has (ic.item) end
+				-- Do not send characters other than: [a-zA-Z0-9] | '-' | '_'
+			no_dot_but_has_dot: not a_class_names.has ('.')
+				-- Do not pass class names with prepended "." (example: .my_class)
 		do
 			set_attribute_value (agent global_class, a_class_names)
+		ensure
+			no_dots_but_has_dots: not global_class.attr_name.has ('.')
+				-- Promises to set `global_class' `attr_name' without prefix '.' characters.
+		end
+
+	append_class_name (a_class_name: STRING)
+			-- `append_class_name' with `a_class_name' into `global_class'.
+		require
+			unique_name_but_already_has_name: not (global_class.attr_name.split (' ')).has (a_class_name)
+				-- Do not try to append the same name twice to the list of classes.
+		local
+			l_new_name: STRING
+		do
+			create l_new_name.make_empty
+			l_new_name.append_string (global_class.attr_name)
+			l_new_name.append_character (' ')
+			l_new_name.append_string (a_class_name)
+			set_class_names (l_new_name)
+		ensure
+			has_name_but_not_found: global_class.attr_name.has_substring (a_class_name)
+				-- Promises to add `a_class_name' to `global_class' `attr_name'.
+		end
+
+	remove_class_name (a_name_to_remove: STRING)
+			-- `remove_class_name' `a_name_to_remove' from `global_class' attr_name.
+		require
+			no_dot_but_has_dot: not a_name_to_remove.has ('.')
+				-- Do not pass class names with prepended "." (example: .my_class)
+		local
+			l_reset_name: STRING
+		do
+			create l_reset_name.make_empty
+			across
+				global_class.attr_name.split (' ') as ic
+			loop
+				if not ic.item.same_string (a_name_to_remove) then
+					l_reset_name.append_string (ic.item)
+				end
+			end
+			set_class_names (l_reset_name)
+		ensure
+			removed_but_still_found: not global_class.attr_name.has_substring (a_name_to_remove)
+				-- Promises to remove `a_name_to_remove' from `global_class' `attr_name'.
 		end
 
 	set_id (a_value: STRING)

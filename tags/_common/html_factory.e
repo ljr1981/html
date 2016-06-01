@@ -26,6 +26,9 @@ feature -- Factories
 	new_button: HTML_BUTTON do create Result; last_new_button := Result end
 	last_new_button: like new_button attribute Result := new_button end
 
+	new_select: HTML_SELECT do create Result; last_new_select := Result end
+	last_new_select: like new_select attribute Result := new_select end
+
 	new_hx: HTML_HEADLINE_X do create Result; last_new_hx := Result end
 	last_new_hx: like new_hx attribute Result := new_hx end
 

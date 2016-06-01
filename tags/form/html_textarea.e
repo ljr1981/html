@@ -33,7 +33,6 @@ feature {NONE} -- Initialization
 			-- `make_with_data' with `a_wrap', `a_name', `a_cols', and `a_rows'.
 			-- wrap="physical" cols="20" name="quote" rows="5"
 		require
---			valid_wrap: (width_values.split ('|')).has (a_wrap)
 			valid_name: not a_name.is_empty
 		do
 			set_wrap (a_wrap)
@@ -45,10 +44,11 @@ feature {NONE} -- Initialization
 				set_rows (a_rows.out)
 			end
 			add_text_content (a_text)
---			if a_is_line_break then
---				add_content (create {HTML_BR})
---			end
 		end
+
+feature -- Setters
+
+	
 
 feature -- Output
 
