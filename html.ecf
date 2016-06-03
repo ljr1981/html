@@ -9,9 +9,9 @@
 		<setting name="console_application" value="true"/>
 		<setting name="concurrency" value="scoop"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="css" location="$GITHUB\css\css.ecf"/>
-		<library name="framework" location="$GITHUB\framework\framework.ecf"/>
-		<library name="test_extension" location="$GITHUB\test_extension\test_extension.ecf"/>
+		<library name="css" location="..\css\css.ecf"/>
+		<library name="framework" location="..\framework\framework.ecf"/>
+		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
 		<cluster name="html" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>
