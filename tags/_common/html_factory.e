@@ -38,6 +38,9 @@ feature -- Factories
 	new_header: HTML_HEADER do create Result; last_new_header := Result end
 	last_new_header: like new_header attribute Result := new_header end
 
+	new_hr: HTML_HR do create Result; last_new_hr := Result end
+	last_new_hr: like new_hr attribute Result := new_hr end
+
 	new_nav: HTML_NAV do create Result; last_new_nav := Result end
 	last_new_nav: like new_nav attribute Result := new_nav end
 
