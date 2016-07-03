@@ -9,7 +9,10 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
-			border_attribute
+			border, set_border,
+			cell_spacing, set_cell_spacing,
+			cell_padding, set_cell_padding,
+			width, set_width
 		end
 
 create

@@ -9,7 +9,8 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
-			src
+			src, set_src, set_source,
+			alt, set_alt
 		end
 
 create

@@ -8,11 +8,14 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			style, set_style
+		end
 
 create
 	default_create,
 	make_with_content
-	
+
 feature -- Output
 
 	tag_name: STRING = "ul"

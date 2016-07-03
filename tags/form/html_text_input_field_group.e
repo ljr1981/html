@@ -16,6 +16,7 @@ inherit
 		end
 
 create
+	default_create,
 	make_with_data
 
 feature {NONE} -- Initialization

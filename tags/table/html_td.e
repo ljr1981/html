@@ -8,6 +8,9 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			valign, set_valign
+		end
 
 create
 	default_create,

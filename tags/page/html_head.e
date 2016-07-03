@@ -32,12 +32,12 @@ feature -- Output
 				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
 			end
 
-			if attached title as al_title then Result.append_string (al_title.html_out) end
-			if attached base as al_base then Result.append_string (al_base.html_out) end
-			if attached link as al_link then Result.append_string (al_link.html_out) end
-			if attached meta as al_meta then Result.append_string (al_meta.html_out) end
-			if attached script as al_script then Result.append_string (al_script.html_out) end
-			if attached style as al_style then Result.append_string (al_style.html_out) end
+			if attached title_tag as al_title then Result.append_string (al_title.html_out) end
+			if attached base_tag as al_base then Result.append_string (al_base.html_out) end
+			if attached link_tag as al_link then Result.append_string (al_link.html_out) end
+			if attached meta_tag as al_meta then Result.append_string (al_meta.html_out) end
+			if attached script_tag as al_script then Result.append_string (al_script.html_out) end
+			if attached style_tag as al_style then Result.append_string (al_style.html_out) end
 
 			Result.append_string (end_tag)
 		end
@@ -56,25 +56,25 @@ feature -- Output
 				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
 			end
 
-			if attached title as al_title then Result.append_string (al_title.html_out) end
+			if attached title_tag as al_title then Result.append_string (al_title.html_out) end
 			Result.append_character ('%N'); Result.append_character ('%T')
-			if attached base as al_base then
+			if attached base_tag as al_base then
 				Result.append_string (al_base.html_out)
 				Result.append_character ('%N'); Result.append_character ('%T')
 			end
-			if attached link as al_link then
+			if attached link_tag as al_link then
 				Result.append_string (al_link.html_out)
 				Result.append_character ('%N'); Result.append_character ('%T')
 			end
-			if attached meta as al_meta then
+			if attached meta_tag as al_meta then
 				Result.append_string (al_meta.html_out)
 				Result.append_character ('%N'); Result.append_character ('%T')
 			end
-			if attached script as al_script then
+			if attached script_tag as al_script then
 				Result.append_string (al_script.html_out)
 				Result.append_character ('%N'); Result.append_character ('%T')
 			end
-			if attached style as al_style then
+			if attached style_tag as al_style then
 				Result.append_string (al_style.html_out)
 				Result.append_character ('%N'); Result.append_character ('%T')
 			end
@@ -88,73 +88,73 @@ feature -- Output
 
 feature -- Settings
 
-	set_title (a_title: like title)
-			-- `set_title' with `a_title' into `title'.
+	set_title_tag (a_title: like title_tag)
+			-- `set_title_tag' with `a_title' into `title_tag'.
 		do
-			title := a_title
+			title_tag := a_title
 		ensure
-			set: title ~ a_title
+			set: title_tag ~ a_title
 		end
 
-	set_base (a_base: like base)
-			-- `set_base' with `a_base' into `base'.
+	set_base_tag (a_base: like base_tag)
+			-- `set_base_tag' with `a_base' into `base_tag'.
 		do
-			base := a_base
+			base_tag := a_base
 		ensure
-			set: base ~ a_base
+			set: base_tag ~ a_base
 		end
 
-	set_link (a_link: like link)
-			-- `set_link' with `a_link' into `link'.
+	set_link_tag (a_link: like link_tag)
+			-- `set_link_tag' with `a_link' into `link_tag'.
 		do
-			link := a_link
+			link_tag := a_link
 		ensure
-			set: link ~ a_link
+			set: link_tag ~ a_link
 		end
 
-	set_meta (a_meta: like meta)
-			-- `set_meta' with `a_meta' into `meta'.
+	set_meta_tag (a_meta: like meta_tag)
+			-- `set_meta_tag' with `a_meta' into `meta_tag'.
 		do
-			meta := a_meta
+			meta_tag := a_meta
 		ensure
-			set: meta ~ a_meta
+			set: meta_tag ~ a_meta
 		end
 
-	set_script (a_script: like script)
-			-- `set_script' with `a_script' into `script'.
+	set_script_tag (a_script: like script_tag)
+			-- `set_script_tag' with `a_script' into `script_tag'.
 		do
-			script := a_script
+			script_tag := a_script
 		ensure
-			set: script ~ a_script
+			set: script_tag ~ a_script
 		end
 
-	set_style (a_style: like style)
-			-- `set_style' with `a_style' into `style'.
+	set_style_tag (a_style: like style_tag)
+			-- `set_style_tag' with `a_style' into `style_tag'.
 		do
-			style := a_style
+			style_tag := a_style
 		ensure
-			set: style ~ a_style
+			set: style_tag ~ a_style
 		end
 
 feature {NONE} -- Implementation
 
-	title: detachable HTML_TITLE
-			-- `title' of Current {HTML_PAGE}.
+	title_tag: detachable HTML_TITLE
+			-- `title_tag' of Current {HTML_PAGE}.
 
-	base: detachable HTML_BASE
-			-- `base' of Current {HTML_PAGE}.
+	base_tag: detachable HTML_BASE
+			-- `base_tag' of Current {HTML_PAGE}.
 
-	link: detachable HTML_LINK
-			-- `link' of Current {HTML_PAGE}.
+	link_tag: detachable HTML_LINK
+			-- `link_tag' of Current {HTML_PAGE}.
 
-	meta: detachable HTML_META
-			-- `meta' of Current {HTML_PAGE}.
+	meta_tag: detachable HTML_META
+			-- `meta_tag' of Current {HTML_PAGE}.
 
-	script: detachable HTML_SCRIPT
-			-- `script' of Current {HTML_PAGE}.
+	script_tag: detachable HTML_SCRIPT
+			-- `script_tag' of Current {HTML_PAGE}.
 
-	style: detachable HTML_STYLE
-			-- `style' of Current {HTML_PAGE}.
+	style_tag: detachable HTML_STYLE
+			-- `style_tag' of Current {HTML_PAGE}.
 
 ;note
 	design: "[

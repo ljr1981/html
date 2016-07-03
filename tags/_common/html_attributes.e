@@ -105,13 +105,33 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_action.asp"
 		attribute Result := ["", "", Void, action_kw, is_quoted] ensure Result.attr_name.same_string (action_kw) end
 
-	border_attribute: attached like attribute_tuple_anchor
+	align: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_align.asp"
+		attribute Result := ["", "", Void, align_kw, is_quoted] ensure Result.attr_name.same_string (align_kw) end
+
+	valign: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_valign.asp"
+		attribute Result := ["", "", Void, valign_kw, is_quoted] ensure Result.attr_name.same_string (valign_kw) end
+
+	alt: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_alt.asp"
+		attribute Result := ["", "", Void, alt_kw, is_quoted] ensure Result.attr_name.same_string (alt_kw) end
+
+	border: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_table_border.asp"
 		attribute Result := ["0", "0", Void, border_kw, is_quoted] ensure Result.attr_name.same_string (border_kw) end
 
 	cols: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_cols.asp"
 		attribute Result := ["", "", Void, cols_kw, is_quoted] ensure Result.attr_name.same_string (cols_kw) end
+
+	cell_spacing: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_cellspacing.asp"
+		attribute Result := ["", "", Void, cell_spacing_kw, is_quoted] ensure Result.attr_name.same_string (cell_spacing_kw) end
+
+	cell_padding: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_cellpadding.asp"
+		attribute Result := ["", "", Void, cell_padding_kw, is_quoted] ensure Result.attr_name.same_string (cell_padding_kw) end
 
 	for: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_for.asp"
@@ -160,9 +180,17 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "srcattribute //www.w3schools.com/tags/attr_src.asp"
 		attribute Result := ["", "", Void, src_kw, is_quoted] ensure Result.attr_name.same_string (src_kw) end
 
+	style: attached like attribute_tuple_anchor
+		note EIS: "srcattribute //www.w3schools.com/tags/attr_style.asp"
+		attribute Result := ["", "", Void, style_kw, is_quoted] ensure Result.attr_name.same_string (style_kw) end
+
 	type: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_type.asp"
 		attribute Result := ["", "", Void, "type", is_quoted] ensure Result.attr_name.same_string (type_kw) end
+
+	target: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_target.asp"
+		attribute Result := ["", "", Void, target_kw, is_quoted] ensure Result.attr_name.same_string (target_kw) end
 
 	value: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_value.asp"
@@ -471,15 +499,40 @@ feature {NONE} -- Attributes: Media Events
 
 feature {NONE} -- Attributes: Datums
 
+	data_easing: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-easing.html"
+		attribute Result := ["", "", Void, data_easing_kw, is_quoted] ensure Result.attr_name.same_string (data_easing_kw) end
+		--data-easing
+
 	data_role: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["", "", Void, data_role_kw, is_quoted] ensure Result.attr_name.same_string (data_role_kw) end
 		--data-role
 
+	data_speed: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-speed.html"
+		attribute Result := ["", "", Void, data_speed_kw, is_quoted] ensure Result.attr_name.same_string (data_speed_kw) end
+		--data-speed
+
+	data_start: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-start.html"
+		attribute Result := ["", "", Void, data_start_kw, is_quoted] ensure Result.attr_name.same_string (data_start_kw) end
+		--data-start
+
 	data_theme: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["", "", Void, data_theme_kw, is_quoted] ensure Result.attr_name.same_string (data_theme_kw) end
 		--data-theme	swatch letter (a-z) - Default "c"
+
+	data_x: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-x.html"
+		attribute Result := ["", "", Void, data_x_kw, is_quoted] ensure Result.attr_name.same_string (data_x_kw) end
+		--data-x
+
+	data_y: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-y.html"
+		attribute Result := ["", "", Void, data_y_kw, is_quoted] ensure Result.attr_name.same_string (data_y_kw) end
+		--data-y
 
 	data_id: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
@@ -569,8 +622,8 @@ feature -- Setters
 	set_class_names (a_class_names: STRING)
 			-- `set_class_names' of `global_class' with `a_class_names'.
 		require
-			valid_but_has_invalid_characters: across a_class_names as ic all ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_ ").has (ic.item) end
-				-- Do not send characters other than: [a-zA-Z0-9] | '-' | '_'
+			valid_but_has_invalid_characters: across a_class_names as ic all ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_ ").has (ic.item) end
+				-- Do not send characters other than: [a-zA-Z0-9] | '-' | '_' | ' '
 			no_dot_but_has_dot: not a_class_names.has ('.')
 				-- Do not pass class names with prepended "." (example: .my_class)
 		do
@@ -626,7 +679,110 @@ feature -- Setters
 			set_attribute_value (agent global_id, a_value)
 		end
 
+feature {NONE} -- Implementation: Data Setters
+
+	set_data_easing (a_value: STRING) do set_attribute_value (agent data_easing, a_value)
+		ensure set: attached {STRING} data_easing.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_role (a_value: STRING) do set_attribute_value (agent data_role, a_value)
+		ensure set: attached {STRING} data_role.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_speed (a_value: STRING) do set_attribute_value (agent data_speed, a_value)
+		ensure set: attached {STRING} data_speed.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_start (a_value: STRING) do set_attribute_value (agent data_start, a_value)
+		ensure set: attached {STRING} data_start.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_theme (a_value: STRING) do set_attribute_value (agent data_theme, a_value)
+		ensure set: attached {STRING} data_theme.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_x (a_value: STRING) do set_attribute_value (agent data_x, a_value)
+		ensure set: attached {STRING} data_x.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_y (a_value: STRING) do set_attribute_value (agent data_y, a_value)
+		ensure set: attached {STRING} data_y.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_id (a_value: STRING) do set_attribute_value (agent data_id, a_value)
+		ensure set: attached {STRING} data_id.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_position (a_value: STRING) do set_attribute_value (agent data_position, a_value)
+		ensure set: attached {STRING} data_position.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_fullscreen (a_value: STRING) do set_attribute_value (agent data_fullscreen, a_value)
+		ensure set: attached {STRING} data_fullscreen.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_add_back_btn (a_value: STRING) do set_attribute_value (agent data_add_back_btn, a_value)
+		ensure set: attached {STRING} data_add_back_btn.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_back_btn_text (a_value: STRING) do set_attribute_value (agent data_back_btn_text, a_value)
+		ensure set: attached {STRING} data_back_btn_text.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_back_btn_theme (a_value: STRING) do set_attribute_value (agent data_back_btn_theme, a_value)
+		ensure set: attached {STRING} data_back_btn_theme.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_close_btn_text (a_value: STRING) do set_attribute_value (agent data_close_btn_text, a_value)
+		ensure set: attached {STRING} data_close_btn_text.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_dom_cache (a_value: STRING) do set_attribute_value (agent data_dom_cache, a_value)
+		ensure set: attached {STRING} data_dom_cache.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_overlay_theme (a_value: STRING) do set_attribute_value (agent data_overlay_theme, a_value)
+		ensure set: attached {STRING} data_overlay_theme.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_title (a_value: STRING) do set_attribute_value (agent data_title, a_value)
+		ensure set: attached {STRING} data_title.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_url (a_value: STRING) do set_attribute_value (agent data_url, a_value)
+		ensure set: attached {STRING} data_url.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_transition (a_value: STRING) do set_attribute_value (agent data_transition, a_value)
+		ensure set: attached {STRING} data_transition.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_rel (a_value: STRING) do set_attribute_value (agent data_rel, a_value)
+		ensure set: attached {STRING} data_rel.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_direction (a_value: STRING) do set_attribute_value (agent data_direction, a_value)
+		ensure set: attached {STRING} data_direction.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_icon (a_value: STRING) do set_attribute_value (agent data_icon, a_value)
+		ensure set: attached {STRING} data_icon.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_inline (a_value: STRING) do set_attribute_value (agent data_inline, a_value)
+		ensure set: attached {STRING} data_inline.attr_value as al_value and then al_value.same_string (a_value) end
+
 feature {NONE} -- Implementation: Setters
+
+	set_align (a_align: STRING)
+			-- `set_align' with `a_align'
+		do
+			set_attribute_value (agent align, a_align)
+		ensure
+			set: attached {STRING} align.attr_value as al_value and then al_value.same_string (a_align)
+		end
+
+	set_border (a_border: STRING)
+			-- `set_border' with `a_border'
+		do
+			set_attribute_value (agent border, a_border)
+		ensure
+			set: attached {STRING} border.attr_value as al_value and then al_value.same_string (a_border)
+		end
+
+	set_valign (a_valign: STRING)
+			-- `set_valign' with `a_valign'
+		do
+			set_attribute_value (agent valign, a_valign)
+		ensure
+			set: attached {STRING} valign.attr_value as al_value and then al_value.same_string (a_valign)
+		end
+
+	set_alt (a_alt: STRING)
+			-- `set_alt' with `a_alt'
+		do
+			set_attribute_value (agent alt, a_alt)
+		ensure
+			set: attached {STRING} alt.attr_value as al_value and then al_value.same_string (a_alt)
+		end
 
 	set_cols (a_cols: STRING)
 			-- `set_cols' with `a_cols'
@@ -634,6 +790,22 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent cols, a_cols)
 		ensure
 			set: attached {STRING} cols.attr_value as al_value and then al_value.same_string (a_cols)
+		end
+
+	set_cell_spacing (a_cell_spacing: STRING)
+			-- `set_cell_spacing' with `a_cell_spacing'
+		do
+			set_attribute_value (agent cell_spacing, a_cell_spacing)
+		ensure
+			set: attached {STRING} cell_spacing.attr_value as al_value and then al_value.same_string (a_cell_spacing)
+		end
+
+	set_cell_padding (a_cell_padding: STRING)
+			-- `set_cell_padding' with `a_cell_padding'
+		do
+			set_attribute_value (agent cell_padding, a_cell_padding)
+		ensure
+			set: attached {STRING} cell_padding.attr_value as al_value and then al_value.same_string (a_cell_padding)
 		end
 
 	set_height (a_value: STRING)
@@ -722,6 +894,22 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent src, a_value)
 		end
 
+	set_style (a_style_attr: STRING)
+			-- `set_style' with `a_style_attr'
+		do
+			set_attribute_value (agent style, a_style_attr)
+		ensure
+			set: attached {STRING} style.attr_value as al_value and then al_value.same_string (a_style_attr)
+		end
+
+	set_target (a_target: STRING)
+			-- `set_target' with `a_target'
+		do
+			set_attribute_value (agent target, a_target)
+		ensure
+			set: attached {STRING} target.attr_value as al_value and then al_value.same_string (a_target)
+		end
+
 	set_type (a_type: STRING)
 			-- `set_type' with `a_type'
 		do
@@ -767,8 +955,13 @@ feature {NONE} -- Attribute List
 
 				-- Common
 			Result.force (action, action.attr_name)
-			Result.force (border_attribute, border_attribute.attr_name)
+			Result.force (align, align.attr_name)
+			Result.force (valign, valign.attr_name)
+			Result.force (alt, alt.attr_name)
+			Result.force (border, border.attr_name)
 			Result.force (cols, cols.attr_name)
+			Result.force (cell_spacing, cell_spacing.attr_name)
+			Result.force (cell_padding, cell_padding.attr_name)
 			Result.force (for, for.attr_name)
 			Result.force (height, height.attr_name)
 			Result.force (href, href.attr_name)
@@ -780,12 +973,19 @@ feature {NONE} -- Attribute List
 			Result.force (rows, rows.attr_name)
 			Result.force (size, size.attr_name)
 			Result.force (src, src.attr_name)
+			Result.force (style, style.attr_name)
+			Result.force (target, target.attr_name)
 			Result.force (type, type.attr_name)
 			Result.force (value, value.attr_name)
 			Result.force (width, width.attr_name)
 			Result.force (wrap, wrap.attr_name)
 
 				-- Datums
+			Result.force (data_x, data_x.attr_name)
+			Result.force (data_y, data_y.attr_name)
+			Result.force (data_speed, data_speed.attr_name)
+			Result.force (data_start, data_start.attr_name)
+			Result.force (data_easing, data_easing.attr_name)
 			Result.force (data_role, data_role.attr_name)
 			Result.force (data_theme, data_theme.attr_name)
 			Result.force (data_id, data_id.attr_name)

@@ -16,7 +16,8 @@ inherit
 			data_rel,
 			data_role,
 			data_theme,
-			data_transition
+			data_transition,
+			target, set_target
 		end
 
 create

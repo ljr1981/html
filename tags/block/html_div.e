@@ -9,8 +9,14 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			align, set_align,
 			on_submit,
-			role
+			role, set_role,
+			data_x, set_data_x,
+			data_y, set_data_y,
+			data_speed, set_data_speed,
+			data_start, set_data_start,
+			data_easing, set_data_easing
 		end
 
 create

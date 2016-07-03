@@ -53,22 +53,22 @@ feature -- Test routines
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
 
 			create l_base
-			l_head.set_base (l_base)
+			l_head.set_base_tag (l_base)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
 			create l_link
-			l_head.set_link (l_link)
+			l_head.set_link_tag (l_link)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link></head><body></body></html>", l_html.html_out)
 			create l_meta
-			l_head.set_meta (l_meta)
+			l_head.set_meta_tag (l_meta)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta></head><body></body></html>", l_html.html_out)
 			create l_script
-			l_head.set_script (l_script)
+			l_head.set_script_tag (l_script)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script></head><body></body></html>", l_html.html_out)
 			create l_style
-			l_head.set_style (l_style)
+			l_head.set_style_tag (l_style)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
 			create l_title
-			l_head.set_title (l_title)
+			l_head.set_title_tag (l_title)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><title></title><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
 		end
 

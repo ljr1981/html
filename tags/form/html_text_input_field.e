@@ -16,6 +16,7 @@ inherit
 		end
 
 create
+	default_create,
 	make_with_data
 
 feature {NONE} -- Initialization
@@ -35,7 +36,7 @@ feature {NONE} -- Initialization
 			last_new_input.set_maxlength (a_maxlength)
 			last_new_input.set_size (a_size)
 			add_content (last_new_input)
-			
+
 			if a_is_with_line_breaks then
 				add_content (create {HTML_BR})
 			end
