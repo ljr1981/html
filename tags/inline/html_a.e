@@ -9,14 +9,14 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
-			href,
-			data_direction,
-			data_icon,
-			data_inline,
-			data_rel,
-			data_role,
-			data_theme,
-			data_transition,
+			href, set_href,
+			data_direction, set_data_direction,
+			data_icon, set_data_icon,
+			data_inline, set_data_inline,
+			data_rel, set_data_rel,
+			data_role, set_data_role,
+			data_theme, set_data_theme,
+			data_transition, set_data_transition,
 			target, set_target
 		end
 

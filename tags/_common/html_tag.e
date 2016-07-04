@@ -152,6 +152,8 @@ feature -- RESTful
 				Finally, if there is redirection involved, then the
 				uri of the redirection is inserted into the JS-code.
 				]"
+		require
+			is_restful: is_restful
 		local
 			l_script_text: STRING
 		do
@@ -186,7 +188,7 @@ $(function() {
   });
 });
 ]"
-			check is_restful: is_restful then
+--			check is_restful: is_restful then
 				l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
 				check no_rest_uri_tag: not l_script_text.has_substring ("<<REST_URI>>") end
 
@@ -205,7 +207,7 @@ $(function() {
 					l_script_text.replace_substring_all ("<<REDIRECTION>>", "")
 				end
 				check no_redirection_tag: not l_script_text.has_substring ("<<REDIRECTION>>") end
-			end
+--			end
 			create Result.make_with_javascript (l_script_text)
 			Result.set_type ("text/javascript")
 		end

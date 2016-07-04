@@ -36,6 +36,14 @@ feature -- Output
 	tag_name: STRING = "script"
 			-- <Precursor>
 
+feature -- Constants
+
+	doc_ready_script_template: STRING = "[
+$("document").ready(function(){
+	<<CONTENT>>
+});
+]"
+
 invariant
 	no_script: script_source.is_empty implies not attached script_source_content implies scripts.count = 0
 
