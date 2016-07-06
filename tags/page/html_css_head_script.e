@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 
 note
 	design_intent: "[
+		When one needs to create CSS <head> <script> items.
 		]"
 
 end
