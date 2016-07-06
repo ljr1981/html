@@ -2,7 +2,12 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="html" uuid="2D1BC207-70B3-3605-B80D-00000D498A9B" library_target="html">
 	<description>html implementation</description>
 	<target name="html">
+		<description>HTML Library target</description>
 		<root all_classes="true"/>
+		<version major="0" minor="0" release="0" build="1" company="Moonshot Software, LLC" product="HTML Library" trademark="Moonshot" copyright="2016"/>
+		<file_rule>
+			<exclude>/test$</exclude>
+		</file_rule>
 		<option warning="true" void_safety="transitional" syntax="provisional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
@@ -12,6 +17,10 @@
 		<library name="css" location="..\css\css.ecf"/>
 		<library name="framework" location="..\framework\framework.ecf"/>
 		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
+		<library name="default_standalone" location="$GITHUB\ewf\library\server\wsf\default\standalone-safe.ecf"/>
+		<library name="encoder-safe" location="$GITHUB\ewf\library\text\encoder\encoder-safe.ecf"/>
+		<library name="http-safe" location="$GITHUB\ewf\library\network\protocol\http\http-safe.ecf"/>
+		<library name="wsf-safe" location="$GITHUB\ewf\library\server\wsf\wsf-safe.ecf"/>
 		<cluster name="html" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>
@@ -23,7 +32,7 @@
 		</cluster>
 	</target>
 	<target name="test" extends="html">
-		<description>html Tests</description>
+		<description>HTML Library Test target</description>
 		<root class="ANY" feature="default_create"/>
 		<file_rule>
 			<exclude>/.git$</exclude>

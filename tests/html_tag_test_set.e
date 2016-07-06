@@ -230,6 +230,11 @@ feature -- Testing: {HTML_SCRIPT}
 			create l_script
 			l_script.set_attribute_value (agent l_script.src, "jquery-2.3.3.js")
 			assert_strings_equal ("jquery_script", "<script src=%"jquery-2.3.3.js%"></script>", l_script.html_out)
+			l_script.set_src ("jquery.js")
+			l_script.set_type ("text/javascript")
+			assert_strings_equal ("jquery_script_1", "<script src=%"jquery.js%"  type=%"text/javascript%"></script>", l_script.html_out)
+			create l_script.make_with_javascript_file_name ("jquery.js")
+			assert_strings_equal ("jquery_script_2", "<script src=%"jquery.js%"  type=%"text/javascript%"></script>", l_script.html_out)
 
 			create l_script.make_with_src ("jquery-2.3.3.js")
 			assert_strings_equal ("jquery_script", "<script src=%"jquery-2.3.3.js%"></script>", l_script.html_out)

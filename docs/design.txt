@@ -1,0 +1,21 @@
+JQuery-UI
+=========
+
+We now have a class to generate:
+
+1. JQ-UI JS that goes in the <head> <script>
+
+Based on ID + Class, this generated JS <script> references particular HTML element-sets.
+
+Because the ID/Class vary in the <script>, we can write class abstractions to capture this, which thing we have done.
+
+Now, the core need is to tell each particular HTML element-set-item what JQUI-item(s) have references that apply to it, where it can inject its own Class-name(s) and IDs into each JQUI-item.
+
+Ideas:
+======
+
+(1) Provide the HTML classes with a [G] generic parameter, which specifies which JQUI-item-collection, such that:
+
+HTML_TAG [G -> JQUI_COLLECTOR]
+
+The JQUI_COLLECTOR can be abstracted up above JQuery-UI to things that are CSS/JS in general.
