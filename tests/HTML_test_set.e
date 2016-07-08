@@ -117,6 +117,7 @@ feature -- Test routines
 			create l_page.make_with_content (<<>>)
 			create l_script
 			create l_script.make_with_content (<<>>)
+			create l_source
 			create l_style
 			create l_style.make_with_content (<<>>)
 			create l_table

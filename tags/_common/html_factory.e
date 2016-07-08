@@ -69,24 +69,6 @@ feature -- Form Element Factories
 	new_input: HTML_INPUT do create Result; last_new_input := Result end
 	last_new_input: like new_input attribute Result := new_input end
 
-		-- Default Spinner
-	new_jqui_default_spinner (a_id: STRING; a_default_value: INTEGER_32): HTML_JQUI_SPINNER
-		do
-			create Result.make_as_default (a_id, a_default_value)
-			last_new_jqui_default_spinner_item := Result
-		end
-	last_new_jqui_default_spinner: like new_jqui_default_spinner do check attached last_new_jqui_default_spinner_item as al_result then Result := al_result end end
-	last_new_jqui_default_spinner_item: detachable like new_jqui_default_spinner
-
-		-- "Fullset" Spinner (one created with a full-set of creation settings arguments)
-	new_jqui_fullset_spinner (a_id: STRING; a_settings: attached like last_new_jqui_fullset_spinner_item.make_settings_anchor): HTML_JQUI_SPINNER
-		do
-			create Result.make_with_settings (a_id, a_settings)
-			last_new_jqui_fullset_spinner_item := Result
-		end
-	last_new_jqui_fullset_spinner: like new_jqui_fullset_spinner do check attached last_new_jqui_fullset_spinner_item as al_result then Result := al_result end end
-	last_new_jqui_fullset_spinner_item: detachable like new_jqui_fullset_spinner
-
 	new_label: HTML_LABEL do create Result; last_new_label := Result end
 	last_new_label: like new_label attribute Result := new_label end
 
