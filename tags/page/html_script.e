@@ -40,6 +40,13 @@ feature -- Output
 	tag_name: STRING = "script"
 			-- <Precursor>
 
+	document_ready_script: STRING
+			-- `document_ready_script' intended for placement in <head> tag.
+		do
+			set_content_wrapper_template (doc_ready_script_template)
+			Result := html_out
+		end
+
 feature -- Constants
 
 	doc_ready_script_template: STRING = "[

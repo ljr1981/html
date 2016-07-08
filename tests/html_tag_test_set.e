@@ -82,9 +82,11 @@ feature -- Testing: Creation Tests
 	general_html_tag_creation_tests
 			-- `general_html_tag_creation_tests'.
 		local
+				-- block
 			l_a: HTML_A
 			l_br: HTML_BR
 			l_div: HTML_DIV
+			l_slider: HTML_JQUI_SLIDER
 			l_footer: HTML_FOOTER
 			l_h1: HTML_H1
 			l_h2: HTML_H2
@@ -96,6 +98,7 @@ feature -- Testing: Creation Tests
 			l_check_group: HTML_CHECKBOX_GROUP
 			l_fieldset: HTML_FIELDSET
 			l_input: HTML_INPUT
+			l_spinner: HTML_JQUI_SPINNER
 			l_label: HTML_LABEL
 			l_legend: HTML_LEGEND
 			l_optgroup: HTML_OPTGROUP
@@ -122,6 +125,8 @@ feature -- Testing: Creation Tests
 			create l_check_group.make_with_data ("check_label", "check_name", <<"value_1">>, False)
 			create l_fieldset
 			create l_input
+			create l_spinner.make_as_default ("my_spiner", 10)
+			create l_slider.make_with_settings ("sliderCtrl1", 75, 0, 200, 25, "slow")
 			create l_label
 			create l_legend
 			create l_optgroup
@@ -205,6 +210,7 @@ feature -- Testing: Creation Tests
 			create l_h2
 			create l_h3
 			create l_text
+			create l_page
 
 			l_text.set_text_content ("This is some text.")
 			l_div.html_content_items.force (l_text)

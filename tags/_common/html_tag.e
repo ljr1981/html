@@ -390,13 +390,55 @@ feature -- Output
 			valid_tag: across valid_tags as ic some ic.item.same_string (Result) end
 		end
 
+	add_head_items (a_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]; a_css_files: HASH_TABLE [HTML_LINK, INTEGER]; a_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER])
+		local
+			l_script: HTML_SCRIPT
+		do
+			if attached {HTML_HEAD_ITEM_GENERATOR} Current as al_current then
+				across
+					al_current.javascript_file_scripts as ic_scripts
+				loop
+					a_javascript_files.force (ic_scripts.item, ic_scripts.item.html_out.hash_code)
+				end
+				across
+					al_current.css_file_links as ic_links
+				loop
+					a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
+				end
+				create l_script
+				l_script.set_type ("text/javascript")
+				l_script.set_text_content (al_current.generated_script)
+				a_scripts.force (l_script, l_script.html_out.hash_code)
+			end
+			across
+				html_content_items as ic_content_items
+			loop
+				ic_content_items.item.add_head_items (a_javascript_files, a_css_files, a_scripts)
+			end
+		end
+
+	content_wrapper_template: like content_wrapper_template_type_anchor
+			-- A `content_wrapper_template', which optionally wraps <<CONTENT>> in `common_out'
+			--	between the `Start_tag' and `End_tag' items.
+
+	set_content_wrapper_template (a_content_wrapper_template: attached like content_wrapper_template)
+			-- `set_content_wrapper_template' with `a_content_wrapper_template'
+		do
+			content_wrapper_template := a_content_wrapper_template
+		ensure
+			set: content_wrapper_template ~ a_content_wrapper_template
+		end
+
 feature {NONE} -- Implementation: Output
 
-	not_pretty: BOOLEAN = False
-	prettified: BOOLEAN = True
+	Not_pretty: BOOLEAN = False
+	Prettified: BOOLEAN = True
 
-	common_out (a_prettified: BOOLEAN): STRING
+	common_out (a_prettified: like Prettified): STRING
 			-- `common_out' of `a_prettified' (True/False).
+		local
+			l_content,
+			l_template: STRING
 		do
 			create Result.make_empty
 
@@ -413,6 +455,25 @@ feature {NONE} -- Implementation: Output
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
 
 				-- Nested items ...
+			l_content := content_only_html_out (a_prettified)
+
+			if attached content_wrapper_template as al_template then
+				l_template := al_template.twin
+				l_template.replace_substring_all ("<<CONTENT>>", l_content)
+				Result.append_string_general (l_template)
+			else
+				Result.append_string_general (l_content)
+			end
+
+				-- End tag ...
+			Result.append_string (end_tag)
+			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+		end
+
+	content_only_html_out (a_prettified: like Prettified): STRING
+			-- The `content_only_html_out', which is the "stuff" between the `Start_tag' and `End_tag'
+		do
+			create Result.make_empty
 			across
 				html_content_items as ic_content_list
 			loop
@@ -442,11 +503,10 @@ feature {NONE} -- Implementation: Output
 					Result.append_string (ic_scripts.item.html_out)
 				end
 			end
-
-				-- End tag ...
-			Result.append_string (end_tag)
-			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
 		end
+
+	content_wrapper_template_type_anchor: detachable STRING
+			-- `content_wrapper_template_type_anchor' for `content_wrapper_template' and `set_content_wrapper_template'.
 
 feature {NONE} -- Implementation: JavaScript
 
