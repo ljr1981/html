@@ -172,16 +172,16 @@ feature -- Testing: Creation Tests
 --			assert_strings_equal ("style_2", "{border:1px solid black; border-collapse:collapse; page-break-inside:avoid;}", l_table.style_out)
 		end
 
-	external_css_style_sheet_tests
-			-- `external_css_style_sheet_tests'
-		local
-			l_div: HTML_DIV
-		do
-			create l_div
-			l_div.set_external_css_file_name ("stylesheet.css")
-			assert_attached ("has_external_css", l_div.external_css)
-			assert_integers_equal ("has_files", 1, l_div.external_css_files.count)
-		end
+--	external_css_style_sheet_tests
+--			-- `external_css_style_sheet_tests'
+--		local
+--			l_div: HTML_DIV
+--		do
+--			create l_div
+--			l_div.set_external_css_file_name ("stylesheet.css")
+--			assert_attached ("has_external_css", l_div.external_css)
+--			assert_integers_equal ("has_files", 1, l_div.external_css_files.count)
+--		end
 
 	html_text_tests
 			-- `html_text_tests'.

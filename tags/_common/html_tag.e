@@ -41,9 +41,7 @@ feature {NONE} -- Initialization
 	default_create
 			-- <Precursor>
 		do
-			if not script_source.is_empty and then attached script_source_content as al_script_content then
-				add_script (al_script_content)
-			end
+			Precursor
 		end
 
 	make_with_content (a_content: ARRAY [attached like content_anchor])
@@ -188,26 +186,24 @@ $(function() {
   });
 });
 ]"
---			check is_restful: is_restful then
-				l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
-				check no_rest_uri_tag: not l_script_text.has_substring ("<<REST_URI>>") end
+			l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
+			check no_rest_uri_tag: not l_script_text.has_substring ("<<REST_URI>>") end
 
-				if attached {STRING} global_class.attr_value as al_reference and then not al_reference.is_empty then
-					l_script_text.replace_substring_all ("<<REFERENCE>>", "." + al_reference)
-				elseif attached {STRING} global_id.attr_value as al_reference and then not al_reference.is_empty then
-					l_script_text.replace_substring_all ("<<REFERENCE>>", "#" + al_reference)
-				else
-					l_script_text.replace_substring_all ("<<REFERENCE>>", tag_name)
-				end
-				check no_reference_tag: not l_script_text.has_substring ("<<REFERENCE>>") end
+			if attached {STRING} global_class.attr_value as al_reference and then not al_reference.is_empty then
+				l_script_text.replace_substring_all ("<<REFERENCE>>", "." + al_reference)
+			elseif attached {STRING} global_id.attr_value as al_reference and then not al_reference.is_empty then
+				l_script_text.replace_substring_all ("<<REFERENCE>>", "#" + al_reference)
+			else
+				l_script_text.replace_substring_all ("<<REFERENCE>>", tag_name)
+			end
+			check no_reference_tag: not l_script_text.has_substring ("<<REFERENCE>>") end
 
-				if is_redirection_needed then
-					l_script_text.replace_substring_all ("<<REDIRECTION>>", "window.location.assign(%"" + redirection_uri + "%")")
-				else
-					l_script_text.replace_substring_all ("<<REDIRECTION>>", "")
-				end
-				check no_redirection_tag: not l_script_text.has_substring ("<<REDIRECTION>>") end
---			end
+			if is_redirection_needed then
+				l_script_text.replace_substring_all ("<<REDIRECTION>>", "window.location.assign(%"" + redirection_uri + "%")")
+			else
+				l_script_text.replace_substring_all ("<<REDIRECTION>>", "")
+			end
+			check no_redirection_tag: not l_script_text.has_substring ("<<REDIRECTION>>") end
 			create Result.make_with_javascript (l_script_text)
 			Result.set_type ("text/javascript")
 		end
@@ -330,14 +326,6 @@ feature -- Setting: Scripts
 				-- Promises that `scripts' will have all `a_scripts' loaded when finished.
 		end
 
-	set_external_css_file_name (a_external_css_file_name: like external_css_file_name)
-			-- `set_external_css_file_name' with `a_external_css_file_name'
-		do
-			external_css_file_name := a_external_css_file_name
-		ensure
-			set: external_css_file_name ~ a_external_css_file_name
-		end
-
 feature -- Setting: Text Content
 
 	set_text_content (a_text: like text_content)
@@ -393,6 +381,7 @@ feature -- Output
 	add_head_items (a_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]; a_css_files: HASH_TABLE [HTML_LINK, INTEGER]; a_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER])
 		local
 			l_script: HTML_SCRIPT
+			l_script_text: STRING
 		do
 			if attached {HTML_HEAD_ITEM_GENERATOR} Current as al_current then
 				across
@@ -405,10 +394,19 @@ feature -- Output
 				loop
 					a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
 				end
-				create l_script
-				l_script.set_type ("text/javascript")
-				l_script.set_text_content (al_current.generated_script)
-				a_scripts.force (l_script, l_script.html_out.hash_code)
+				create l_script_text.make_empty
+				if not al_current.generated_script.is_empty then
+					l_script_text.append_string_general (al_current.generated_script)
+				end
+				if not al_current.hand_coded_script.is_empty then
+					l_script_text.append_string_general (al_current.hand_coded_script)
+				end
+				if not l_script_text.is_empty then
+					create l_script
+					l_script.set_type ("text/javascript")
+					l_script.set_text_content (l_script_text)
+					a_scripts.force (l_script, l_script.html_out.hash_code)
+				end
 			end
 			across
 				html_content_items as ic_content_items
@@ -507,107 +505,6 @@ feature {NONE} -- Implementation: Output
 
 	content_wrapper_template_type_anchor: detachable STRING
 			-- `content_wrapper_template_type_anchor' for `content_wrapper_template' and `set_content_wrapper_template'.
-
-feature {NONE} -- Implementation: JavaScript
-
-	script_source_content: detachable HTML_SCRIPT
-			-- Optional `script_source_content' from `script_source'.
-		do
-			if not script_source.is_empty then
-				create Result.make_with_javascript (script_source)
-			end
-		ensure
-			non_void_result_but_empty: attached Result implies not script_source.is_empty
-				-- Promises that a non-Void Result will not have an empty `script_source'.
-				-- A non-empty `script_source' implies a non-Void Result as JavaScript.
-		end
-
-	script_source: STRING
-			-- Optional `script_source' like JavaScript.
-		attribute
-			create Result.make_empty
-		end
-
-feature -- External CSS
-
-	external_css_files: ARRAYED_LIST [attached like external_css]
-			-- `external_css_files' from `external_css' and `html_content_items'.
-			-- Builds HTML_LINK items into a Result list for this and all contained
-			--	HTML elements.
-		do
-			create Result.make (1)
-			if attached external_css as al_link then
-				Result.force (al_link)
-			end
-			across
-				html_content_items as ic_content
-			loop
-				Result.append (ic_content.item.external_css_files)
-			end
-		ensure
-			external_css_content_but_empty: attached external_css implies not Result.is_empty
-				-- Promises that having an `external_css' reference means at least 1 link in Result.
-				-- More items in the Result means subordinate HTML elements also have `external_css_files'.
-		end
-
-feature {TEST_SET_BRIDGE} -- Implementation: Ext CSS
-
-	external_css: detachable HTML_LINK
-			-- `external_css' as {HTML_LINK} based on qualified `external_css_file_name'.
-		do
-			if not external_css_file_name.is_empty then
-				create Result
-				Result.set_rel (Stylesheet_kw)
-				Result.set_href (external_css_file_name)
-			end
-		ensure
-			file_name_means_result_but_void: (not external_css_file_name.is_empty) implies attached Result
-				-- Promises that if `external_css_file_name' has content (not empty), then
-				--	a non-Void (attached) {HTML_LINK} is the Result.
-
-			rel_set_but_not: attached Result implies
-								attached {STRING} Result.rel.attr_value as al_value and then
-								al_value.same_string (Stylesheet_kw)
-				-- Promises that an attached Result has `Stylesheet_kw' as its rel.
-
-			href_set_but_not: attached Result implies
-								attached {STRING} Result.href.attr_value as al_value and then
-								al_value.same_string (external_css_file_name)
-				-- Promises that an attached Result has `external_css_file_name' set to href attribute name.
-		end
-
-	external_css_file_name: STRING attribute create Result.make_empty end
-			-- `external_css_file_name' (if any). Empty if not.
-
-feature -- External JS
-
-	external_js_files: ARRAYED_LIST [attached like external_js]
-			-- `external_js_files' from `external_js' and `html_content_items'.
-		do
-			create Result.make (1)
-			if attached external_js as al_link then
-				Result.force (al_link)
-			end
-			across
-				html_content_items as ic_content
-			loop
-				Result.append (ic_content.item.external_js_files)
-			end
-		end
-
-feature {NONE} -- Implementation: Ext JS
-
-	external_js: detachable HTML_SCRIPT
-			-- `external_js' based on qualified `external_js_file_name'.
-		do
-			if not external_js_file_name.is_empty then
-				create Result
-				Result.set_source (external_js_file_name)
-			end
-		end
-
-	external_js_file_name: STRING attribute create Result.make_empty end
-			-- `external_js_file_name' (if any). Empty if not.
 
 feature {NONE} -- Implementation: Constants
 

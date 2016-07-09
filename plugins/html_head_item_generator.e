@@ -21,6 +21,11 @@ inherit
 
 feature -- Access
 
+	hand_coded_script: attached like generated_script_type_anchor
+			-- `hand_coded_script'
+		deferred
+		end
+
 	generated_script: attached like generated_script_type_anchor
 			--`generated_script' of Current.
 
