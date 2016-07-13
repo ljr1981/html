@@ -49,6 +49,12 @@ feature -- Block Element Factories
 	new_span: HTML_SPAN do create Result; last_new_span := Result end
 	last_new_span: like new_span attribute Result := new_span end
 
+	new_small: HTML_SMALL do create Result; last_new_small := Result end
+	last_new_small: like new_small attribute Result := new_small end
+
+	new_mark: HTML_MARK do create Result; last_new_mark := Result end
+	last_new_mark: like new_mark attribute Result := new_mark end
+
 feature -- Form Element Factories
 
 	new_button: HTML_BUTTON do create Result; last_new_button := Result end

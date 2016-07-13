@@ -99,10 +99,12 @@ feature -- Testing: Creation Tests
 			l_input: HTML_INPUT
 			l_label: HTML_LABEL
 			l_legend: HTML_LEGEND
+			l_mark: HTML_MARK
 			l_optgroup: HTML_OPTGROUP
 			l_option: HTML_OPTION
 			l_radio: HTML_RADIO_INPUT_FIELD
 			l_radio_group: HTML_RADIO_INPUT_FIELD_GROUP
+			l_small: HTML_SMALL
 			l_select: HTML_SELECT
 			l_textarea: HTML_TEXTAREA
 			l_text: HTML_TEXT_INPUT_FIELD
