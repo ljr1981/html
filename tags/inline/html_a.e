@@ -9,8 +9,10 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			aria_label, set_aria_label,
 			href, set_href,
 			data_direction, set_data_direction,
+			data_dismiss, set_data_dismiss,
 			data_icon, set_data_icon,
 			data_inline, set_data_inline,
 			data_rel, set_data_rel,

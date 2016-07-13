@@ -109,6 +109,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_align.asp"
 		attribute Result := ["", "", Void, align_kw, is_quoted] ensure Result.attr_name.same_string (align_kw) end
 
+	aria_label: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_aria_label.asp"
+		attribute Result := ["", "", Void, aria_label_kw, is_quoted] ensure Result.attr_name.same_string (aria_label_kw) end
+
 	valign: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_valign.asp"
 		attribute Result := ["", "", Void, valign_kw, is_quoted] ensure Result.attr_name.same_string (valign_kw) end
@@ -499,6 +503,11 @@ feature {NONE} -- Attributes: Media Events
 
 feature {NONE} -- Attributes: Datums
 
+	data_dismiss: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_dismiss_kw, is_quoted] ensure Result.attr_name.same_string (data_dismiss_kw) end
+		--data-dismiss	string - ???
+
 	data_easing: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-easing.html"
 		attribute Result := ["", "", Void, data_easing_kw, is_quoted] ensure Result.attr_name.same_string (data_easing_kw) end
@@ -681,6 +690,9 @@ feature -- Setters
 
 feature {NONE} -- Implementation: Data Setters
 
+	set_data_dismiss (a_value: STRING) do set_attribute_value (agent data_dismiss, a_value)
+		ensure set: attached {STRING} data_dismiss.attr_value as al_value and then al_value.same_string (a_value) end
+
 	set_data_easing (a_value: STRING) do set_attribute_value (agent data_easing, a_value)
 		ensure set: attached {STRING} data_easing.attr_value as al_value and then al_value.same_string (a_value) end
 
@@ -758,6 +770,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent align, a_align)
 		ensure
 			set: attached {STRING} align.attr_value as al_value and then al_value.same_string (a_align)
+		end
+
+	set_aria_label (a_aria_label: STRING)
+			-- `set_aria_label' with `a_aria_label'
+		do
+			set_attribute_value (agent aria_label, a_aria_label)
+		ensure
+			set: attached {STRING} aria_label.attr_value as al_value and then al_value.same_string (a_aria_label)
 		end
 
 	set_border (a_border: STRING)
@@ -956,6 +976,7 @@ feature {NONE} -- Attribute List
 				-- Common
 			Result.force (action, action.attr_name)
 			Result.force (align, align.attr_name)
+			Result.force (aria_label, aria_label.attr_name)
 			Result.force (valign, valign.attr_name)
 			Result.force (alt, alt.attr_name)
 			Result.force (border, border.attr_name)
@@ -981,6 +1002,7 @@ feature {NONE} -- Attribute List
 			Result.force (wrap, wrap.attr_name)
 
 				-- Datums
+			Result.force (data_dismiss, data_dismiss.attr_name)
 			Result.force (data_x, data_x.attr_name)
 			Result.force (data_y, data_y.attr_name)
 			Result.force (data_speed, data_speed.attr_name)
