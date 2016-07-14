@@ -129,6 +129,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_cols.asp"
 		attribute Result := ["", "", Void, cols_kw, is_quoted] ensure Result.attr_name.same_string (cols_kw) end
 
+	content: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_content.asp"
+		attribute Result := ["", "", Void, content_kw, is_quoted] ensure Result.attr_name.same_string (content_kw) end
+
 	cell_spacing: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_cellspacing.asp"
 		attribute Result := ["", "", Void, cell_spacing_kw, is_quoted] ensure Result.attr_name.same_string (cell_spacing_kw) end
@@ -160,7 +164,6 @@ feature {NONE} -- Tag-specific Attributes
 	name: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_name.asp"
 		attribute Result := ["", "", Void, name_kw, is_quoted] ensure Result.attr_name.same_string (name_kw) end
-	name_kw: STRING = "name"
 
 	rel: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/TAgs/att_a_rel.asp"
@@ -788,6 +791,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} border.attr_value as al_value and then al_value.same_string (a_border)
 		end
 
+	set_content (a_content: STRING)
+			-- `set_content' with `a_content'
+		do
+			set_attribute_value (agent content, a_content)
+		ensure
+			set: attached {STRING} content.attr_value as al_value and then al_value.same_string (a_content)
+		end
+
 	set_valign (a_valign: STRING)
 			-- `set_valign' with `a_valign'
 		do
@@ -981,6 +992,7 @@ feature {NONE} -- Attribute List
 			Result.force (alt, alt.attr_name)
 			Result.force (border, border.attr_name)
 			Result.force (cols, cols.attr_name)
+			Result.force (content, content.attr_name)
 			Result.force (cell_spacing, cell_spacing.attr_name)
 			Result.force (cell_padding, cell_padding.attr_name)
 			Result.force (for, for.attr_name)

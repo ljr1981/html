@@ -8,6 +8,10 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			content, set_content,
+			name, set_name
+		end
 
 create
 	default_create,
