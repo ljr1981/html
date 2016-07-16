@@ -36,6 +36,12 @@ inherit
 			out
 		end
 
+	HTML_HEAD_ITEM_GENERATOR
+		undefine
+			default_create,
+			out
+		end
+
 feature {NONE} -- Initialization
 
 	default_create
@@ -70,18 +76,6 @@ feature {NONE} -- Initialization
 			default_create
 		end
 
-	make_restful_on_class (a_class, a_uri: STRING)
-		do
-			set_class_names (a_class)
-			make_restful (a_uri)
-		end
-
-	make_restful (a_uri: like rest_uri)
-			-- `make_restful' with `a_uri'.
-		do
-			set_rest_uri (a_uri)
-		end
-
 feature -- Style
 
 	style_rule: CSS_RULE
@@ -113,152 +107,6 @@ feature -- HTML Content
 			-- `text_content' of Current {HTML_TAG}.
 		attribute
 			create Result.make_empty
-		end
-
-feature -- HTML Scripts
-
-	scripts: ARRAYED_LIST [HTML_SCRIPT]
-			-- `scripts' placed in Current {HTML_TAG}.
-		note
-			design: "[
-				Such that:
-				
-				<tag> ... <script> ... </script></tag>
-				
-				This allows scripting to be placed right at the particular tag-level.
-				]"
-		attribute
-			create Result.make (1)
-		end
-
-feature -- RESTful
-
-	Rest_script: HTML_SCRIPT
-			-- `Rest_script' is one of (future) many.
-		note
-			design: "[
-				The serialaizeObject function is designed to serialize
-				a DOM object and all its enclosed objects as key:value
-				pairs (e.g. name:value where name and value are attributes
-				on the <tag>).
-				
-				The second function is designed to take the output of
-				serializeObject and form it up as JSON, sending it to
-				the Server at the <<REST_URI>> message address to be
-				processed by the Server.
-				
-				Finally, if there is redirection involved, then the
-				uri of the redirection is inserted into the JS-code.
-				]"
-		require
-			is_restful: is_restful
-		local
-			l_script_text: STRING
-		do
-			l_script_text := "[
-$.fn.serializeObject = function() {
-  var o = {};
-  var a = this.serializeArray();
-  $.each(a, function() {
-    if (o[this.name] !== undefined) {
-      if (!o[this.name].push) {
-        o[this.name] = [o[this.name]];
-      }
-      o[this.name].push(this.value || '');
-    } else {
-      o[this.name] = this.value || '';
-    }
-  });
-  return o;
-};
-
-$(function() {
-  $('<<REFERENCE>>').submit(function() {
-    var jsonData = JSON.stringify($('<<REFERENCE>>').serializeObject())
-    $.ajax({
-		url: '<<REST_URI>>',
-		type: 'POST',
-		contentType: 'application/json',
-		data: (jsonData)
-	});
-	<<REDIRECTION>>
-    return false;
-  });
-});
-]"
-			l_script_text.replace_substring_all ("<<REST_URI>>", rest_uri)
-			check no_rest_uri_tag: not l_script_text.has_substring ("<<REST_URI>>") end
-
-			if attached {STRING} global_class.attr_value as al_reference and then not al_reference.is_empty then
-				l_script_text.replace_substring_all ("<<REFERENCE>>", "." + al_reference)
-			elseif attached {STRING} global_id.attr_value as al_reference and then not al_reference.is_empty then
-				l_script_text.replace_substring_all ("<<REFERENCE>>", "#" + al_reference)
-			else
-				l_script_text.replace_substring_all ("<<REFERENCE>>", tag_name)
-			end
-			check no_reference_tag: not l_script_text.has_substring ("<<REFERENCE>>") end
-
-			if is_redirection_needed then
-				l_script_text.replace_substring_all ("<<REDIRECTION>>", "window.location.assign(%"" + redirection_uri + "%")")
-			else
-				l_script_text.replace_substring_all ("<<REDIRECTION>>", "")
-			end
-			check no_redirection_tag: not l_script_text.has_substring ("<<REDIRECTION>>") end
-			create Result.make_with_javascript (l_script_text)
-			Result.set_type ("text/javascript")
-		end
-
-	is_redirection_needed: BOOLEAN
-			-- When `is_restful' is complete, `is_redirection_needed'?
-			-- Example: User pressed "Submit" --> Thank you page?
-
-	set_needs_redirection
-			-- `set_needs_redirection' make `is_redirection_needed' = True.
-		do
-			is_redirection_needed := True
-		ensure
-			set: is_redirection_needed
-		end
-
-	redirection_uri: STRING
-			-- `redirection_uri' if `is_redirection_needed'.
-		attribute
-			create Result.make_empty
-		end
-
-	set_redirection_uri (a_uri: like redirection_uri)
-			-- `set_redirection_uri' to `a_uri'.
-		do
-			redirection_uri := a_uri
-		ensure
-			set: redirection_uri.same_string (a_uri)
-		end
-
-	is_restful: BOOLEAN
-			-- `is_restful' (e.g. is this <tag> involved in RESTful actions)?
-
-	rest_uri: STRING
-			-- `rest_uri'--if `is_restful', then what `rest_uri' are we using?
-		attribute
-			create Result.make_empty
-		end
-
-	set_rest_uri (a_uri: like rest_uri)
-			-- `set_rest_uri' with `a_uri' into `rest_uri'.
-			-- Ensure that `is_restful' is True and `add_script'.
-		require
-			not_empty_but_is_empty: not a_uri.is_empty
-				-- Setting an empty URI is not acceptible for RESTful server request.
-				-- There must be a server URI for the RESTful call.
-		do
-			rest_uri := a_uri
-			is_restful := True
-			add_script (Rest_script)
-		ensure
-			is_restful_but_not: is_restful
-					-- Promises that Current `is_restful' (prepped for RESTful calls).
-			set: rest_uri.same_string (a_uri)
-					-- Promises that passed `a_uri' was actually set into `rest_uri'.
 		end
 
 feature -- Setting: Content
@@ -300,30 +148,6 @@ feature -- Setting: Content
 					end
 				-- Promises that each ic.item in `a_items' list was added to the
 				--	`html_content_items', which is the goal of this feature.
-		end
-
-feature -- Setting: Scripts
-
-	add_script (a_script: HTML_SCRIPT)
-			-- `add_script' `a_script' to `scripts'.
-		do
-			scripts.force (a_script)
-		ensure
-			has_but_missing_script: scripts.has (a_script)
-				-- Promises that `scripts' will have `a_script' when finished.
-		end
-
-	add_scripts (a_scripts: ARRAY [HTML_SCRIPT])
-			-- `add_scripts' in `a_scripts' to `scripts'.
-		do
-			across
-				a_scripts as ic
-			loop
-				scripts.force (ic.item)
-			end
-		ensure
-			has_all_but_missing_something: scripts.count = old scripts.count + a_scripts.count
-				-- Promises that `scripts' will have all `a_scripts' loaded when finished.
 		end
 
 feature -- Setting: Text Content
@@ -383,30 +207,28 @@ feature -- Output
 			l_script: HTML_SCRIPT
 			l_script_text: STRING
 		do
-			if attached {HTML_HEAD_ITEM_GENERATOR} Current as al_current then
-				across
-					al_current.javascript_file_scripts as ic_scripts
-				loop
-					a_javascript_files.force (ic_scripts.item, ic_scripts.item.html_out.hash_code)
-				end
-				across
-					al_current.css_file_links as ic_links
-				loop
-					a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
-				end
-				create l_script_text.make_empty
-				if not al_current.generated_script.is_empty then
-					l_script_text.append_string_general (al_current.generated_script)
-				end
-				if not al_current.hand_coded_script.is_empty then
-					l_script_text.append_string_general (al_current.hand_coded_script)
-				end
-				if not l_script_text.is_empty then
-					create l_script
-					l_script.set_type ("text/javascript")
-					l_script.set_text_content (l_script_text)
-					a_scripts.force (l_script, l_script.html_out.hash_code)
-				end
+			across
+				javascript_file_scripts as ic_scripts
+			loop
+				a_javascript_files.force (ic_scripts.item, ic_scripts.item.html_out.hash_code)
+			end
+			across
+				css_file_links as ic_links
+			loop
+				a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
+			end
+			create l_script_text.make_empty
+			if not generated_script.is_empty then
+				l_script_text.append_string_general (generated_script)
+			end
+			if not custom_hand_coded_script.is_empty then
+				l_script_text.append_string_general (custom_hand_coded_script)
+			end
+			if not l_script_text.is_empty then
+				create l_script
+				l_script.set_type ("text/javascript")
+				l_script.set_text_content (l_script_text)
+				a_scripts.force (l_script, l_script.html_out.hash_code)
 			end
 			across
 				html_content_items as ic_content_items
@@ -488,19 +310,6 @@ feature {NONE} -- Implementation: Output
 				-- Nested `text_content'
 			Result.append_string (text_content)
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
-
-				-- Nested `scripts'
-			across
-				scripts as ic_scripts
-			loop
-				if a_prettified then
-					Result.append_string (ic_scripts.item.pretty_out)
-					Result.append_character ('%N')
-					Result.append_character ('%T')
-				else
-					Result.append_string (ic_scripts.item.html_out)
-				end
-			end
 		end
 
 	content_wrapper_template_type_anchor: detachable STRING

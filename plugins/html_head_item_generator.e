@@ -21,13 +21,17 @@ inherit
 
 feature -- Access
 
-	hand_coded_script: attached like generated_script_type_anchor
-			-- `hand_coded_script'
-		deferred
+	custom_hand_coded_script: attached like generated_script_type_anchor
+			-- `custom_hand_coded_script'
+		attribute
+			create Result.make_empty
 		end
 
 	generated_script: attached like generated_script_type_anchor
 			--`generated_script' of Current.
+		attribute
+			create Result.make_empty
+		end
 
 feature -- Setters
 

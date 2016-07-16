@@ -51,6 +51,9 @@ feature -- Test routines
 		 l_li: HTML_LI
 		 l_link: HTML_LINK
 		 l_meta: HTML_META
+		 l_css_head: HTML_CSS_HEAD_SCRIPT
+		 l_css_rendered: HTML_CSS_RENDERED
+		 l_js_rendered: HTML_JS_OPERATED
 		 l_nav: HTML_NAV
 		 l_ol: HTML_OL
 		 l_p: HTML_P
