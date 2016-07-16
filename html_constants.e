@@ -40,6 +40,7 @@ feature -- Keywords
 	data_start_kw: STRING = "data-start"
 	data_theme_kw: STRING = "data-theme"
 	data_title_kw: STRING = "data-title"
+	data_toggle_kw: STRING = "data-toggle"
 	data_transition_kw: STRING = "data-transition"
 	data_url_kw: STRING = "data-url"
 	data_x_kw: STRING = "data-x"

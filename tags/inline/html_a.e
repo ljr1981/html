@@ -18,6 +18,7 @@ inherit
 			data_rel, set_data_rel,
 			data_role, set_data_role,
 			data_theme, set_data_theme,
+			data_toggle, set_data_toggle,
 			data_transition, set_data_transition,
 			target, set_target
 		end

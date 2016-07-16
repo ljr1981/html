@@ -601,6 +601,11 @@ feature {NONE} -- Attributes: Datums
 		attribute Result := ["", "", Void, data_url_kw, is_quoted] ensure Result.attr_name.same_string (data_url_kw) end
 		--data-url	url - Value for updating the URL, instead of the url used to request the page
 
+	data_toggle: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-toggle.html"
+		attribute Result := ["", "", Void, data_toggle_kw, is_quoted] ensure Result.attr_name.same_string (data_toggle_kw) end
+		--data-toggle
+
 	data_transition: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["slide", "slide|fade|none|pop", Void, data_transition_kw, is_quoted] ensure Result.attr_name.same_string (data_transition_kw) end
@@ -749,6 +754,9 @@ feature {NONE} -- Implementation: Data Setters
 
 	set_data_url (a_value: STRING) do set_attribute_value (agent data_url, a_value)
 		ensure set: attached {STRING} data_url.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_toggle (a_value: STRING) do set_attribute_value (agent data_toggle, a_value)
+		ensure set: attached {STRING} data_toggle.attr_value as al_value and then al_value.same_string (a_value) end
 
 	set_data_transition (a_value: STRING) do set_attribute_value (agent data_transition, a_value)
 		ensure set: attached {STRING} data_transition.attr_value as al_value and then al_value.same_string (a_value) end
@@ -1032,6 +1040,7 @@ feature {NONE} -- Attribute List
 			Result.force (data_dom_cache, data_dom_cache.attr_name)
 			Result.force (data_overlay_theme, data_overlay_theme.attr_name)
 			Result.force (data_title, data_title.attr_name)
+			Result.force (data_toggle, data_toggle.attr_name)
 			Result.force (data_url, data_url.attr_name)
 			Result.force (data_transition, data_transition.attr_name)
 			Result.force (data_rel, data_rel.attr_name)
