@@ -153,6 +153,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
 		attribute Result := ["", "", Void, href_kw, is_quoted] ensure Result.attr_name.same_string (href_kw) end
 
+	lang, language: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_lang.asp"
+		attribute Result := ["", "", Void, lang_kw, is_quoted] ensure Result.attr_name.same_string (lang_kw) end
+
 	method: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_method.asp"
 		attribute Result := ["", "", Void, method_kw, is_quoted] ensure Result.attr_name.same_string (method_kw) end
@@ -187,6 +191,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "srcattribute //www.w3schools.com/tags/attr_src.asp"
 		attribute Result := ["", "", Void, src_kw, is_quoted] ensure Result.attr_name.same_string (src_kw) end
 
+	status: attached like attribute_tuple_anchor
+		note EIS: "srcattribute //www.w3schools.com/tags/attr_status.asp"
+		attribute Result := ["", "", Void, status_kw, is_quoted] ensure Result.attr_name.same_string (status_kw) end
+
 	style: attached like attribute_tuple_anchor
 		note EIS: "srcattribute //www.w3schools.com/tags/attr_style.asp"
 		attribute Result := ["", "", Void, style_kw, is_quoted] ensure Result.attr_name.same_string (style_kw) end
@@ -211,6 +219,14 @@ feature {NONE} -- Tag-specific Attributes
 	wrap: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_textarea_wrap.asp"
 		attribute Result := ["", "", Void, wrap_kw, is_quoted] ensure Result.attr_name.same_string (wrap_kw) end
+
+	xml_lang, xml_language: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_xml_lang.asp"
+		attribute Result := ["", "", Void, xml_lang_kw, is_quoted] ensure Result.attr_name.same_string (xml_lang_kw) end
+
+	xmlns: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_xmlns.asp"
+		attribute Result := ["", "", Void, xmlns_kw, is_quoted] ensure Result.attr_name.same_string (xmlns_kw) end
 
 feature -- Attributes: Global Events
 
@@ -866,6 +882,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent href, a_value)
 		end
 
+	set_lang (a_lang: STRING)
+			-- `set_lang' with `a_lang'
+		do
+			set_attribute_value (agent lang, a_lang)
+		ensure
+			set: attached {STRING} lang.attr_value as al_value and then al_value.same_string (a_lang)
+		end
+
 	set_maxlength (a_maxlength: STRING)
 			-- `set_maxlength' with `a_maxlength'
 		do
@@ -933,6 +957,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent src, a_value)
 		end
 
+	set_status (a_status_attr: STRING)
+			-- `set_status' with `a_status_attr'
+		do
+			set_attribute_value (agent status, a_status_attr)
+		ensure
+			set: attached {STRING} status.attr_value as al_value and then al_value.same_string (a_status_attr)
+		end
+
 	set_style (a_style_attr: STRING)
 			-- `set_style' with `a_style_attr'
 		do
@@ -979,6 +1011,22 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} wrap.attr_value as al_value and then al_value.same_string (a_wrap)
 		end
 
+	set_xml_lang (a_xml_lang: STRING)
+			-- `set_xml_lang' with `a_xml_lang'
+		do
+			set_attribute_value (agent xml_lang, a_xml_lang)
+		ensure
+			set: attached {STRING} xml_lang.attr_value as al_value and then al_value.same_string (a_xml_lang)
+		end
+
+	set_xmlns (a_xmlns: STRING)
+			-- `set_xmlns' with `a_xmlns'
+		do
+			set_attribute_value (agent xmlns, a_xmlns)
+		ensure
+			set: attached {STRING} xmlns.attr_value as al_value and then al_value.same_string (a_xmlns)
+		end
+
 feature {NONE} -- Attribute List
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
@@ -1006,6 +1054,7 @@ feature {NONE} -- Attribute List
 			Result.force (for, for.attr_name)
 			Result.force (height, height.attr_name)
 			Result.force (href, href.attr_name)
+			Result.force (lang, lang.attr_name)
 			Result.force (maxlength, maxlength.attr_name)
 			Result.force (method, method.attr_name)
 			Result.force (name, name.attr_name)
@@ -1014,12 +1063,15 @@ feature {NONE} -- Attribute List
 			Result.force (rows, rows.attr_name)
 			Result.force (size, size.attr_name)
 			Result.force (src, src.attr_name)
+			Result.force (status, status.attr_name)
 			Result.force (style, style.attr_name)
 			Result.force (target, target.attr_name)
 			Result.force (type, type.attr_name)
 			Result.force (value, value.attr_name)
 			Result.force (width, width.attr_name)
 			Result.force (wrap, wrap.attr_name)
+			Result.force (xml_lang, xml_lang.attr_name)
+			Result.force (xmlns, xmlns.attr_name)
 
 				-- Datums
 			Result.force (data_dismiss, data_dismiss.attr_name)

@@ -49,6 +49,7 @@ feature -- Keywords
 	height_kw: STRING = "height"
 	href_kw: STRING = "href"
 	id_kw: STRING = "id"
+	lang_kw: STRING = "lang"
 	maxlength_kw: STRING = "maxlength"
 	method_kw: STRING = "method"
 	name_kw: STRING = "name"
@@ -127,6 +128,7 @@ feature -- Keywords
 	rows_kw: STRING = "rows"
 	size_kw: STRING = "size"
 	src_kw: STRING = "src"
+	status_kw: STRING = "status"
 	style_kw: STRING = "style"
 	stylesheet_kw: STRING = "stylesheet"
 	target_kw: STRING = "target"
@@ -134,6 +136,8 @@ feature -- Keywords
 	value_kw: STRING = "value"
 	width_kw: STRING = "width"
 	wrap_kw: STRING = "wrap"
+	xml_lang_kw: STRING = "xml:lang"
+	xmlns_kw: STRING = "xmlns"
 
 feature -- Magic Number Reducers
 

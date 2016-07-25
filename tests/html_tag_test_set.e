@@ -53,29 +53,29 @@ feature -- Test routines
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
 
 			create l_base
-			l_head.set_base_tag (l_base)
+			l_head.add_content (l_base)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
 			create l_link
-			l_head.set_link_tag (l_link)
+			l_head.add_content (l_link)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link></head><body></body></html>", l_html.html_out)
 			create l_meta
-			l_head.set_meta_tag (l_meta)
+			l_head.add_content (l_meta)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta></head><body></body></html>", l_html.html_out)
 			create l_script
-			l_head.set_script_tag (l_script)
+			l_head.add_content (l_script)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script></head><body></body></html>", l_html.html_out)
 			create l_style
-			l_head.set_style_tag (l_style)
+			l_head.add_content (l_style)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
 			create l_title
-			l_head.set_title_tag (l_title)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><title></title><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
+			l_head.add_content (l_title)
+			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style><title></title></head><body></body></html>", l_html.html_out)
 		end
 
 feature -- Testing: Support
 
 	pretty_html: STRING = "<!DOCTYPE html><html>%N%T%N%T%N%T</html>%N%T"
-	pretty_head: STRING = "<!DOCTYPE html><html>%N%T<head>%N%T%N%T</head>%N%T%N%T%N%T</html>%N%T"
+	pretty_head: STRING = "<!DOCTYPE html><html>%N%T<head>%N%T%N%T%N%T</head>%N%T%N%T%N%T</html>%N%T"
 
 feature -- Testing: Creation Tests
 

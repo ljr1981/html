@@ -12,7 +12,11 @@ class
 inherit
 	HTML_TAG
 		export {NONE}
-			html_content_items
+			html_content_items,
+			status, set_status,
+			lang, set_lang,
+			xml_lang, set_xml_lang,
+			xmlns, set_xmlns
 		redefine
 			html_out,
 			pretty_out,
@@ -30,7 +34,7 @@ feature {NONE} -- Initialization
 			-- <Precursor>
 		do
 			check has_body: attached (create {HTML_BODY}.make_with_content (a_content)) as al_body then
-				body := al_body
+				internal_body := al_body
 			end
 		end
 
@@ -50,8 +54,8 @@ feature -- Output
 				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
 			end
 
-			if attached head as al_head then Result.append_string (al_head.html_out) end
-			if attached body as al_body then Result.append_string (al_body.html_out) end
+			if attached internal_head as al_head then Result.append_string (al_head.html_out) end
+			if attached internal_body as al_body then Result.append_string (al_body.html_out) end
 
 			Result.append_string (end_tag)
 		end
@@ -71,9 +75,9 @@ feature -- Output
 				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
 			end
 
-			if attached head as al_head then Result.append_string (al_head.pretty_out) end
+			if attached internal_head as al_head then Result.append_string (al_head.pretty_out) end
 			Result.append_character ('%N'); Result.append_character ('%T')
-			if attached body as al_body then Result.append_string (al_body.pretty_out) end
+			if attached internal_body as al_body then Result.append_string (al_body.pretty_out) end
 			Result.append_character ('%N'); Result.append_character ('%T')
 
 			Result.append_string (end_tag)
@@ -83,47 +87,77 @@ feature -- Output
 	tag_name: STRING = "html"
 			-- <Precursor>
 
+feature -- Access
+
+	head: attached like internal_head
+		do
+			check attached internal_head as al_head then Result := al_head end
+		end
+
+	body: attached like internal_body
+		do
+			check attached internal_body as al_body then Result := al_body end
+		end
+
+feature -- Adders
+
+	add_css_link (a_href: STRING)
+		local
+			l_link: HTML_LINK
+		do
+			create l_link.make_as_css_file_link (a_href)
+			head.add_content (l_link)
+		end
+
+	add_javascript_script (a_src: STRING)
+		local
+			l_script: HTML_SCRIPT
+		do
+			create l_script.make_with_javascript_file_name (a_src)
+			head.add_content (l_script)
+		end
+
 feature -- Settings
 
 	add_content (a_item: attached like content_anchor)
 			-- `add_content' `a_item' to `html_content_items'
 		do
-			if attached body as al_body then
+			if attached internal_body as al_body then
 				al_body.add_content (a_item)
 			else
-				create body.make_with_content (<<a_item>>)
+				create internal_body.make_with_content (<<a_item>>)
 			end
 		ensure then
-			has_content: attached body
+			has_content: attached internal_body
 		end
 
-	set_head (a_head: like head)
-			-- `set_head' with `a_head' into `head'.
+	set_head (a_head: like internal_head)
+			-- `set_head' with `a_head' into `internal_head'.
 		do
-			head := a_head
+			internal_head := a_head
 		ensure
-			set: head ~ a_head
+			set: internal_head ~ a_head
 		end
 
-	set_body (a_body: like body)
-			-- `set_body' with `a_body' into `body'.
+	set_body (a_body: like internal_body)
+			-- `set_body' with `a_body' into `internal_body'.
 		do
-			body := a_body
+			internal_body := a_body
 		ensure
-			set: body ~ a_body
+			set: internal_body ~ a_body
 		end
 
 feature {NONE} -- Implementation
 
-	doctype: STRING = "<!DOCTYPE html>"
+	doctype: STRING = "<!DOCTYPE html>" -- "<!DOCTYPE html PUBLIC %"-//W3C//DTD XHTML 1.0 Strict//EN%" %"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd%">"
 			-- `doctype' for HTML-5 (not 4.x or XML or other).
 			-- This may (later on) need to be a class.
 
-	head: detachable HTML_HEAD
-			-- `head' of Current {HTML_PAGE}.
+	internal_head: detachable HTML_HEAD
+			-- `internal_head' of Current {HTML_PAGE}.
 
-	body: detachable HTML_BODY
-			-- `body' of Current {HTML_PAGE}.
+	internal_body: detachable HTML_BODY
+			-- `internal_body' of Current {HTML_PAGE}.
 
 invariant
 	no_content: html_content_items.count = 0
