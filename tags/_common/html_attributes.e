@@ -113,6 +113,9 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_aria_label.asp"
 		attribute Result := ["", "", Void, aria_label_kw, is_quoted] ensure Result.attr_name.same_string (aria_label_kw) end
 
+	autocomplete: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, autocomplete_kw, is_quoted] ensure Result.attr_name.same_string (autocomplete_kw) end
+
 	valign: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_valign.asp"
 		attribute Result := ["", "", Void, valign_kw, is_quoted] ensure Result.attr_name.same_string (valign_kw) end
@@ -168,6 +171,9 @@ feature {NONE} -- Tag-specific Attributes
 	name: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_name.asp"
 		attribute Result := ["", "", Void, name_kw, is_quoted] ensure Result.attr_name.same_string (name_kw) end
+
+	placeholder: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, placeholder_kw, is_quoted] ensure Result.attr_name.same_string (placeholder_kw) end
 
 	rel: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/TAgs/att_a_rel.asp"
@@ -791,6 +797,14 @@ feature {NONE} -- Implementation: Data Setters
 
 feature {NONE} -- Implementation: Setters
 
+	set_action (a_value: STRING)
+			-- `set_action' with `a_value'
+		do
+			set_attribute_value (agent action, a_value)
+		ensure
+			set: attached {STRING} action.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
 	set_align (a_align: STRING)
 			-- `set_align' with `a_align'
 		do
@@ -805,6 +819,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent aria_label, a_aria_label)
 		ensure
 			set: attached {STRING} aria_label.attr_value as al_value and then al_value.same_string (a_aria_label)
+		end
+
+	set_autocomplete (a_value: STRING)
+			-- `set_autocomplete' with `a_value'
+		do
+			set_attribute_value (agent autocomplete, a_value)
+		ensure
+			set: attached {STRING} autocomplete.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_border (a_border: STRING)
@@ -863,6 +885,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} cell_padding.attr_value as al_value and then al_value.same_string (a_cell_padding)
 		end
 
+	set_for (a_value: STRING)
+			-- `set_for' with `a_value'.
+		do
+			set_attribute_value (agent for, a_value)
+		ensure
+			set: attached {STRING} for.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
 	set_height (a_value: STRING)
 			-- `set_height' with `a_value'.
 		do
@@ -918,6 +948,22 @@ feature {NONE} -- Implementation: Setters
 			-- `set_on_click' with `a_value'.
 		do
 			set_attribute_value (agent on_click, a_value)
+		end
+
+	set_on_submit (a_value: STRING)
+			-- `set_on_submit' with `a_value'.
+		do
+			set_attribute_value (agent on_submit, a_value)
+		ensure
+			set: attached {STRING} on_submit.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_placeholder (a_value: STRING)
+			-- `set_placeholder' with `a_value'.
+		do
+			set_attribute_value (agent placeholder, a_value)
+		ensure
+			set: attached {STRING} placeholder.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_role (a_role: STRING)
@@ -1044,6 +1090,7 @@ feature {NONE} -- Attribute List
 			Result.force (action, action.attr_name)
 			Result.force (align, align.attr_name)
 			Result.force (aria_label, aria_label.attr_name)
+			Result.force (autocomplete, autocomplete.attr_name)
 			Result.force (valign, valign.attr_name)
 			Result.force (alt, alt.attr_name)
 			Result.force (border, border.attr_name)
@@ -1058,6 +1105,7 @@ feature {NONE} -- Attribute List
 			Result.force (maxlength, maxlength.attr_name)
 			Result.force (method, method.attr_name)
 			Result.force (name, name.attr_name)
+			Result.force (placeholder, placeholder.attr_name)
 			Result.force (rel, rel.attr_name)
 			Result.force (role, role.attr_name)
 			Result.force (rows, rows.attr_name)
