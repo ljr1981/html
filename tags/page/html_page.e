@@ -117,6 +117,17 @@ feature -- Adders
 			head.add_content (l_script)
 		end
 
+	add_meta (a_name, a_content: STRING)
+			-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		local
+			l_meta: HTML_META
+		do
+			create l_meta
+			l_meta.set_name (a_name)
+			l_meta.set_content (a_content)
+			head.add_content (l_meta)
+		end
+
 feature -- Settings
 
 	add_content (a_item: attached like content_anchor)

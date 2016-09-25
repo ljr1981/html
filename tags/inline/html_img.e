@@ -10,7 +10,10 @@ inherit
 	HTML_TAG
 		export {ANY}
 			src, set_src, set_source,
-			alt, set_alt
+			alt, set_alt,
+			size, set_size,
+			height, set_height,
+			width, set_width
 		end
 
 create
