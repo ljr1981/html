@@ -9,11 +9,10 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
-			action, set_action,
-			autocomplete, set_autocomplete,
-			on_submit, set_on_submit,
+			on_submit,
 			method, set_method,
-			role, set_role
+			role, set_role,
+			action
 		end
 
 create

@@ -9,7 +9,7 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
-			for, set_for
+			for
 		end
 
 	HTML_FORM_COMPONENT

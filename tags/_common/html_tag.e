@@ -69,31 +69,6 @@ feature {NONE} -- Initialization
 			default_create
 		end
 
-	make_with_file_snippet (a_file: STRING)
-			--
-		local
-			l_env: EXECUTION_ENVIRONMENT
-			l_file: PLAIN_TEXT_FILE
-		do
-			create l_env
-			create snippet_path.make_from_string (l_env.current_working_path.name.out + "\" + a_file)
-			create l_file.make_open_read (attached_snippet_path.name.out)
-			l_file.read_stream (l_file.count)
-			l_file.close
-			make_with_raw_text (l_file.last_string)
-		end
-
-	attached_snippet_path: PATH
-			--
-		do
-			check has_path: attached snippet_path as al_path then
-				Result := al_path
-			end
-		end
-
-	snippet_path: detachable PATH
-			-- `snippet_path' where `make_with_raw_text' `content' is sourced.
-
 	make_with_src (a_source_text: STRING)
 			-- `make_with_src' (i.e. source) using `a_string'.
 		do
@@ -176,11 +151,6 @@ feature -- Setting: Content
 		end
 
 feature -- Setting: Text Content
-
-	set_snippet (a_file: STRING)
-		do
-			make_with_file_snippet (a_file)
-		end
 
 	set_text_content (a_text: like text_content)
 			-- `set_text_content' with `a_text'.

@@ -11,8 +11,7 @@ inherit
 
 create
 	default_create,
-	make_with_content,
-	make_with_file_snippet
+	make_with_content
 
 feature -- Output
 
