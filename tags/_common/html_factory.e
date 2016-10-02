@@ -22,6 +22,12 @@ feature -- Block Element Factories
 	new_aside: HTML_ASIDE do create Result; last_new_aside := Result end
 	last_new_aside: like new_aside attribute Result := new_aside end
 
+	new_blockquote: HTML_BLOCKQUOTE do create Result; last_new_blockquote := Result end
+	last_new_blockquote: like new_blockquote attribute Result := new_blockquote end
+
+	new_cite: HTML_CITE do create Result; last_new_cite := Result end
+	last_new_cite: like new_cite attribute Result := new_cite end
+
 	new_code: HTML_CODE do create Result; last_new_code := Result end
 	last_new_code: like new_code attribute Result := new_code end
 
@@ -37,6 +43,9 @@ feature -- Block Element Factories
 	new_main: HTML_MAIN do create Result; last_new_main := Result end
 	last_new_main: like new_main attribute Result := new_main end
 
+	new_mark: HTML_MARK do create Result; last_new_mark := Result end
+	last_new_mark: like new_mark attribute Result := new_mark end
+
 	new_nav: HTML_NAV do create Result; last_new_nav := Result end
 	last_new_nav: like new_nav attribute Result := new_nav end
 
@@ -46,14 +55,11 @@ feature -- Block Element Factories
 	new_section: HTML_SECTION do create Result; last_new_section := Result end
 	last_new_section: like new_section attribute Result := new_section end
 
-	new_span: HTML_SPAN do create Result; last_new_span := Result end
-	last_new_span: like new_span attribute Result := new_span end
-
 	new_small: HTML_SMALL do create Result; last_new_small := Result end
 	last_new_small: like new_small attribute Result := new_small end
 
-	new_mark: HTML_MARK do create Result; last_new_mark := Result end
-	last_new_mark: like new_mark attribute Result := new_mark end
+	new_span: HTML_SPAN do create Result; last_new_span := Result end
+	last_new_span: like new_span attribute Result := new_span end
 
 feature -- Form Element Factories
 
@@ -106,6 +112,24 @@ feature -- Form Element Factories
 	last_new_text_input_field_group: like new_text_input_field_group attribute Result := new_text_input_field_group end
 
 feature -- Heading Element Factories
+
+	new_h1: HTML_H1 do create Result; last_new_h1 := Result end
+	last_new_h1: like new_h1 attribute Result := new_h1 end
+
+	new_h2: HTML_H2 do create Result; last_new_h2 := Result end
+	last_new_h2: like new_h2 attribute Result := new_h2 end
+
+	new_h3: HTML_H3 do create Result; last_new_h3 := Result end
+	last_new_h3: like new_h3 attribute Result := new_h3 end
+
+	new_h4: HTML_H4 do create Result; last_new_h4 := Result end
+	last_new_h4: like new_h4 attribute Result := new_h4 end
+
+	new_h5: HTML_H5 do create Result; last_new_h5 := Result end
+	last_new_h5: like new_h5 attribute Result := new_h5 end
+
+	new_h6: HTML_H6 do create Result; last_new_h6 := Result end
+	last_new_h6: like new_h6 attribute Result := new_h6 end
 
 	new_header: HTML_HEADER do create Result; last_new_header := Result end
 	last_new_header: like new_header attribute Result := new_header end

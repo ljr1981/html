@@ -11,6 +11,7 @@ inherit
 		export {ANY}
 			maxlength, set_maxlength,
 			name, set_name,
+			placeholder, set_placeholder,
 			size, set_size,
 			type, set_type
 		end

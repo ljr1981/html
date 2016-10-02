@@ -8,6 +8,9 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			type, set_type
+		end
 
 	HTML_FORM_COMPONENT
 		undefine

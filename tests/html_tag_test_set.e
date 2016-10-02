@@ -40,42 +40,27 @@ feature -- Test routines
 			l_title: HTML_TITLE
 		do
 			create l_html
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html></html>", l_html.html_out)
-			assert_strings_equal ("html_page_prettified", pretty_html, l_html.pretty_out)
-
-			create l_head
-			l_html.set_head (l_head)
-			assert_strings_equal ("html_head", "<!DOCTYPE html><html><head></head></html>", l_html.html_out)
-			assert_strings_equal ("html_head_prettified", pretty_head, l_html.pretty_out)
-
-			create l_body
-			l_html.set_body (l_body)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
 
 			create l_base
-			l_head.add_content (l_base)
+			l_html.head.add_content (l_base)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
 			create l_link
-			l_head.add_content (l_link)
+			l_html.head.add_content (l_link)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link></head><body></body></html>", l_html.html_out)
 			create l_meta
-			l_head.add_content (l_meta)
+			l_html.head.add_content (l_meta)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta></head><body></body></html>", l_html.html_out)
 			create l_script
-			l_head.add_content (l_script)
+			l_html.head.add_content (l_script)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script></head><body></body></html>", l_html.html_out)
 			create l_style
-			l_head.add_content (l_style)
+			l_html.head.add_content (l_style)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
 			create l_title
-			l_head.add_content (l_title)
+			l_html.head.add_content (l_title)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style><title></title></head><body></body></html>", l_html.html_out)
 		end
-
-feature -- Testing: Support
-
-	pretty_html: STRING = "<!DOCTYPE html><html>%N%T%N%T%N%T</html>%N%T"
-	pretty_head: STRING = "<!DOCTYPE html><html>%N%T<head>%N%T%N%T%N%T</head>%N%T%N%T%N%T</html>%N%T"
 
 feature -- Testing: Creation Tests
 
@@ -144,7 +129,6 @@ feature -- Testing: Creation Tests
 			assert_strings_equal ("h1_h2_h3", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
 
 			create l_page.make_with_content (<<l_a, l_br, l_div, l_footer, l_form, l_h1>>)
-			l_page.set_head (create {HTML_HEAD})
 			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br/><div></div><footer></footer><form></form><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
 		end
 

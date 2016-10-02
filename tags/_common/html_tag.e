@@ -19,7 +19,8 @@ inherit
 			href, set_href,
 			rel, set_rel,
 			role, set_role,
-			src, set_source, set_src
+			src, set_source, set_src,
+			style, set_style
 		undefine
 			default_create
 		end
@@ -37,6 +38,12 @@ inherit
 		end
 
 	HTML_HEAD_ITEM_GENERATOR
+		undefine
+			default_create,
+			out
+		end
+
+	LE_LOGGING_AWARE
 		undefine
 			default_create,
 			out
@@ -103,6 +110,12 @@ feature -- HTML Content
 			create Result.make (Default_capacity)
 		end
 
+	body_scripts: ARRAYED_LIST [HTML_SCRIPT]
+			-- HTML <script> `body_scripts' to be applied to <body> ... </body>
+		attribute
+			create Result.make (Default_capacity)
+		end
+
 	text_content: STRING
 			-- `text_content' of Current {HTML_TAG}.
 		attribute
@@ -121,6 +134,7 @@ feature -- Setting: Content
 				-- You cannot add an object reference to `html_content_items' more than once.
 				-- See EIS: VNHO
 		do
+			--logger.write_information ("{" + Current.generating_type.out + "}" + ".add_content")
 			html_content_items.force (a_item)
 		end
 
@@ -207,24 +221,30 @@ feature -- Output
 			l_script: HTML_SCRIPT
 			l_script_text: STRING
 		do
+			logger.write_information ("{" + Current.generating_type.out + "}" + ".add_head_items")
 			across
 				javascript_file_scripts as ic_scripts
 			loop
+				logger.write_information (ic_scripts.item.html_out)
 				a_javascript_files.force (ic_scripts.item, ic_scripts.item.html_out.hash_code)
 			end
 			across
 				css_file_links as ic_links
 			loop
+				logger.write_information (ic_links.item.html_out)
 				a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
 			end
 			create l_script_text.make_empty
 			if not generated_script.is_empty then
+				logger.write_information (generated_script)
 				l_script_text.append_string_general (generated_script)
 			end
 			if not custom_hand_coded_script.is_empty then
+				logger.write_information (custom_hand_coded_script)
 				l_script_text.append_string_general (custom_hand_coded_script)
 			end
 			if not l_script_text.is_empty then
+				logger.write_information (l_script_text)
 				create l_script
 				l_script.set_type ("text/javascript")
 				l_script.set_text_content (l_script_text)
@@ -233,7 +253,21 @@ feature -- Output
 			across
 				html_content_items as ic_content_items
 			loop
+				logger.write_information ("COUNTS: JS=" + a_javascript_files.count.out + ", CSS=" + a_css_files.count.out + ", SCRIPTS=" + a_scripts.count.out)
 				ic_content_items.item.add_head_items (a_javascript_files, a_css_files, a_scripts)
+			end
+		end
+
+	add_body_scripts (a_body_scripts: ARRAYED_LIST [HTML_SCRIPT])
+			--
+		do
+			if not body_scripts.is_empty then
+				a_body_scripts.append (body_scripts)
+			end
+			across
+				html_content_items as ic
+			loop
+				ic.item.add_body_scripts (a_body_scripts)
 			end
 		end
 
@@ -321,7 +355,7 @@ feature {NONE} -- Implementation: Constants
 			-- `content_anchor' for Current {HTML_TAG}.
 
 	start_tag: STRING
-		once ("object")
+		do
 			if not tag_name.is_empty then
 				Result := "<" + tag_name + tag_attributes_tag + ">"
 			else
@@ -330,7 +364,7 @@ feature {NONE} -- Implementation: Constants
 		end
 
 	end_tag: STRING
-		once ("object")
+		do
 			if not tag_name.is_empty then
 				Result := "</" + tag_name + ">"
 			else

@@ -20,8 +20,7 @@ inherit
 		redefine
 			html_out,
 			pretty_out,
-			make_with_content,
-			add_content
+			make_with_content
 		end
 
 create
@@ -33,9 +32,7 @@ feature {NONE} -- Initialization
 	make_with_content (a_content: ARRAY [attached like content_anchor])
 			-- <Precursor>
 		do
-			check has_body: attached (create {HTML_BODY}.make_with_content (a_content)) as al_body then
-				internal_body := al_body
-			end
+			body.add_contents (a_content)
 		end
 
 feature -- Output
@@ -54,8 +51,8 @@ feature -- Output
 				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
 			end
 
-			if attached internal_head as al_head then Result.append_string (al_head.html_out) end
-			if attached internal_body as al_body then Result.append_string (al_body.html_out) end
+			Result.append_string (head.html_out)
+			Result.append_string (body.html_out)
 
 			Result.append_string (end_tag)
 		end
@@ -75,9 +72,9 @@ feature -- Output
 				Result.replace_substring_all (tag_attributes_tag, create {STRING}.make_empty)
 			end
 
-			if attached internal_head as al_head then Result.append_string (al_head.pretty_out) end
+			Result.append_string (head.pretty_out)
 			Result.append_character ('%N'); Result.append_character ('%T')
-			if attached internal_body as al_body then Result.append_string (al_body.pretty_out) end
+			Result.append_string (body.pretty_out)
 			Result.append_character ('%N'); Result.append_character ('%T')
 
 			Result.append_string (end_tag)
@@ -89,14 +86,14 @@ feature -- Output
 
 feature -- Access
 
-	head: attached like internal_head
-		do
-			check attached internal_head as al_head then Result := al_head end
+	head: like new_head
+		attribute
+			Result := new_head
 		end
 
-	body: attached like internal_body
-		do
-			check attached internal_body as al_body then Result := al_body end
+	body: like new_body
+		attribute
+			Result := new_body
 		end
 
 feature -- Adders
@@ -117,47 +114,17 @@ feature -- Adders
 			head.add_content (l_script)
 		end
 
-feature -- Settings
-
-	add_content (a_item: attached like content_anchor)
-			-- `add_content' `a_item' to `html_content_items'
-		do
-			if attached internal_body as al_body then
-				al_body.add_content (a_item)
-			else
-				create internal_body.make_with_content (<<a_item>>)
-			end
-		ensure then
-			has_content: attached internal_body
-		end
-
-	set_head (a_head: like internal_head)
-			-- `set_head' with `a_head' into `internal_head'.
-		do
-			internal_head := a_head
-		ensure
-			set: internal_head ~ a_head
-		end
-
-	set_body (a_body: like internal_body)
-			-- `set_body' with `a_body' into `internal_body'.
-		do
-			internal_body := a_body
-		ensure
-			set: internal_body ~ a_body
-		end
-
 feature {NONE} -- Implementation
 
 	doctype: STRING = "<!DOCTYPE html>" -- "<!DOCTYPE html PUBLIC %"-//W3C//DTD XHTML 1.0 Strict//EN%" %"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd%">"
 			-- `doctype' for HTML-5 (not 4.x or XML or other).
 			-- This may (later on) need to be a class.
 
-	internal_head: detachable HTML_HEAD
-			-- `internal_head' of Current {HTML_PAGE}.
+--	internal_head: detachable HTML_HEAD
+--			-- `internal_head' of Current {HTML_PAGE}.
 
-	internal_body: detachable HTML_BODY
-			-- `internal_body' of Current {HTML_PAGE}.
+--	internal_body: detachable HTML_BODY
+--			-- `internal_body' of Current {HTML_PAGE}.
 
 invariant
 	no_content: html_content_items.count = 0
