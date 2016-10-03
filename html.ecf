@@ -15,14 +15,11 @@
 		<setting name="concurrency" value="scoop"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="css" location="..\css\css.ecf"/>
-		<library name="default_standalone" location="$GITHUB\ewf\library\server\wsf\default\standalone-safe.ecf"/>
-		<library name="encoder-safe" location="$GITHUB\ewf\library\text\encoder\encoder-safe.ecf"/>
 		<library name="framework" location="..\framework\framework.ecf"/>
 		<library name="http-safe" location="$GITHUB\ewf\library\network\protocol\http\http-safe.ecf"/>
 		<library name="logging" location="$ISE_LIBRARY\library\runtime\logging\logging-safe.ecf"/>
 		<library name="logging_extension" location="$GitHub\logging_extension\logging_extension.ecf"/>
 		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
-		<library name="wsf-safe" location="$GITHUB\ewf\library\server\wsf\wsf-safe.ecf"/>
 		<cluster name="html" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>
