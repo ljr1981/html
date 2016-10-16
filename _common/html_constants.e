@@ -236,4 +236,9 @@ feature -- Constants
 			Result.force ("ul")
 		end
 
+	percent (a_value: INTEGER): STRING
+		do
+			Result := a_value.out + ('%%').out
+		end
+
 end

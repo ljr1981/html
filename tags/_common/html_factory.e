@@ -9,6 +9,90 @@ note
 class
 	HTML_FACTORY
 
+feature -- HTML Components
+
+	google_map_frame (a_height, a_width, a_frameborder, a_style, a_API_key, a_address: STRING): HTML_IFRAME
+		note
+			google: "[
+				To use this {HTML_FACTORY} feature you will first need to do the following:
+				
+				(1) Access the Google API Manager (see EIS below)
+				(2) Specifically, click the "Credentials" Link (see EIS below)
+				(3) Ensure you have created an appropriate project (e.g. Spring Island)
+				(4) Create an API Key for Google Maps (see EIS below)
+				(5) Be sure the Google Maps Embed API is enabled (see EIS below)
+				]"
+			EIS: "name=Google_API_Manager",
+					"src=https://console.developers.google.com/apis/dashboard?project=macro-approach-146612&duration=PT1H"
+			EIS: "name=Google_API_Manager_Credentials",
+					"src=https://console.developers.google.com/apis/credentials?project=macro-approach-146612"
+			EIS: "name=Google_Maps_Embed_API_enabler",
+					"src=https://console.developers.google.com/apis/api/maps_embed_backend/overview?project=macro-approach-146612&duration=PT1H"
+		local
+			l_address: STRING
+		do
+			Result := new_iframe
+			Result.set_width (a_width)
+			Result.set_height (a_height)
+			Result.set_frameborder (a_frameborder)
+			Result.set_style (a_style)
+			l_address := a_address.twin
+			l_address.replace_substring_all (" ", "+")
+			Result.set_src ("https://www.google.com/maps/embed/v1/place?key=" + a_API_key + "&q=" + l_address)
+		end
+
+feature -- HTML Components: Parallax Section
+
+	new_parallax_section (a_args: attached like last_new_parallax_section_cache): HTML_PARALLAX_SECTION
+		do
+			create Result.make (a_args.headline, a_args.image, a_args.optionals)
+		end
+	last_new_parallax_section_cache: detachable TUPLE [headline, image: STRING; optionals: TUPLE [subheadline, button_caption, button_href: detachable STRING]]
+	last_new_parallax_section: like new_parallax_section
+		attribute
+			check
+				attached last_new_parallax_section_cache as al_cache and then
+				attached al_cache.headline as al_headline and then
+				attached al_cache.image as al_image and then
+				attached al_cache.optionals as al_optionals
+			then
+				Result := new_parallax_section (al_headline, al_image, al_optionals)
+			end
+		end
+
+	new_parallax_section_with_subhead (a_args: attached like last_new_parallax_section_with_subhead_cache): HTML_PARALLAX_SECTION
+		do
+			create Result.make_with_subhead (a_args.headline, a_args.image, a_args.subhead)
+		end
+	last_new_parallax_section_with_subhead_cache: detachable TUPLE [headline, image, subhead: STRING]
+	last_new_parallax_section_with_subhead: like new_parallax_section_with_subhead
+		attribute
+			check
+				attached last_new_parallax_section_with_subhead_cache as al_cache and then
+				attached al_cache.headline as al_headline and then
+				attached al_cache.image as al_image and then
+				attached al_cache.subhead as al_subhead
+			then
+				Result := new_parallax_section_with_subhead (al_headline, al_image, al_subhead)
+			end
+		end
+
+	new_parallax_section_basic (a_args: attached like last_new_parallax_section_basic_cache): HTML_PARALLAX_SECTION
+		do
+			create Result.make_basic (a_args.headline, a_args.image)
+		end
+	last_new_parallax_section_basic_cache: detachable TUPLE [headline, image: STRING]
+	last_new_parallax_section_basic: like new_parallax_section_basic
+		attribute
+			check
+				attached last_new_parallax_section_basic_cache as al_cache and then
+				attached al_cache.headline as al_headline and then
+				attached al_cache.image as al_image
+			then
+				Result := new_parallax_section_basic (al_headline, al_image)
+			end
+		end
+
 feature -- Text Element Factory
 
 	new_text: HTML_TEXT do create Result; last_new_text := Result end
