@@ -10,7 +10,10 @@ inherit
 	HTML_TAG
 		export {ANY}
 			align, set_align,
-			on_submit,
+			aria_label, set_aria_label,
+			itemscope, set_itemscope,
+			itemtype, set_itemtype,
+			on_submit, set_on_submit,
 			role, set_role,
 			data_x, set_data_x,
 			data_y, set_data_y,

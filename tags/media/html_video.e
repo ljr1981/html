@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 			create l_source
 			l_source.set_src (a_src)
 			l_source.set_type (a_type)
-			add_content (l_source)
+			extend (l_source)
 		end
 
 	make_with_video_and_controls (a_src, a_type: STRING; a_height, a_width: INTEGER)
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			l_source.set_src (a_src)
 			l_source.set_type (a_type)
 			make_height_width_with_controls (a_height, a_width)
-			add_content (l_source)
+			extend (l_source)
 		end
 
 	make_with_video_and_not_controls (a_src, a_type: STRING; a_height, a_width: INTEGER)
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 			l_source.set_src (a_src)
 			l_source.set_type (a_type)
 			make_height_width_without_controls (a_height, a_width)
-			add_content (l_source)
+			extend (l_source)
 		end
 
 	make_height_width_with_controls (a_height, a_width: INTEGER)

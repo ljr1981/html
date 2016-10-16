@@ -9,6 +9,8 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			data_target, set_data_target,
+			data_toggle, set_data_toggle,
 			type, set_type
 		end
 

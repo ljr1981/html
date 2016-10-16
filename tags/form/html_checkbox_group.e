@@ -28,17 +28,17 @@ feature {NONE} -- Initialization
 			-- `a_name' is the key of the key:value pair for JSON.
 			-- `a_values' is the values of the generated checkboxes.
 		do
-			add_content (create {HTML_TEXT}.make_with_text (a_label))
+			extend (create {HTML_TEXT}.make_with_text (a_label))
 			if a_is_with_line_breaks then
-				add_content (create {HTML_BR})
+				extend (create {HTML_BR})
 			end
 			across
 				a_values as ic_values
 			loop
-				add_content (create {HTML_TEXT}.make_with_text (ic_values.item))
-				add_content (create {HTML_INPUT}.make_as_checkbox (a_name, ic_values.item))
+				extend (create {HTML_TEXT}.make_with_text (ic_values.item))
+				extend (create {HTML_INPUT}.make_as_checkbox (a_name, ic_values.item))
 				if a_is_with_line_breaks then
-					add_content (create {HTML_BR})
+					extend (create {HTML_BR})
 				end
 			end
 		end

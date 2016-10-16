@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 			l_a: HTML_A
 		do
 			create l_a.make_with_link_and_text (a_link, a_text)
-			add_content (l_a)
+			extend (l_a)
 			default_create
 		end
 
@@ -37,7 +37,7 @@ feature -- Basic Operations
 			l_a: HTML_A
 		do
 			create l_a.make_with_link_and_text (a_link, a_text)
-			add_content (l_a)
+			extend (l_a)
 			default_create
 		end
 

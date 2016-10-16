@@ -67,7 +67,7 @@ feature -- Testing: Forms
 					0, <<"Jr. High", "High School", "College", "Post-Grad", "Doctoral">>, include_break)
 			l_form.add_select_with_options ("Select your favorite time of day", "tofd",
 					3, <<"Morning", "Day", "Night">>, include_break)
-			l_form.add_content (create {HTML_P}.make_with_content (<<
+			l_form.extend (create {HTML_P}.make_with_content (<<
 					create {HTML_INPUT}.make_as_submit_button>>))
 			l_form.set_method ("POST")
 --			assert_strings_equal ("form", "", l_form.html_out)

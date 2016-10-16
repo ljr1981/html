@@ -8,6 +8,12 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			aria_label, set_aria_label,
+			data_speed, set_data_speed,
+			data_type, set_data_type,
+			role, set_role
+		end
 
 create
 	default_create,

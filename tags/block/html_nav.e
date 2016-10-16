@@ -21,7 +21,7 @@ feature -- Basic Operations
 			l_li: HTML_LI
 		do
 			create l_li.make_with_link_and_text (a_link, a_text)
-			add_content (l_li)
+			extend (l_li)
 		end
 
 feature -- Output

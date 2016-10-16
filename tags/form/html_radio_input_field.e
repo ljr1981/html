@@ -28,10 +28,10 @@ feature {NONE} -- Initialization
 			-- `a_value' is the value of the key:value pair for JSON.
 			-- Male:<input type="radio" name="gender" value="Male"/><br/>
 		do
-			add_content (create {HTML_TEXT}.make_with_text (a_label))
-			add_content (create {HTML_INPUT}.make_as_radio (a_name, a_value))
+			extend (create {HTML_TEXT}.make_with_text (a_label))
+			extend (create {HTML_INPUT}.make_as_radio (a_name, a_value))
 			if a_is_with_line_breaks then
-				add_content (create {HTML_BR})
+				extend (create {HTML_BR})
 			end
 		end
 

@@ -43,22 +43,22 @@ feature -- Test routines
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
 
 			create l_base
-			l_html.head.add_content (l_base)
+			l_html.head.extend (l_base)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
 			create l_link
-			l_html.head.add_content (l_link)
+			l_html.head.extend (l_link)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link></head><body></body></html>", l_html.html_out)
 			create l_meta
-			l_html.head.add_content (l_meta)
+			l_html.head.extend (l_meta)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta></head><body></body></html>", l_html.html_out)
 			create l_script
-			l_html.head.add_content (l_script)
+			l_html.head.extend (l_script)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script></head><body></body></html>", l_html.html_out)
 			create l_style
-			l_html.head.add_content (l_style)
+			l_html.head.extend (l_style)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
 			create l_title
-			l_html.head.add_content (l_title)
+			l_html.head.extend (l_title)
 			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style><title></title></head><body></body></html>", l_html.html_out)
 		end
 

@@ -20,7 +20,7 @@ feature -- Settings
 		note
 			TODO: "Move this up in inheritance (see HTML_HEADER as well)"
 		do
-			add_to_current (a_image)
+			extend (a_image)
 		end
 
 	add_images (a_images: ARRAY [TUPLE [id, src: STRING]])
@@ -35,7 +35,7 @@ feature -- Settings
 			loop
 				create l_img.make_with_src (ic_images.item.src)
 				l_img.set_id (ic_images.item.id)
-				add_content (l_img)
+				extend (l_img)
 			end
 		end
 

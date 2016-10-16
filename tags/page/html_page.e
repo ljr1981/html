@@ -103,7 +103,7 @@ feature -- Adders
 			l_link: HTML_LINK
 		do
 			create l_link.make_as_css_file_link (a_href)
-			head.add_content (l_link)
+			head.extend (l_link)
 		end
 
 	add_javascript_script (a_src: STRING)
@@ -111,7 +111,7 @@ feature -- Adders
 			l_script: HTML_SCRIPT
 		do
 			create l_script.make_with_javascript_file_name (a_src)
-			head.add_content (l_script)
+			head.extend (l_script)
 		end
 
 feature {NONE} -- Implementation

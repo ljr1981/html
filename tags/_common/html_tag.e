@@ -124,7 +124,7 @@ feature -- HTML Content
 
 feature -- Setting: Content
 
-	add_to_current,
+	extend,
 	add_content (a_item: attached like content_anchor)
 			-- `add_content' `a_item' to `html_content_items'
 		note
@@ -151,7 +151,7 @@ feature -- Setting: Content
 			across
 				a_items as ic
 			loop
-				add_content (ic.item)
+				extend (ic.item)
 			end
 		ensure
 			expected_all_added_but_somethings_missing:

@@ -33,16 +33,16 @@ feature {NONE} -- Initialization
 			if a_size > 0 then
 				set_size (a_size.out)
 			end
-			add_content (create {HTML_TEXT}.make_with_text (a_label))
+			extend (create {HTML_TEXT}.make_with_text (a_label))
 			if a_is_line_break then
-				add_content (create {HTML_BR})
+				extend (create {HTML_BR})
 			end
 			across
 				a_values as ic_values
 			loop
-				add_content (create {HTML_OPTION}.make_with_content (<<create {HTML_TEXT}.make_with_text (ic_values.item)>>))
+				extend (create {HTML_OPTION}.make_with_content (<<create {HTML_TEXT}.make_with_text (ic_values.item)>>))
 				if a_is_line_break then
-					add_content (create {HTML_BR})
+					extend (create {HTML_BR})
 				end
 			end
 		end

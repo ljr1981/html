@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 			across
 				a_fields as ic_fields
 			loop
-				add_content (create {HTML_TEXT_INPUT_FIELD}.make_with_data (ic_fields.item.label, ic_fields.item.name, ic_fields.item.maxlength, ic_fields.item.size, ic_fields.item.line_breaks))
+				extend (create {HTML_TEXT_INPUT_FIELD}.make_with_data (ic_fields.item.label, ic_fields.item.name, ic_fields.item.maxlength, ic_fields.item.size, ic_fields.item.line_breaks))
 			end
 		end
 

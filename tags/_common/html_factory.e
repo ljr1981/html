@@ -40,6 +40,9 @@ feature -- Block Element Factories
 	new_footer: HTML_FOOTER do create Result; last_new_footer := Result end
 	last_new_footer: like new_footer attribute Result := new_footer end
 
+	new_iframe: HTML_IFRAME do create Result; last_new_iframe := Result end
+	last_new_iframe: like new_iframe attribute Result := new_iframe end
+
 	new_main: HTML_MAIN do create Result; last_new_main := Result end
 	last_new_main: like new_main attribute Result := new_main end
 

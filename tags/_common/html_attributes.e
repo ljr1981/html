@@ -149,6 +149,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/attr_for.asp"
 		attribute Result := ["", "", Void, for_kw, is_quoted] ensure Result.attr_name.same_string (for_kw) end
 
+	frameborder: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_frameborder.asp"
+		attribute Result := ["", "", Void, frameborder_kw, is_quoted] ensure Result.attr_name.same_string (frameborder_kw) end
+
 	height: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_height.asp"
 		attribute Result := ["", "", Void, height_kw, is_quoted] ensure Result.attr_name.same_string (height_kw) end
@@ -156,6 +160,14 @@ feature {NONE} -- Tag-specific Attributes
 	href: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
 		attribute Result := ["", "", Void, href_kw, is_quoted] ensure Result.attr_name.same_string (href_kw) end
+
+	itemscope: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_itemscope.asp"
+		attribute Result := ["", "", Void, itemscope_kw, is_quoted] ensure Result.attr_name.same_string (itemscope_kw) end
+
+	itemtype: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_itemtype.asp"
+		attribute Result := ["", "", Void, itemtype_kw, is_quoted] ensure Result.attr_name.same_string (itemtype_kw) end
 
 	lang, language: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_lang.asp"
@@ -555,6 +567,11 @@ feature {NONE} -- Attributes: Datums
 		attribute Result := ["", "", Void, data_start_kw, is_quoted] ensure Result.attr_name.same_string (data_start_kw) end
 		--data-start
 
+	data_type: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-type.html"
+		attribute Result := ["", "", Void, data_type_kw, is_quoted] ensure Result.attr_name.same_string (data_type_kw) end
+		--data-type
+
 	data_theme: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["", "", Void, data_theme_kw, is_quoted] ensure Result.attr_name.same_string (data_theme_kw) end
@@ -624,6 +641,11 @@ feature {NONE} -- Attributes: Datums
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["", "", Void, data_url_kw, is_quoted] ensure Result.attr_name.same_string (data_url_kw) end
 		--data-url	url - Value for updating the URL, instead of the url used to request the page
+
+	data_target: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-target.html"
+		attribute Result := ["", "", Void, data_target_kw, is_quoted] ensure Result.attr_name.same_string (data_target_kw) end
+		--data-target
 
 	data_toggle: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-toggle.html"
@@ -781,11 +803,17 @@ feature {NONE} -- Implementation: Data Setters
 	set_data_url (a_value: STRING) do set_attribute_value (agent data_url, a_value)
 		ensure set: attached {STRING} data_url.attr_value as al_value and then al_value.same_string (a_value) end
 
+	set_data_target (a_value: STRING) do set_attribute_value (agent data_target, a_value)
+		ensure set: attached {STRING} data_target.attr_value as al_value and then al_value.same_string (a_value) end
+
 	set_data_toggle (a_value: STRING) do set_attribute_value (agent data_toggle, a_value)
 		ensure set: attached {STRING} data_toggle.attr_value as al_value and then al_value.same_string (a_value) end
 
 	set_data_transition (a_value: STRING) do set_attribute_value (agent data_transition, a_value)
 		ensure set: attached {STRING} data_transition.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_type (a_value: STRING) do set_attribute_value (agent data_type, a_value)
+		ensure set: attached {STRING} data_type.attr_value as al_value and then al_value.same_string (a_value) end
 
 	set_data_rel (a_value: STRING) do set_attribute_value (agent data_rel, a_value)
 		ensure set: attached {STRING} data_rel.attr_value as al_value and then al_value.same_string (a_value) end
@@ -897,6 +925,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} for.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
+	set_frameborder (a_value: STRING)
+			-- `set_frameborder' with `a_value'.
+		do
+			set_attribute_value (agent frameborder, a_value)
+		ensure
+			set: attached {STRING} frameborder.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
 	set_height (a_value: STRING)
 			-- `set_height' with `a_value'.
 		do
@@ -914,6 +950,18 @@ feature {NONE} -- Implementation: Setters
 			-- `set_href' with `a_value'.
 		do
 			set_attribute_value (agent href, a_value)
+		end
+
+	set_itemscope (a_value: STRING)
+			-- `set_itemscope' with `a_value'.
+		do
+			set_attribute_value (agent itemscope, a_value)
+		end
+
+	set_itemtype (a_value: STRING)
+			-- `set_itemtype' with `a_value'.
+		do
+			set_attribute_value (agent itemtype, a_value)
 		end
 
 	set_lang (a_lang: STRING)
@@ -1105,8 +1153,11 @@ feature {NONE} -- Attribute List
 			Result.force (cell_spacing, cell_spacing.attr_name)
 			Result.force (cell_padding, cell_padding.attr_name)
 			Result.force (for, for.attr_name)
+			Result.force (frameborder, frameborder.attr_name)
 			Result.force (height, height.attr_name)
 			Result.force (href, href.attr_name)
+			Result.force (itemscope, itemscope.attr_name)
+			Result.force (itemtype, itemtype.attr_name)
 			Result.force (lang, lang.attr_name)
 			Result.force (maxlength, maxlength.attr_name)
 			Result.force (method, method.attr_name)
@@ -1128,30 +1179,32 @@ feature {NONE} -- Attribute List
 			Result.force (xmlns, xmlns.attr_name)
 
 				-- Datums
-			Result.force (data_dismiss, data_dismiss.attr_name)
-			Result.force (data_x, data_x.attr_name)
-			Result.force (data_y, data_y.attr_name)
-			Result.force (data_speed, data_speed.attr_name)
-			Result.force (data_start, data_start.attr_name)
-			Result.force (data_easing, data_easing.attr_name)
-			Result.force (data_role, data_role.attr_name)
-			Result.force (data_theme, data_theme.attr_name)
-			Result.force (data_id, data_id.attr_name)
-			Result.force (data_position, data_position.attr_name)
-			Result.force (data_fullscreen, data_fullscreen.attr_name)
 			Result.force (data_add_back_btn, data_add_back_btn.attr_name)
 			Result.force (data_back_btn_text, data_back_btn_text.attr_name)
 			Result.force (data_back_btn_theme, data_back_btn_theme.attr_name)
 			Result.force (data_close_btn_text, data_close_btn_text.attr_name)
+			Result.force (data_dismiss, data_dismiss.attr_name)
 			Result.force (data_dom_cache, data_dom_cache.attr_name)
+			Result.force (data_easing, data_easing.attr_name)
+			Result.force (data_fullscreen, data_fullscreen.attr_name)
+			Result.force (data_icon, data_icon.attr_name)
+			Result.force (data_id, data_id.attr_name)
+			Result.force (data_inline, data_inline.attr_name)
 			Result.force (data_overlay_theme, data_overlay_theme.attr_name)
+			Result.force (data_position, data_position.attr_name)
+			Result.force (data_rel, data_rel.attr_name)
+			Result.force (data_role, data_role.attr_name)
+			Result.force (data_speed, data_speed.attr_name)
+			Result.force (data_start, data_start.attr_name)
+			Result.force (data_target, data_target.attr_name)
+			Result.force (data_theme, data_theme.attr_name)
 			Result.force (data_title, data_title.attr_name)
 			Result.force (data_toggle, data_toggle.attr_name)
-			Result.force (data_url, data_url.attr_name)
 			Result.force (data_transition, data_transition.attr_name)
-			Result.force (data_rel, data_rel.attr_name)
-			Result.force (data_icon, data_icon.attr_name)
-			Result.force (data_inline, data_inline.attr_name)
+			Result.force (data_type, data_type.attr_name)
+			Result.force (data_url, data_url.attr_name)
+			Result.force (data_x, data_x.attr_name)
+			Result.force (data_y, data_y.attr_name)
 
 				-- Events
 			Result.force (on_after_print, on_after_print.attr_name)
