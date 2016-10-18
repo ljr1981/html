@@ -46,6 +46,7 @@ feature -- HTML Components: Parallax Section
 	new_parallax_section (a_args: attached like last_new_parallax_section_cache): HTML_PARALLAX_SECTION
 		do
 			create Result.make (a_args.headline, a_args.image, a_args.optionals)
+			last_new_parallax_section_cache := a_args
 		end
 	last_new_parallax_section_cache: detachable TUPLE [headline, image: STRING; optionals: TUPLE [subheadline, button_caption, button_href: detachable STRING]]
 	last_new_parallax_section: like new_parallax_section
@@ -63,6 +64,7 @@ feature -- HTML Components: Parallax Section
 	new_parallax_section_with_subhead (a_args: attached like last_new_parallax_section_with_subhead_cache): HTML_PARALLAX_SECTION
 		do
 			create Result.make_with_subhead (a_args.headline, a_args.image, a_args.subhead)
+			last_new_parallax_section_with_subhead_cache := a_args
 		end
 	last_new_parallax_section_with_subhead_cache: detachable TUPLE [headline, image, subhead: STRING]
 	last_new_parallax_section_with_subhead: like new_parallax_section_with_subhead
@@ -80,6 +82,7 @@ feature -- HTML Components: Parallax Section
 	new_parallax_section_basic (a_args: attached like last_new_parallax_section_basic_cache): HTML_PARALLAX_SECTION
 		do
 			create Result.make_basic (a_args.headline, a_args.image)
+			last_new_parallax_section_basic_cache := a_args
 		end
 	last_new_parallax_section_basic_cache: detachable TUPLE [headline, image: STRING]
 	last_new_parallax_section_basic: like new_parallax_section_basic
