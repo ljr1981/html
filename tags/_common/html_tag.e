@@ -85,6 +85,23 @@ feature {NONE} -- Initialization
 
 feature -- Style
 
+	style_declarations: ARRAYED_LIST [CSS_DECLARATION]
+			--
+		attribute
+			create Result.make (5)
+		end
+
+	style_declarations_out: STRING
+			--
+		do
+			create Result.make_empty
+			across
+				style_declarations as ic
+			loop
+				Result.append_string_general (ic.item.out)
+			end
+		end
+
 	style_rule: CSS_RULE
 			-- `style_rule'.
 		attribute
@@ -221,30 +238,24 @@ feature -- Output
 			l_script: HTML_SCRIPT
 			l_script_text: STRING
 		do
-			logger.write_information ("{" + Current.generating_type.out + "}" + ".add_head_items")
 			across
 				javascript_file_scripts as ic_scripts
 			loop
-				logger.write_information (ic_scripts.item.html_out)
 				a_javascript_files.force (ic_scripts.item, ic_scripts.item.html_out.hash_code)
 			end
 			across
 				css_file_links as ic_links
 			loop
-				logger.write_information (ic_links.item.html_out)
 				a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
 			end
 			create l_script_text.make_empty
 			if not generated_script.is_empty then
-				logger.write_information (generated_script)
 				l_script_text.append_string_general (generated_script)
 			end
 			if not custom_hand_coded_script.is_empty then
-				logger.write_information (custom_hand_coded_script)
 				l_script_text.append_string_general (custom_hand_coded_script)
 			end
 			if not l_script_text.is_empty then
-				logger.write_information (l_script_text)
 				create l_script
 				l_script.set_type ("text/javascript")
 				l_script.set_text_content (l_script_text)
@@ -253,7 +264,6 @@ feature -- Output
 			across
 				html_content_items as ic_content_items
 			loop
-				logger.write_information ("COUNTS: JS=" + a_javascript_files.count.out + ", CSS=" + a_css_files.count.out + ", SCRIPTS=" + a_scripts.count.out)
 				ic_content_items.item.add_head_items (a_javascript_files, a_css_files, a_scripts)
 			end
 		end
@@ -292,12 +302,19 @@ feature {NONE} -- Implementation: Output
 			-- `common_out' of `a_prettified' (True/False).
 		local
 			l_content,
+			l_modified_start_tag,
 			l_template: STRING
 		do
 			create Result.make_empty
 
 				-- Start tag ...
-			Result.append_string (start_tag)
+			if exclude_end_tag and html_content_items.is_empty then
+				l_modified_start_tag := start_tag.twin
+				l_modified_start_tag.insert_character ('/', l_modified_start_tag.count)
+				Result.append_string_general (l_modified_start_tag)
+			else
+				Result.append_string_general (start_tag)
+			end
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
 
 				-- Tag attributes ...
@@ -320,7 +337,11 @@ feature {NONE} -- Implementation: Output
 			end
 
 				-- End tag ...
-			Result.append_string (end_tag)
+			if exclude_end_tag and html_content_items.is_empty then
+				do_nothing -- Do not put an end tag
+			else
+				Result.append_string (end_tag)
+			end
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
 		end
 
@@ -357,11 +378,16 @@ feature {NONE} -- Implementation: Constants
 	start_tag: STRING
 		do
 			if not tag_name.is_empty then
-				Result := "<" + tag_name + tag_attributes_tag + ">"
+				Result := "<"
+				Result.append_string_general (tag_name)
+				Result.append_string_general (tag_attributes_tag)
+				Result.append_string_general (">")
 			else
 				Result := ""
 			end
 		end
+
+	exclude_end_tag: BOOLEAN
 
 	end_tag: STRING
 		do

@@ -9,13 +9,27 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			charset, set_charset,
 			content, set_content,
+			html_equiv, set_html_equiv,
+			property, set_property,
 			name, set_name
+		redefine
+			default_create
 		end
 
 create
 	default_create,
 	make_with_content
+
+feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			exclude_end_tag := True
+			Precursor
+		end
 
 feature -- Output
 

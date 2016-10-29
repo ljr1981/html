@@ -13,12 +13,23 @@ inherit
 			height, set_height,
 			width, set_width,
 			src, set_src, set_source
+		redefine
+			default_create
 		end
 
 create
 	default_create,
 	make_with_content,
 	make_with_src
+
+feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			exclude_end_tag := True
+			Precursor
+		end
 
 feature -- Queries
 

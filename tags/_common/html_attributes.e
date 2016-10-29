@@ -145,6 +145,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_cellpadding.asp"
 		attribute Result := ["", "", Void, cell_padding_kw, is_quoted] ensure Result.attr_name.same_string (cell_padding_kw) end
 
+	charset: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/charset.asp"
+		attribute Result := ["", "", Void, charset_kw, is_quoted] ensure Result.attr_name.same_string (charset_kw) end
+
 	for: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_for.asp"
 		attribute Result := ["", "", Void, for_kw, is_quoted] ensure Result.attr_name.same_string (for_kw) end
@@ -156,6 +160,10 @@ feature {NONE} -- Tag-specific Attributes
 	height: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_height.asp"
 		attribute Result := ["", "", Void, height_kw, is_quoted] ensure Result.attr_name.same_string (height_kw) end
+
+	html_equiv: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/html_equiv.asp"
+		attribute Result := ["", "", Void, html_equiv_kw, is_quoted] ensure Result.attr_name.same_string (html_equiv_kw) end
 
 	href: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
@@ -188,6 +196,10 @@ feature {NONE} -- Tag-specific Attributes
 	placeholder: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_placeholder.asp"
 		attribute Result := ["", "", Void, placeholder_kw, is_quoted] ensure Result.attr_name.same_string (placeholder_kw) end
+
+	property: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_property.asp"
+		attribute Result := ["", "", Void, property_kw, is_quoted] ensure Result.attr_name.same_string (property_kw) end
 
 	rel: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/TAgs/att_a_rel.asp"
@@ -917,6 +929,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} cell_padding.attr_value as al_value and then al_value.same_string (a_cell_padding)
 		end
 
+	set_charset (a_value: STRING)
+			-- `set_cell_padding' with `a_value'
+		do
+			set_attribute_value (agent charset, a_value)
+		ensure
+			set: attached {STRING} charset.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
 	set_for (a_value: STRING)
 			-- `set_for' with `a_value'.
 		do
@@ -950,6 +970,12 @@ feature {NONE} -- Implementation: Setters
 			-- `set_href' with `a_value'.
 		do
 			set_attribute_value (agent href, a_value)
+		end
+
+	set_html_equiv (a_value: STRING)
+			-- `set_html_equiv' with `a_value'.
+		do
+			set_attribute_value (agent html_equiv, a_value)
 		end
 
 	set_itemscope (a_value: STRING)
@@ -1018,6 +1044,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent placeholder, a_value)
 		ensure
 			set: attached {STRING} placeholder.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_property (a_value: STRING)
+			-- `set_property' with `a_value'
+		do
+			set_attribute_value (agent property, a_value)
+		ensure
+			set: attached {STRING} property.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_role (a_role: STRING)
@@ -1152,10 +1186,12 @@ feature {NONE} -- Attribute List
 			Result.force (content, content.attr_name)
 			Result.force (cell_spacing, cell_spacing.attr_name)
 			Result.force (cell_padding, cell_padding.attr_name)
+			Result.force (charset, charset.attr_name)
 			Result.force (for, for.attr_name)
 			Result.force (frameborder, frameborder.attr_name)
 			Result.force (height, height.attr_name)
 			Result.force (href, href.attr_name)
+			Result.force (html_equiv, html_equiv.attr_name)
 			Result.force (itemscope, itemscope.attr_name)
 			Result.force (itemtype, itemtype.attr_name)
 			Result.force (lang, lang.attr_name)
@@ -1163,6 +1199,7 @@ feature {NONE} -- Attribute List
 			Result.force (method, method.attr_name)
 			Result.force (name, name.attr_name)
 			Result.force (placeholder, placeholder.attr_name)
+			Result.force (property, property.attr_name)
 			Result.force (rel, rel.attr_name)
 			Result.force (role, role.attr_name)
 			Result.force (rows, rows.attr_name)

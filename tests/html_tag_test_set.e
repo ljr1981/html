@@ -40,26 +40,26 @@ feature -- Test routines
 			l_title: HTML_TITLE
 		do
 			create l_html
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page1", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
 
 			create l_base
 			l_html.head.extend (l_base)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page2", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
 			create l_link
 			l_html.head.extend (l_link)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page3", "<!DOCTYPE html><html><head><base></base><link></link></head><body></body></html>", l_html.html_out)
 			create l_meta
 			l_html.head.extend (l_meta)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page4", "<!DOCTYPE html><html><head><base></base><link></link><meta/></head><body></body></html>", l_html.html_out)
 			create l_script
 			l_html.head.extend (l_script)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page5", "<!DOCTYPE html><html><head><base></base><link></link><meta/><script></script></head><body></body></html>", l_html.html_out)
 			create l_style
 			l_html.head.extend (l_style)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page6", "<!DOCTYPE html><html><head><base></base><link></link><meta/><script></script><style></style></head><body></body></html>", l_html.html_out)
 			create l_title
 			l_html.head.extend (l_title)
-			assert_strings_equal ("html_page", "<!DOCTYPE html><html><head><base></base><link></link><meta></meta><script></script><style></style><title></title></head><body></body></html>", l_html.html_out)
+			assert_strings_equal ("html_page7", "<!DOCTYPE html><html><head><base></base><link></link><meta/><script></script><style></style><title></title></head><body></body></html>", l_html.html_out)
 		end
 
 feature -- Testing: Creation Tests
@@ -123,13 +123,13 @@ feature -- Testing: Creation Tests
 
 			l_h1.html_content_items.force (l_h2)
 			l_h2.html_content_items.force (l_h3)
-			assert_strings_equal ("h1_h2_h3", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
+			assert_strings_equal ("h1_h2_h3_1", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
 
 			create l_h1.make_with_content (<<create {HTML_H2}.make_with_content (<<create {HTML_H3}>>)>>)
-			assert_strings_equal ("h1_h2_h3", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
+			assert_strings_equal ("h1_h2_h3_2", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
 
 			create l_page.make_with_content (<<l_a, l_br, l_div, l_footer, l_form, l_h1>>)
-			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br/><div></div><footer></footer><form></form><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
+			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a/><br/><div></div><footer></footer><form></form><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
 		end
 
 	html_style_tests
@@ -196,15 +196,15 @@ feature -- Testing: Creation Tests
 
 			l_text.set_text_content ("This is some text.")
 			l_div.html_content_items.force (l_text)
-			assert_strings_equal ("div", "<div>This is some text.</div>", l_div.html_out)
+			assert_strings_equal ("div1", "<div>This is some text.</div>", l_div.html_out)
 			create l_text.make_with_buffered_text ("Another line of text.")
 			l_div.html_content_items.force (l_text)
-			assert_strings_equal ("div", "<div>This is some text. Another line of text.</div>", l_div.html_out)
+			assert_strings_equal ("div2", "<div>This is some text. Another line of text.</div>", l_div.html_out)
 			l_a.set_attribute_value (agent l_a.href, "http://www.w3schools.com")
 			l_a.set_text_content ("Visit W3Schools")
 			l_div.html_content_items.force (l_a)
 			l_div.html_content_items.force (create {HTML_TEXT}.make_with_text ("And this is the last line of text."))
-			assert_strings_equal ("div", "<div>This is some text. Another line of text.<a href=%"http://www.w3schools.com%">Visit W3Schools</a>And this is the last line of text.</div>", l_div.html_out)
+			assert_strings_equal ("div3", "<div>This is some text. Another line of text.<a href=%"http://www.w3schools.com%"/>Visit W3SchoolsAnd this is the last line of text.</div>", l_div.html_out)
 		end
 
 feature -- Testing: {HTML_HEADLINE_X}

@@ -21,6 +21,8 @@ inherit
 			data_toggle, set_data_toggle,
 			data_transition, set_data_transition,
 			target, set_target
+		redefine
+			default_create
 		end
 
 create
@@ -30,6 +32,13 @@ create
 	make_with_id_and_href
 
 feature {NONE} -- Initialization
+
+	default_create
+			-- <Precursor>
+		do
+			exclude_end_tag := True
+			Precursor
+		end
 
 	make_with_link_and_text (a_link, a_text: STRING)
 			-- `make_with_link_and_text' in `a_link' and `a_text'.
