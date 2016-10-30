@@ -133,6 +133,12 @@ feature -- HTML Content
 			create Result.make (Default_capacity)
 		end
 
+	body_styles: ARRAYED_LIST [HTML_STYLE]
+			-- HTML <script> `body_styles' to be applied to <body> ... </body>
+		attribute
+			create Result.make (Default_capacity)
+		end
+
 	text_content: STRING
 			-- `text_content' of Current {HTML_TAG}.
 		attribute
@@ -271,13 +277,44 @@ feature -- Output
 	add_body_scripts (a_body_scripts: ARRAYED_LIST [HTML_SCRIPT])
 			--
 		do
-			if not body_scripts.is_empty then
-				a_body_scripts.append (body_scripts)
+			across
+				body_scripts as ic_internal
+			loop
+				if
+					across a_body_scripts as ic_passed all
+						ic_internal.item.hash_code /= ic_passed.item.hash_code
+					end
+				then
+					a_body_scripts.force (ic_internal.item)
+				end
 			end
+
 			across
 				html_content_items as ic
 			loop
 				ic.item.add_body_scripts (a_body_scripts)
+			end
+		end
+
+	add_body_styles (a_body_styles: ARRAYED_LIST [HTML_STYLE])
+			--
+		do
+			across
+				body_styles as ic_internal
+			loop
+				if
+					across a_body_styles as ic_passed all
+						ic_internal.item.hash_code /= ic_passed.item.hash_code
+					end
+				then
+					a_body_styles.force (ic_internal.item)
+				end
+			end
+
+			across
+				html_content_items as ic
+			loop
+				ic.item.add_body_styles (a_body_styles)
 			end
 		end
 
