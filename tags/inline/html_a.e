@@ -17,6 +17,7 @@ inherit
 			data_inline, set_data_inline,
 			data_rel, set_data_rel,
 			data_role, set_data_role,
+			data_slide, set_data_slide,
 			data_theme, set_data_theme,
 			data_toggle, set_data_toggle,
 			data_transition, set_data_transition,

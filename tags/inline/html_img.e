@@ -10,6 +10,8 @@ inherit
 	HTML_TAG
 		export {ANY}
 			alt, set_alt,
+			data_holder_rendered, set_data_holder_rendered,
+			data_src, set_data_src,
 			height, set_height,
 			width, set_width,
 			src, set_src, set_source

@@ -109,6 +109,9 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_align.asp"
 		attribute Result := ["", "", Void, align_kw, is_quoted] ensure Result.attr_name.same_string (align_kw) end
 
+	aria_hidden: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, aria_hidden_kw, is_quoted] ensure Result.attr_name.same_string (aria_hidden_kw) end
+
 	aria_label: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_aria_label.asp"
 		attribute Result := ["", "", Void, aria_label_kw, is_quoted] ensure Result.attr_name.same_string (aria_label_kw) end
@@ -554,66 +557,6 @@ feature {NONE} -- Attributes: Media Events
 
 feature {NONE} -- Attributes: Datums
 
-	data_dismiss: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_dismiss_kw, is_quoted] ensure Result.attr_name.same_string (data_dismiss_kw) end
-		--data-dismiss	string - ???
-
-	data_easing: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-easing.html"
-		attribute Result := ["", "", Void, data_easing_kw, is_quoted] ensure Result.attr_name.same_string (data_easing_kw) end
-		--data-easing
-
-	data_role: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_role_kw, is_quoted] ensure Result.attr_name.same_string (data_role_kw) end
-		--data-role
-
-	data_speed: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-speed.html"
-		attribute Result := ["", "", Void, data_speed_kw, is_quoted] ensure Result.attr_name.same_string (data_speed_kw) end
-		--data-speed
-
-	data_start: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-start.html"
-		attribute Result := ["", "", Void, data_start_kw, is_quoted] ensure Result.attr_name.same_string (data_start_kw) end
-		--data-start
-
-	data_type: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-type.html"
-		attribute Result := ["", "", Void, data_type_kw, is_quoted] ensure Result.attr_name.same_string (data_type_kw) end
-		--data-type
-
-	data_theme: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_theme_kw, is_quoted] ensure Result.attr_name.same_string (data_theme_kw) end
-		--data-theme	swatch letter (a-z) - Default "c"
-
-	data_x: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-x.html"
-		attribute Result := ["", "", Void, data_x_kw, is_quoted] ensure Result.attr_name.same_string (data_x_kw) end
-		--data-x
-
-	data_y: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-y.html"
-		attribute Result := ["", "", Void, data_y_kw, is_quoted] ensure Result.attr_name.same_string (data_y_kw) end
-		--data-y
-
-	data_id: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_id_kw, is_quoted] ensure Result.attr_name.same_string (data_id_kw) end
-		--data-id	string - Unique ID. Required for persistent headers
-
-	data_position: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_position_kw, is_unquoted] ensure Result.attr_name.same_string (data_position_kw) end
-		--data-position	fixed
-
-	data_fullscreen: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["false", "false|true", Void, data_fullscreen_kw, is_quoted] ensure Result.attr_name.same_string (data_fullscreen_kw) end
-		--data-fullscreen	true | false - Used in conjunction with fixed toolbars
-
 	data_add_back_btn: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["false", "false|true", Void, data_add_back_btn_kw, is_quoted] ensure Result.attr_name.same_string (data_add_back_btn_kw) end
@@ -634,30 +577,108 @@ feature {NONE} -- Attributes: Datums
 		attribute Result := ["", "", Void, data_close_btn_text_kw, is_quoted] ensure Result.attr_name.same_string (data_close_btn_text_kw) end
 		--data-close-btn-text	string - Text for the close button, dialog only
 
+	data_direction: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_direction_kw, is_quoted] ensure Result.attr_name.same_string (data_direction_kw) end
+		--data-direction	reverse - Reverse transition animation (only for page or dialog)
+
+	data_dismiss: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_dismiss_kw, is_quoted] ensure Result.attr_name.same_string (data_dismiss_kw) end
+		--data-dismiss	string - ???
+
 	data_dom_cache: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["false", "false|true", Void, data_dom_cache_kw, is_quoted] ensure Result.attr_name.same_string (data_dom_cache_kw) end
 		--data-dom-cache	true | false
+
+	data_easing: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-easing.html"
+		attribute Result := ["", "", Void, data_easing_kw, is_quoted] ensure Result.attr_name.same_string (data_easing_kw) end
+		--data-easing
+
+	data_fullscreen: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, data_fullscreen_kw, is_quoted] ensure Result.attr_name.same_string (data_fullscreen_kw) end
+		--data-fullscreen	true | false - Used in conjunction with fixed toolbars
+
+	data_holder_rendered: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, data_holder_rendered_kw, is_quoted] ensure Result.attr_name.same_string (data_holder_rendered_kw) end
+
+	data_icon: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["home", "home|delete|plus|arrow-u|arrow-d|check|gear|grid|star|custom|arrow-r|arrow-l|minus|refresh|forward|back|alert|info|search", Void, data_icon_kw, is_quoted] ensure Result.attr_name.same_string (data_icon_kw) end
+		-- data-icon	home | delete | plus | arrow-u | arrow-d | check | gear | grid | star | custom | arrow-r | arrow-l | minus | refresh | forward | back | alert | info | search
+
+	data_id: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_id_kw, is_quoted] ensure Result.attr_name.same_string (data_id_kw) end
+		--data-id	string - Unique ID. Required for persistent headers
+
+	data_inline: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, data_inline_kw, is_quoted] ensure Result.attr_name.same_string (data_inline_kw) end
+		--data-inline	true | false - Auto add back button, header only
 
 	data_overlay_theme: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["", "", Void, data_overlay_theme_kw, is_quoted] ensure Result.attr_name.same_string (data_overlay_theme_kw) end
 		--data-overlay-theme	swatch letter (a-z) - Overlay theme when the page is opened in a dialog
 
-	data_title: attached like attribute_tuple_anchor
+	data_position: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_title_kw, is_quoted] ensure Result.attr_name.same_string (data_title_kw) end
-		--data-title	string - Title used when page is shown
+		attribute Result := ["", "", Void, data_position_kw, is_unquoted] ensure Result.attr_name.same_string (data_position_kw) end
+		--data-position	fixed
 
-	data_url: attached like attribute_tuple_anchor
+	data_rel: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_url_kw, is_quoted] ensure Result.attr_name.same_string (data_url_kw) end
-		--data-url	url - Value for updating the URL, instead of the url used to request the page
+		attribute Result := ["back", "back|dialog|external|popup", Void, data_rel_kw, is_quoted] ensure Result.attr_name.same_string (data_rel_kw) end
+		--data-rel	back - To move one step back in history
+		--dialog - To open link styled as dialog, not tracked in history
+		--external - For linking to another domain
+		--popup - For opening a popup
+
+	data_ride: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, data_ride_kw, is_quoted] ensure Result.attr_name.same_string (data_ride_kw) end
+
+	data_role: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_role_kw, is_quoted] ensure Result.attr_name.same_string (data_role_kw) end
+		--data-role
+
+	data_slide: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, data_slide_kw, is_quoted] ensure Result.attr_name.same_string (data_slide_kw) end
+
+	data_slide_to: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, data_slide_to_kw, is_quoted] ensure Result.attr_name.same_string (data_slide_to_kw) end
+
+	data_speed: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-speed.html"
+		attribute Result := ["", "", Void, data_speed_kw, is_quoted] ensure Result.attr_name.same_string (data_speed_kw) end
+		--data-speed
+
+	data_src: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, data_src_kw, is_quoted] ensure Result.attr_name.same_string (data_src_kw) end
+
+	data_start: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-start.html"
+		attribute Result := ["", "", Void, data_start_kw, is_quoted] ensure Result.attr_name.same_string (data_start_kw) end
+		--data-start
 
 	data_target: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-target.html"
 		attribute Result := ["", "", Void, data_target_kw, is_quoted] ensure Result.attr_name.same_string (data_target_kw) end
 		--data-target
+
+	data_theme: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_theme_kw, is_quoted] ensure Result.attr_name.same_string (data_theme_kw) end
+		--data-theme	swatch letter (a-z) - Default "c"
+
+	data_title: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_title_kw, is_quoted] ensure Result.attr_name.same_string (data_title_kw) end
+		--data-title	string - Title used when page is shown
 
 	data_toggle: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-toggle.html"
@@ -669,28 +690,25 @@ feature {NONE} -- Attributes: Datums
 		attribute Result := ["slide", "slide|fade|none|pop", Void, data_transition_kw, is_quoted] ensure Result.attr_name.same_string (data_transition_kw) end
 		--data-transition	slide | fade | none - Show/hide-transition when a tap/click occurs
 
-	data_rel: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["back", "back|dialog|external|popup", Void, data_rel_kw, is_quoted] ensure Result.attr_name.same_string (data_rel_kw) end
-		--data-rel	back - To move one step back in history
-		--dialog - To open link styled as dialog, not tracked in history
-		--external - For linking to another domain
-		--popup - For opening a popup
+	data_type: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-type.html"
+		attribute Result := ["", "", Void, data_type_kw, is_quoted] ensure Result.attr_name.same_string (data_type_kw) end
+		--data-type
 
-	data_direction: attached like attribute_tuple_anchor
+	data_url: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["", "", Void, data_direction_kw, is_quoted] ensure Result.attr_name.same_string (data_direction_kw) end
-		--data-direction	reverse - Reverse transition animation (only for page or dialog)
+		attribute Result := ["", "", Void, data_url_kw, is_quoted] ensure Result.attr_name.same_string (data_url_kw) end
+		--data-url	url - Value for updating the URL, instead of the url used to request the page
 
-	data_icon: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["home", "home|delete|plus|arrow-u|arrow-d|check|gear|grid|star|custom|arrow-r|arrow-l|minus|refresh|forward|back|alert|info|search", Void, data_icon_kw, is_quoted] ensure Result.attr_name.same_string (data_icon_kw) end
-		-- data-icon	home | delete | plus | arrow-u | arrow-d | check | gear | grid | star | custom | arrow-r | arrow-l | minus | refresh | forward | back | alert | info | search
+	data_x: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-x.html"
+		attribute Result := ["", "", Void, data_x_kw, is_quoted] ensure Result.attr_name.same_string (data_x_kw) end
+		--data-x
 
-	data_inline: attached like attribute_tuple_anchor
-		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
-		attribute Result := ["false", "false|true", Void, data_inline_kw, is_quoted] ensure Result.attr_name.same_string (data_inline_kw) end
-		--data-inline	true | false - Auto add back button, header only
+	data_y: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-y.html"
+		attribute Result := ["", "", Void, data_y_kw, is_quoted] ensure Result.attr_name.same_string (data_y_kw) end
+		--data-y
 
 feature -- Setters
 
@@ -758,39 +776,6 @@ feature -- Setters
 
 feature {NONE} -- Implementation: Data Setters
 
-	set_data_dismiss (a_value: STRING) do set_attribute_value (agent data_dismiss, a_value)
-		ensure set: attached {STRING} data_dismiss.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_easing (a_value: STRING) do set_attribute_value (agent data_easing, a_value)
-		ensure set: attached {STRING} data_easing.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_role (a_value: STRING) do set_attribute_value (agent data_role, a_value)
-		ensure set: attached {STRING} data_role.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_speed (a_value: STRING) do set_attribute_value (agent data_speed, a_value)
-		ensure set: attached {STRING} data_speed.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_start (a_value: STRING) do set_attribute_value (agent data_start, a_value)
-		ensure set: attached {STRING} data_start.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_theme (a_value: STRING) do set_attribute_value (agent data_theme, a_value)
-		ensure set: attached {STRING} data_theme.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_x (a_value: STRING) do set_attribute_value (agent data_x, a_value)
-		ensure set: attached {STRING} data_x.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_y (a_value: STRING) do set_attribute_value (agent data_y, a_value)
-		ensure set: attached {STRING} data_y.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_id (a_value: STRING) do set_attribute_value (agent data_id, a_value)
-		ensure set: attached {STRING} data_id.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_position (a_value: STRING) do set_attribute_value (agent data_position, a_value)
-		ensure set: attached {STRING} data_position.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_fullscreen (a_value: STRING) do set_attribute_value (agent data_fullscreen, a_value)
-		ensure set: attached {STRING} data_fullscreen.attr_value as al_value and then al_value.same_string (a_value) end
-
 	set_data_add_back_btn (a_value: STRING) do set_attribute_value (agent data_add_back_btn, a_value)
 		ensure set: attached {STRING} data_add_back_btn.attr_value as al_value and then al_value.same_string (a_value) end
 
@@ -806,14 +791,65 @@ feature {NONE} -- Implementation: Data Setters
 	set_data_dom_cache (a_value: STRING) do set_attribute_value (agent data_dom_cache, a_value)
 		ensure set: attached {STRING} data_dom_cache.attr_value as al_value and then al_value.same_string (a_value) end
 
+	set_data_dismiss (a_value: STRING) do set_attribute_value (agent data_dismiss, a_value)
+		ensure set: attached {STRING} data_dismiss.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_direction (a_value: STRING) do set_attribute_value (agent data_direction, a_value)
+		ensure set: attached {STRING} data_direction.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_easing (a_value: STRING) do set_attribute_value (agent data_easing, a_value)
+		ensure set: attached {STRING} data_easing.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_fullscreen (a_value: STRING) do set_attribute_value (agent data_fullscreen, a_value)
+		ensure set: attached {STRING} data_fullscreen.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_holder_rendered (a_value: STRING) do set_attribute_value (agent data_holder_rendered, a_value)
+		ensure set: attached {STRING} data_holder_rendered.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_icon (a_value: STRING) do set_attribute_value (agent data_icon, a_value)
+		ensure set: attached {STRING} data_icon.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_inline (a_value: STRING) do set_attribute_value (agent data_inline, a_value)
+		ensure set: attached {STRING} data_inline.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_id (a_value: STRING) do set_attribute_value (agent data_id, a_value)
+		ensure set: attached {STRING} data_id.attr_value as al_value and then al_value.same_string (a_value) end
+
 	set_data_overlay_theme (a_value: STRING) do set_attribute_value (agent data_overlay_theme, a_value)
 		ensure set: attached {STRING} data_overlay_theme.attr_value as al_value and then al_value.same_string (a_value) end
 
+	set_data_position (a_value: STRING) do set_attribute_value (agent data_position, a_value)
+		ensure set: attached {STRING} data_position.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_ride (a_value: STRING) do set_attribute_value (agent data_ride, a_value)
+		ensure set: attached {STRING} data_ride.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_rel (a_value: STRING) do set_attribute_value (agent data_rel, a_value)
+		ensure set: attached {STRING} data_rel.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_role (a_value: STRING) do set_attribute_value (agent data_role, a_value)
+		ensure set: attached {STRING} data_role.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_speed (a_value: STRING) do set_attribute_value (agent data_speed, a_value)
+		ensure set: attached {STRING} data_speed.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_start (a_value: STRING) do set_attribute_value (agent data_start, a_value)
+		ensure set: attached {STRING} data_start.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_src (a_value: STRING) do set_attribute_value (agent data_src, a_value)
+		ensure set: attached {STRING} data_src.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_slide (a_value: STRING) do set_attribute_value (agent data_slide, a_value)
+		ensure set: attached {STRING} data_slide.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_slide_to (a_value: STRING) do set_attribute_value (agent data_slide_to, a_value)
+		ensure set: attached {STRING} data_slide_to.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_theme (a_value: STRING) do set_attribute_value (agent data_theme, a_value)
+		ensure set: attached {STRING} data_theme.attr_value as al_value and then al_value.same_string (a_value) end
+
 	set_data_title (a_value: STRING) do set_attribute_value (agent data_title, a_value)
 		ensure set: attached {STRING} data_title.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_url (a_value: STRING) do set_attribute_value (agent data_url, a_value)
-		ensure set: attached {STRING} data_url.attr_value as al_value and then al_value.same_string (a_value) end
 
 	set_data_target (a_value: STRING) do set_attribute_value (agent data_target, a_value)
 		ensure set: attached {STRING} data_target.attr_value as al_value and then al_value.same_string (a_value) end
@@ -827,17 +863,14 @@ feature {NONE} -- Implementation: Data Setters
 	set_data_type (a_value: STRING) do set_attribute_value (agent data_type, a_value)
 		ensure set: attached {STRING} data_type.attr_value as al_value and then al_value.same_string (a_value) end
 
-	set_data_rel (a_value: STRING) do set_attribute_value (agent data_rel, a_value)
-		ensure set: attached {STRING} data_rel.attr_value as al_value and then al_value.same_string (a_value) end
+	set_data_url (a_value: STRING) do set_attribute_value (agent data_url, a_value)
+		ensure set: attached {STRING} data_url.attr_value as al_value and then al_value.same_string (a_value) end
 
-	set_data_direction (a_value: STRING) do set_attribute_value (agent data_direction, a_value)
-		ensure set: attached {STRING} data_direction.attr_value as al_value and then al_value.same_string (a_value) end
+	set_data_x (a_value: STRING) do set_attribute_value (agent data_x, a_value)
+		ensure set: attached {STRING} data_x.attr_value as al_value and then al_value.same_string (a_value) end
 
-	set_data_icon (a_value: STRING) do set_attribute_value (agent data_icon, a_value)
-		ensure set: attached {STRING} data_icon.attr_value as al_value and then al_value.same_string (a_value) end
-
-	set_data_inline (a_value: STRING) do set_attribute_value (agent data_inline, a_value)
-		ensure set: attached {STRING} data_inline.attr_value as al_value and then al_value.same_string (a_value) end
+	set_data_y (a_value: STRING) do set_attribute_value (agent data_y, a_value)
+		ensure set: attached {STRING} data_y.attr_value as al_value and then al_value.same_string (a_value) end
 
 feature {NONE} -- Implementation: Setters
 
@@ -855,6 +888,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent align, a_align)
 		ensure
 			set: attached {STRING} align.attr_value as al_value and then al_value.same_string (a_align)
+		end
+
+	set_aria_hidden (a_value: STRING)
+			-- `set_aria_hidden' with `a_value'
+		do
+			set_attribute_value (agent aria_hidden, a_value)
+		ensure
+			set: attached {STRING} aria_hidden.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_aria_label (a_aria_label: STRING)
@@ -1177,6 +1218,7 @@ feature {NONE} -- Attribute List
 				-- Common
 			Result.force (action, action.attr_name)
 			Result.force (align, align.attr_name)
+			Result.force (aria_hidden, aria_hidden.attr_name)
 			Result.force (aria_label, aria_label.attr_name)
 			Result.force (valign, valign.attr_name)
 			Result.force (alt, alt.attr_name)
@@ -1224,14 +1266,19 @@ feature {NONE} -- Attribute List
 			Result.force (data_dom_cache, data_dom_cache.attr_name)
 			Result.force (data_easing, data_easing.attr_name)
 			Result.force (data_fullscreen, data_fullscreen.attr_name)
+			Result.force (data_holder_rendered, data_holder_rendered.attr_name)
 			Result.force (data_icon, data_icon.attr_name)
 			Result.force (data_id, data_id.attr_name)
 			Result.force (data_inline, data_inline.attr_name)
 			Result.force (data_overlay_theme, data_overlay_theme.attr_name)
 			Result.force (data_position, data_position.attr_name)
 			Result.force (data_rel, data_rel.attr_name)
+			Result.force (data_ride, data_ride.attr_name)
 			Result.force (data_role, data_role.attr_name)
+			Result.force (data_slide, data_slide.attr_name)
+			Result.force (data_slide_to, data_slide_to.attr_name)
 			Result.force (data_speed, data_speed.attr_name)
+			Result.force (data_src, data_src.attr_name)
 			Result.force (data_start, data_start.attr_name)
 			Result.force (data_target, data_target.attr_name)
 			Result.force (data_theme, data_theme.attr_name)

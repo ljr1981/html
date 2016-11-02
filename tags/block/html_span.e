@@ -8,6 +8,9 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			aria_hidden, set_aria_hidden
+		end
 
 create
 	default_create,

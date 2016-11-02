@@ -8,6 +8,10 @@ class
 
 inherit
 	HTML_TAG
+		export {ANY}
+			data_slide_to, set_data_slide_to,
+			data_target, set_data_target
+		end
 
 create
 	default_create,
