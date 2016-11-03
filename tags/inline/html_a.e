@@ -56,6 +56,18 @@ feature {NONE} -- Initialization
 			default_create
 		end
 
+feature -- Basic Ops
+
+	open_in_new_tab
+		do
+			set_target ("_blank")
+		end
+
+	open_in_new_window
+		do
+			set_target ("_new")
+		end
+
 feature -- Output
 
 	tag_name: STRING = "a"

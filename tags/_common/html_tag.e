@@ -345,7 +345,7 @@ feature {NONE} -- Implementation: Output
 			create Result.make_empty
 
 				-- Start tag ...
-			if not start_tag.is_empty and then (html_content_items.is_empty and text_content.is_empty) then -- exclude_end_tag and
+			if is_minifiable then -- exclude_end_tag and
 				l_modified_start_tag := start_tag.twin
 				l_modified_start_tag.insert_character ('/', l_modified_start_tag.count)
 				Result.append_string_general (l_modified_start_tag)
@@ -374,12 +374,20 @@ feature {NONE} -- Implementation: Output
 			end
 
 				-- End tag ...
-			if (html_content_items.is_empty and text_content.is_empty) then -- exclude_end_tag and
+			if is_minifiable then -- exclude_end_tag and
 				do_nothing -- Do not put an end tag
 			else
 				Result.append_string (end_tag)
 			end
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+		end
+
+	is_minifiable: BOOLEAN
+		do
+			Result := not start_tag.is_empty and
+						html_content_items.is_empty and
+						text_content.is_empty and
+						not attached {HTML_SCRIPT} Current
 		end
 
 	content_only_html_out (a_prettified: like Prettified): STRING

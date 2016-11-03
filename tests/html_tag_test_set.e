@@ -53,13 +53,13 @@ feature -- Test routines
 			assert_strings_equal ("html_page4", "<!DOCTYPE html><html><head><base/><link/><meta/></head><body/></html>", l_html.html_out)
 			create l_script
 			l_html.head.extend (l_script)
-			assert_strings_equal ("html_page5", "<!DOCTYPE html><html><head><base/><link/><meta/><script/></head><body/></html>", l_html.html_out)
+			assert_strings_equal ("html_page5", "<!DOCTYPE html><html><head><base/><link/><meta/><script></script></head><body/></html>", l_html.html_out)
 			create l_style
 			l_html.head.extend (l_style)
-			assert_strings_equal ("html_page6", "<!DOCTYPE html><html><head><base/><link/><meta/><script/><style/></head><body/></html>", l_html.html_out)
+			assert_strings_equal ("html_page6", "<!DOCTYPE html><html><head><base/><link/><meta/><script></script><style/></head><body/></html>", l_html.html_out)
 			create l_title
 			l_html.head.extend (l_title)
-			assert_strings_equal ("html_page7", "<!DOCTYPE html><html><head><base/><link/><meta/><script/><style/><title/></head><body/></html>", l_html.html_out)
+			assert_strings_equal ("html_page7", "<!DOCTYPE html><html><head><base/><link/><meta/><script></script><style/><title/></head><body/></html>", l_html.html_out)
 		end
 
 feature -- Testing: Creation Tests

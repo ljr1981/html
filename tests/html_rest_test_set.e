@@ -62,7 +62,7 @@ feature {NONE} -- Test: Support
 	
     return false;
   });
-});"/>
+});"></script>
 ]"
 
 end
