@@ -137,7 +137,7 @@ feature -- Test routines
 			create l_ul.make_with_content (<<>>)
 			create l_video
 			create l_video.make_with_height_width (400, 300, True)
-			assert_strings_equal ("video_with_controls", "<video height=%"400%"  width=%"300%" controls></video>", l_video.html_out)
+			assert_strings_equal ("video_with_controls", "<video height=%"400%"  width=%"300%" controls/>", l_video.html_out)
 			create l_span.make_with_content (<<>>)
 		end
 
@@ -172,9 +172,9 @@ feature -- Testing: {HTML_UNORDERED_LIST}
 
 feature {NONE} -- Testing: {HTML_UNORDERED_LIST} Support
 
-	empty_ul_any: STRING = "<div></div>"
-	empty_ul: STRING = "<div><ul></ul></div>"
-	empty_ul_li: STRING = "<div><ul><li></li></ul></div>"
+	empty_ul_any: STRING = "<div/>"
+	empty_ul: STRING = "<div><ul/></div>"
+	empty_ul_li: STRING = "<div><ul><li/></ul></div>"
 	ul_li_objects: STRING = "<div><ul><li>Bugs Bunny</li><li>Daffy Duck</li><li>Marvin the Martian</li></ul></div>"
 	ul_li_strings: STRING = "<div><ul><li>Bugs Bunny</li><li>Daffy Duck</li><li>Marvin the Martian</li></ul></div>"
 
@@ -192,7 +192,7 @@ feature -- Testing: {HTML_SPAN}
 			assert_strings_equal ("span_tag_content_string", span_tag_content_string, l_span.html_out)
 
 			create l_span.make_with_content (<<create {HTML_TEXT}.default_create>>)
-			assert_strings_equal ("empty_span_tags_empty_content", empty_span_any, l_span.html_out)
+			assert_strings_equal ("empty_span_tags_empty_content", span_tag_empty_content, l_span.html_out)
 
 			create l_span.make_with_content (<<create {HTML_TEXT}.make_with_text ("Bugs Bunny, "), create {HTML_TEXT}.make_with_text ("Daffy Duck, "), create {HTML_TEXT}.make_with_text ("Marvin the Martian")>>)
 			assert_strings_equal ("span_tag_content_objects", span_tag_content_objects, l_span.html_out)
@@ -200,7 +200,7 @@ feature -- Testing: {HTML_SPAN}
 
 feature {NONE} -- Testing {HTML_SPAN} Support
 
-	empty_span_any: STRING = "<span></span>"
+	empty_span_any: STRING = "<span/>"
 	span_tag_content_string: STRING = "<span>Bugs Bunny</span>"
 	span_tag_empty_content: STRING = "<span></span>"
 	span_tag_content_object: STRING = "<span>Daffy Duck</span>"
