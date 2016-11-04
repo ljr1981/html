@@ -23,7 +23,7 @@ feature -- Output
 
 	common_out (a_prettified: BOOLEAN): STRING_8
 		do
-			Result := "<br/>"
+			Result := "<br>"
 		end
 
 	tag_name: STRING = "br"

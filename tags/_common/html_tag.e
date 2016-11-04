@@ -387,7 +387,8 @@ feature {NONE} -- Implementation: Output
 			Result := not start_tag.is_empty and
 						html_content_items.is_empty and
 						text_content.is_empty and
-						not attached {HTML_SCRIPT} Current
+						not attached {HTML_SCRIPT} Current and
+						not attached {HTML_LINK} Current
 		end
 
 	content_only_html_out (a_prettified: like Prettified): STRING
