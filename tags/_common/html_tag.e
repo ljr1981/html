@@ -389,6 +389,7 @@ feature {NONE} -- Implementation: Output
 						text_content.is_empty and
 						not attached {HTML_SCRIPT} Current and
 						not attached {HTML_LINK} Current
+			Result := False
 		end
 
 	content_only_html_out (a_prettified: like Prettified): STRING
