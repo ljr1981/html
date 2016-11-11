@@ -133,8 +133,8 @@ feature -- HTML Content
 			create Result.make (Default_capacity)
 		end
 
-	body_styles: ARRAYED_LIST [HTML_STYLE]
-			-- HTML <script> `body_styles' to be applied to <body> ... </body>
+	head_styles: ARRAYED_LIST [HTML_STYLE]
+			-- HTML <script> `head_styles' to be applied to <head> ... </head>
 		attribute
 			create Result.make (Default_capacity)
 		end
@@ -296,25 +296,25 @@ feature -- Output
 			end
 		end
 
-	add_body_styles (a_body_styles: ARRAYED_LIST [HTML_STYLE])
+	add_head_styles (a_head_styles: ARRAYED_LIST [HTML_STYLE])
 			--
 		do
 			across
-				body_styles as ic_internal
+				head_styles as ic_internal
 			loop
 				if
-					across a_body_styles as ic_passed all
+					across a_head_styles as ic_passed all
 						ic_internal.item.hash_code /= ic_passed.item.hash_code
 					end
 				then
-					a_body_styles.force (ic_internal.item)
+					a_head_styles.force (ic_internal.item)
 				end
 			end
 
 			across
 				html_content_items as ic
 			loop
-				ic.item.add_body_styles (a_body_styles)
+				ic.item.add_head_styles (a_head_styles)
 			end
 		end
 
@@ -387,9 +387,12 @@ feature {NONE} -- Implementation: Output
 			Result := not start_tag.is_empty and
 						html_content_items.is_empty and
 						text_content.is_empty and
-						not attached {HTML_SCRIPT} Current and
-						not attached {HTML_LINK} Current
-			Result := False
+						(
+						attached {HTML_META} Current or
+						attached {HTML_IMG} Current or
+						attached {HTML_INPUT} Current or
+						attached {HTML_LINK} Current
+						)
 		end
 
 	content_only_html_out (a_prettified: like Prettified): STRING
