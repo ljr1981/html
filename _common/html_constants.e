@@ -14,6 +14,7 @@ feature -- Keywords
 	alt_kw: STRING = "alt"
 	aria_hidden_kw: STRING = "aria-hidden"
 	aria_label_kw: STRING = "aria-label"
+	aria_multiselectable_kw: STRING = "aria-multiselectable"
 	autocomplete_kw: STRING = "autocomplete"
 	border_kw: STRING = "border"
 	cell_padding_kw: STRING = "cellpadding"

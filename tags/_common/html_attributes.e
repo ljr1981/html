@@ -86,6 +86,18 @@ feature -- Global Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_global_style.asp"
 		attribute Result := ["", "", Void, style_kw, is_quoted] ensure Result.attr_name.same_string (style_kw) end
 
+feature {NONE} -- Aria
+
+	aria_hidden: attached like attribute_tuple_anchor
+		attribute Result := ["", "", Void, aria_hidden_kw, is_quoted] ensure Result.attr_name.same_string (aria_hidden_kw) end
+
+	aria_label: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_aria_label.asp"
+		attribute Result := ["", "", Void, aria_label_kw, is_quoted] ensure Result.attr_name.same_string (aria_label_kw) end
+
+	aria_multiselectable: attached like attribute_tuple_anchor
+		attribute Result := [no_value, no_default, no_minimum, aria_multiselectable_kw, is_quoted] ensure Result.attr_name.same_string (aria_multiselectable_kw) end
+
 feature {NONE} -- Tag-specific Attributes
 
 	-- To expose these attributes to Clients, please use the export
@@ -108,13 +120,6 @@ feature {NONE} -- Tag-specific Attributes
 	align: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_align.asp"
 		attribute Result := ["", "", Void, align_kw, is_quoted] ensure Result.attr_name.same_string (align_kw) end
-
-	aria_hidden: attached like attribute_tuple_anchor
-		attribute Result := ["", "", Void, aria_hidden_kw, is_quoted] ensure Result.attr_name.same_string (aria_hidden_kw) end
-
-	aria_label: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/att_aria_label.asp"
-		attribute Result := ["", "", Void, aria_label_kw, is_quoted] ensure Result.attr_name.same_string (aria_label_kw) end
 
 	valign: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_valign.asp"
@@ -872,6 +877,32 @@ feature {NONE} -- Implementation: Data Setters
 	set_data_y (a_value: STRING) do set_attribute_value (agent data_y, a_value)
 		ensure set: attached {STRING} data_y.attr_value as al_value and then al_value.same_string (a_value) end
 
+feature {NONE} -- Aria Setters
+
+	set_aria_hidden (a_value: STRING)
+			-- `set_aria_hidden' with `a_value'
+		do
+			set_attribute_value (agent aria_hidden, a_value)
+		ensure
+			set: attached {STRING} aria_hidden.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_aria_label (a_value: STRING)
+			-- `set_aria_label' with `a_value'
+		do
+			set_attribute_value (agent aria_label, a_value)
+		ensure
+			set: attached {STRING} aria_label.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_aria_multiselectable (a_value: STRING)
+			-- `set_aria_multiselectable' with `a_value'
+		do
+			set_attribute_value (agent aria_multiselectable, a_value)
+		ensure
+			set: attached {STRING} aria_multiselectable.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
 feature {NONE} -- Implementation: Setters
 
 	set_action (a_action: STRING)
@@ -888,22 +919,6 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent align, a_align)
 		ensure
 			set: attached {STRING} align.attr_value as al_value and then al_value.same_string (a_align)
-		end
-
-	set_aria_hidden (a_value: STRING)
-			-- `set_aria_hidden' with `a_value'
-		do
-			set_attribute_value (agent aria_hidden, a_value)
-		ensure
-			set: attached {STRING} aria_hidden.attr_value as al_value and then al_value.same_string (a_value)
-		end
-
-	set_aria_label (a_aria_label: STRING)
-			-- `set_aria_label' with `a_aria_label'
-		do
-			set_attribute_value (agent aria_label, a_aria_label)
-		ensure
-			set: attached {STRING} aria_label.attr_value as al_value and then al_value.same_string (a_aria_label)
 		end
 
 	set_border (a_border: STRING)
@@ -1215,11 +1230,14 @@ feature {NONE} -- Attribute List
 			Result.force (global_id, global_id.attr_name)
 			Result.force (global_style, global_style.attr_name)
 
+				-- Aria
+			Result.force (aria_hidden, aria_hidden.attr_name)
+			Result.force (aria_label, aria_label.attr_name)
+			Result.force (aria_multiselectable, aria_multiselectable.attr_name)
+
 				-- Common
 			Result.force (action, action.attr_name)
 			Result.force (align, align.attr_name)
-			Result.force (aria_hidden, aria_hidden.attr_name)
-			Result.force (aria_label, aria_label.attr_name)
 			Result.force (valign, valign.attr_name)
 			Result.force (alt, alt.attr_name)
 			Result.force (autocomplete, autocomplete.attr_name)
@@ -1377,6 +1395,9 @@ feature {NONE} -- Attribute List
 feature {NONE} -- Constants
 
 	attribute_separator: STRING = "  "
+	no_value: STRING = ""
+	no_default: STRING = ""
+	no_minimum: detachable NUMERIC once Result := Void end
 
 feature -- Constants
 
