@@ -85,39 +85,74 @@ feature {NONE} -- Initialization
 
 feature -- Style
 
-	style_declarations: ARRAYED_LIST [CSS_DECLARATION]
-			--
-		attribute
-			create Result.make (5)
+	bem: detachable BEM_BLOCK
+
+	attached_bem: attached like bem
+		do
+			check has_bem: attached bem as al_bem then Result := al_bem end
 		end
 
-	style_declarations_out: STRING
-			--
+	set_bem (a_bem_text: STRING_8; a_declarations: ARRAY [TUPLE [property: STRING_8; value: STRING_8; is_quoted: BOOLEAN]])
 		do
-			create Result.make_empty
+			create bem.make_with_bem_text (a_bem_text, a_declarations)
+		end
+
+	add_bem_rule_declarations (a_declarations: ARRAY [TUPLE [property, value: STRING_8; is_quoted: like {BEM}.inquotes]])
+		local
+			l_css_rule: CSS_RULE
+			l_declaration: CSS_DECLARATION
+		do
 			across
-				style_declarations as ic
+				a_declarations as ic
 			loop
-				Result.append_string_general (ic.item.out)
+				if ic.item.is_quoted then
+					create l_declaration.make_quoted_value (ic.item.property, ic.item.value)
+				else
+					create l_declaration.make_unquoted_value (ic.item.property, ic.item.value)
+				end
+				create l_css_rule.make_selectors_comma_delimited (<<>>, <<l_declaration>>)
+				attached_bem.rule.add_rule (l_css_rule)
 			end
 		end
 
-	style_rule: CSS_RULE
-			-- `style_rule'.
-		attribute
-			create Result
+	bem_out: STRING
+		do
+			Result := attached_bem.rule.out
 		end
 
-	style_out: STRING
-			-- `style_out' string representation of `style_rule'.
-		do
-			Result := style_rule.out
-			across
-				html_content_items as ic_items
-			loop
-				Result.append_string_general (ic_items.item.style_out)
-			end
-		end
+--	style_declarations: ARRAYED_LIST [CSS_DECLARATION]
+--			--
+--		attribute
+--			create Result.make (5)
+--		end
+
+--	style_declarations_out: STRING
+--			--
+--		do
+--			create Result.make_empty
+--			across
+--				style_declarations as ic
+--			loop
+--				Result.append_string_general (ic.item.out)
+--			end
+--		end
+
+--	style_rule: CSS_RULE
+--			-- `style_rule'.
+--		attribute
+--			create Result
+--		end
+
+--	style_out: STRING
+--			-- `style_out' string representation of `style_rule'.
+--		do
+--			Result := style_rule.out
+--			across
+--				html_content_items as ic_items
+--			loop
+--				Result.append_string_general (ic_items.item.style_out)
+--			end
+--		end
 
 feature -- HTML Content
 

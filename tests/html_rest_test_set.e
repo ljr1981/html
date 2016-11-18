@@ -43,7 +43,7 @@ feature -- Tests: Script
 			l_div.set_class_names ("thing")
 			create l_rest
 			l_rest.add_POST_JSON_data_script (l_div, "thing", "callback", "")
-			assert_strings_equal ("blah", "<div class=%"thing%"/>", l_div.html_out)
+			assert_strings_equal ("blah", "<div class=%"thing%"></div>", l_div.html_out)
 			assert_strings_equal ("blah2", POST_JSON_script_text, l_div.css_script_snippets [1].html_out)
 		end
 
