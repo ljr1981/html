@@ -23,9 +23,11 @@ inherit
 			style, set_style
 		undefine
 			default_create
+		redefine
+			attributes_out
 		end
 
-	HTML_CONSTANTS
+	HTML
 		undefine
 			default_create,
 			out
@@ -85,74 +87,176 @@ feature {NONE} -- Initialization
 
 feature -- Style
 
-	bem: detachable BEM_BLOCK
-
-	attached_bem: attached like bem
-		do
-			check has_bem: attached bem as al_bem then Result := al_bem end
-		end
-
-	set_bem (a_bem_text: STRING_8; a_declarations: ARRAY [TUPLE [property: STRING_8; value: STRING_8; is_quoted: BOOLEAN]])
-		do
-			create bem.make_with_bem_text (a_bem_text, a_declarations)
-		end
-
-	add_bem_rule_declarations (a_declarations: ARRAY [TUPLE [property, value: STRING_8; is_quoted: like {BEM}.inquotes]])
+	add_style (a_property, a_value: STRING; a_is_quoted, a_is_inline: BOOLEAN; a_external_name, a_selectors: detachable STRING)
+		require
+			inline_mutex: (a_is_inline and then not attached a_external_name) xor
+							( (attached a_external_name and then not a_is_inline) or
+								(not attached a_external_name and then not a_is_inline) )
+			has_selectors: not attached a_selectors implies
+							attached {STRING} global_class.attr_value
 		local
-			l_css_rule: CSS_RULE
-			l_declaration: CSS_DECLARATION
+			l_decl: CSS_DECLARATION
+			l_hashable_string: STRING
 		do
-			across
-				a_declarations as ic
-			loop
-				if ic.item.is_quoted then
-					create l_declaration.make_quoted_value (ic.item.property, ic.item.value)
-				else
-					create l_declaration.make_unquoted_value (ic.item.property, ic.item.value)
-				end
-				create l_css_rule.make_selectors_comma_delimited (<<>>, <<l_declaration>>)
-				attached_bem.rule.add_rule (l_css_rule)
+			if a_is_quoted then
+				create l_decl.make_quoted_value (a_property, a_value)
+			else
+				create l_decl.make_unquoted_value (a_property, a_value)
+			end
+			if attached classes_as_selectors (a_selectors) as al_selectors then
+				l_hashable_string := al_selectors.twin
+				l_hashable_string.append_string_general (l_decl.out)
+				styles.force ([l_decl, a_is_inline, a_external_name, al_selectors], l_hashable_string.hash_code)
+			elseif attached {STRING} global_class.attr_value as al_value and then
+					attached {STRING} classes_as_selectors (al_value) as al_selectors
+				then
+					l_hashable_string := al_selectors.twin
+					l_hashable_string.append_string_general (l_decl.out)
+					styles.force ([l_decl, a_is_inline, a_external_name, al_selectors], l_hashable_string.hash_code)
+			else
+				check must_declare_selectors: False end
 			end
 		end
 
-	bem_out: STRING
+	classes_as_selectors (a_classes: detachable STRING): detachable STRING
 		do
-			Result := attached_bem.rule.out
+			if attached {STRING} a_classes as al_classes then
+				Result := al_classes.twin
+				if not Result.is_empty then
+					Result.prepend_character ('.')
+					Result.replace_substring_all (" ", " .")
+				end
+			end
 		end
 
---	style_declarations: ARRAYED_LIST [CSS_DECLARATION]
---			--
---		attribute
---			create Result.make (5)
---		end
+	styles: HASH_TABLE [attached like styles_item_anchor, INTEGER]
+		attribute
+			create Result.make (5)
+		end
 
---	style_declarations_out: STRING
---			--
---		do
---			create Result.make_empty
---			across
---				style_declarations as ic
---			loop
---				Result.append_string_general (ic.item.out)
---			end
---		end
+	styles_item_anchor: detachable TUPLE [declaration: CSS_DECLARATION; is_inline: BOOLEAN; external_name: detachable STRING; selectors: STRING]
 
---	style_rule: CSS_RULE
---			-- `style_rule'.
---		attribute
---			create Result
---		end
+	all_styles: like styles
+			-- `all_styles' for Current including those in `html_content_items'.
+		do
+			Result := styles
+			across
+				html_content_items as ic_html_content
+			loop
+				across
+					ic_html_content.item.styles as ic_styles
+				loop
+					if not ic_styles.item.is_inline then
+						Result.force (ic_styles.item, ic_styles.item.declaration.out.hash_code)
+					end
+				end
+			end
+		end
 
---	style_out: STRING
---			-- `style_out' string representation of `style_rule'.
---		do
---			Result := style_rule.out
---			across
---				html_content_items as ic_items
---			loop
---				Result.append_string_general (ic_items.item.style_out)
---			end
---		end
+	attached_all_styles: like all_styles
+			-- Post `set_all_styles_cache', which loads `all_styles_cache' from `all_styles'
+			-- so this feature returns whatever is in the cache and expects it to be attached.
+		do
+			check has_all_styles_cached: attached all_styles_cache as al_cache then
+				Result := al_cache
+			end
+		end
+
+	all_styles_cache: detachable like styles
+			-- Currents cache of `all_styles'.
+
+	set_all_styles_cache
+			-- `set_all_styles_cache' loads `all_styles_cache' with `all_styles'
+		do
+			all_styles_cache := all_styles
+		end
+
+	css_inline_out: STRING
+			-- `css_inline_out' outputs online `styles' which are "inline".
+		do
+			create Result.make_empty
+			across
+				styles as ic_local_styles
+			loop
+				if ic_local_styles.item.is_inline then
+					Result.append_string_general (ic_local_styles.item.declaration.out)
+				end
+			end
+		end
+
+	css_internal_out: STRING
+			-- Current's `css_internal_out' for all internal-CSS, and children of Current.
+		local
+			l_rule_hash: attached like rule_hash_anchor
+		do
+				-- Build `l_rule_hash' as a hash of like-selectors, with unique declarations.
+			set_all_styles_cache
+			create l_rule_hash.make (attached_all_styles.count)
+			across
+				attached_all_styles as ic
+			loop
+				if not ic.item.is_inline and then not attached ic.item.external_name then
+					add_rule_hash_item (l_rule_hash, ic.item)
+				end
+			end
+				-- Create result from `l_rule_hash'.
+			Result := css_rule_hash_out (l_rule_hash)
+		end
+
+	css_external_out: STRING
+			-- Current's `css_external_out' for all external-CSS, and children of Current.
+		local
+			l_rule_hash: attached like rule_hash_anchor
+		do
+				-- Build `l_rule_hash' as a hash of like-selectors, with unique declarations.
+			set_all_styles_cache
+			create l_rule_hash.make (attached_all_styles.count)
+			across
+				attached_all_styles as ic
+			loop
+				if not ic.item.is_inline and then attached ic.item.external_name then
+					add_rule_hash_item (l_rule_hash, ic.item)
+				end
+			end
+				-- Create result from `l_rule_hash'.
+			Result := css_rule_hash_out (l_rule_hash)
+		end
+
+	add_rule_hash_item (a_rule_hash: attached like rule_hash_anchor; a_style_item: attached like styles_item_anchor)
+			-- From `a_style_item' `add_rule_hash_item' to `a_rule_hash'.
+		local
+			l_declarations: HASH_TABLE [CSS_DECLARATION, INTEGER]
+		do
+			if attached a_rule_hash.at (a_style_item.selectors) as al_rule then
+				al_rule.declarations.force (a_style_item.declaration, a_style_item.declaration.out.hash_code)
+			else
+				create l_declarations.make (5)
+				l_declarations.force (a_style_item.declaration, a_style_item.declaration.out.hash_code)
+				a_rule_hash.force ([a_style_item.selectors, l_declarations], a_style_item.selectors)
+			end
+		end
+
+	css_rule_hash_out (a_rule_hash: attached like rule_hash_anchor): STRING
+			-- From `a_rule_hash' make `css_rule_hash_out' to {STRING} Result.
+		do
+			create Result.make_empty
+			across
+				a_rule_hash as ic_rule
+			loop
+				Result.append_string_general (ic_rule.item.selectors)
+				Result.append_character (' ')
+				Result.append_character ('{')
+				across
+					ic_rule.item.declarations as ic_declarations
+				loop
+					Result.append_string_general (ic_declarations.item.out)
+				end
+				Result.append_character ('}')
+			end
+		end
+
+	rule_hash_anchor: detachable HASH_TABLE [TUPLE [selectors: STRING; declarations: HASH_TABLE [CSS_DECLARATION, INTEGER]], STRING]
+			-- Current's `rule_hash_anchor'.
 
 feature -- HTML Content
 
@@ -172,6 +276,12 @@ feature -- HTML Content
 			-- HTML <script> `head_styles' to be applied to <head> ... </head>
 		attribute
 			create Result.make (Default_capacity)
+--			if attached {STRING} css_internal_out as al_style_text and then
+--				not al_style_text.is_empty
+--			then
+--				Result.force (new_style)
+--				last_new_style.set_text_content (al_style_text)
+--			end
 		end
 
 	text_content: STRING
@@ -415,6 +525,17 @@ feature {NONE} -- Implementation: Output
 				Result.append_string (end_tag)
 			end
 			if a_prettified then Result.append_character ('%N'); Result.append_character ('%T') end
+		end
+
+	attributes_out: STRING
+			-- <Precursor>
+		do
+			if attached {STRING} css_inline_out as al_css_inline_out and then
+				not al_css_inline_out.is_empty
+			then
+				set_style (al_css_inline_out)
+			end
+			Result := Precursor
 		end
 
 	is_minifiable: BOOLEAN

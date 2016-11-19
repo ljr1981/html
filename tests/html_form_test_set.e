@@ -23,7 +23,7 @@ inherit
 			default_create
 		end
 
-	HTML_CONSTANTS
+	HTML
 		undefine
 			default_create
 		end

@@ -45,7 +45,7 @@ inherit
 			attribute_list
 		end
 
-	HTML_CONSTANTS
+	HTML
 		undefine
 			default_create,
 			out
@@ -731,6 +731,25 @@ feature -- Setters
 				-- Promises to set `global_class' `attr_name' without prefix '.' characters.
 		end
 
+	set_bem_name (a_block, a_element, a_modifier: STRING)
+		require
+			has_block: not a_block.is_empty
+		local
+			l_name: STRING
+		do
+			create l_name.make_empty
+			l_name.append_string_general (a_block)
+			if not a_element.is_empty then
+				l_name.append_string_general ("__")
+				l_name.append_string_general (a_element)
+			end
+			if not a_modifier.is_empty then
+				l_name.append_string_general ("--")
+				l_name.append_string_general (a_modifier)
+			end
+			set_class_names (l_name)
+		end
+
 	append_class_name (a_class_name: STRING)
 			-- `append_class_name' with `a_class_name' into `global_class'.
 		require
@@ -749,6 +768,25 @@ feature -- Setters
 		ensure
 			has_name_but_not_found: attached {STRING} global_class.attr_value as al_value and then al_value.has_substring (a_class_name)
 				-- Promises to add `a_class_name' to `global_class' `attr_name'.
+		end
+
+	append_bem_name (a_block, a_element, a_modifier: STRING)
+		require
+			has_block: not a_block.is_empty
+		local
+			l_name: STRING
+		do
+			create l_name.make_empty
+			l_name.append_string_general (a_block)
+			if not a_element.is_empty then
+				l_name.append_string_general ("__")
+				l_name.append_string_general (a_element)
+			end
+			if not a_modifier.is_empty then
+				l_name.append_string_general ("--")
+				l_name.append_string_general (a_modifier)
+			end
+			append_class_name (l_name)
 		end
 
 	remove_class_name (a_name_to_remove: STRING)
@@ -771,6 +809,25 @@ feature -- Setters
 		ensure
 			removed_but_still_found: not global_class.attr_name.has_substring (a_name_to_remove)
 				-- Promises to remove `a_name_to_remove' from `global_class' `attr_name'.
+		end
+
+	remove_bem_name (a_block, a_element, a_modifier: STRING)
+		require
+			has_block: not a_block.is_empty
+		local
+			l_name: STRING
+		do
+			create l_name.make_empty
+			l_name.append_string_general (a_block)
+			if not a_element.is_empty then
+				l_name.append_string_general ("__")
+				l_name.append_string_general (a_element)
+			end
+			if not a_modifier.is_empty then
+				l_name.append_string_general ("--")
+				l_name.append_string_general (a_modifier)
+			end
+			remove_class_name (l_name)
 		end
 
 	set_id (a_value: STRING)

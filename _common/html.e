@@ -1,10 +1,22 @@
 note
 	description: "[
-		Representation of {HTML_CONSTANTS}.
+		Representation of {HTML} Constants.
 		]"
 
 class
-	HTML_CONSTANTS
+	HTML
+
+feature -- CSS Constants
+
+	quoted,inquotes: BOOLEAN = True
+	unquoted,noquotes: BOOLEAN = False
+
+	noValue: detachable STRING once Result := Void end
+	noExtCSS: detachable STRING once Result := Void end
+	noSelectors: detachable STRING once Result := Void end
+
+	CSSisInline: BOOLEAN = True
+	CSSnotInline: BOOLEAN = False
 
 feature -- Keywords
 
