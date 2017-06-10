@@ -139,17 +139,22 @@ feature -- Style
 	all_styles: like styles
 			-- `all_styles' for Current including those in `html_content_items'.
 		do
-			Result := styles
+			create Result.make (50)
+			gather_all_styles_into (Result)
+		end
+
+	gather_all_styles_into (a_all_styles: like styles)
+		do
+			across
+				styles as ic_local_styles
+			loop
+				a_all_styles.force (ic_local_styles.item, ic_local_styles.item.declaration.out.hash_code)
+			end
+
 			across
 				html_content_items as ic_html_content
 			loop
-				across
-					ic_html_content.item.styles as ic_styles
-				loop
-					if not ic_styles.item.is_inline then
-						Result.force (ic_styles.item, ic_styles.item.declaration.out.hash_code)
-					end
-				end
+				ic_html_content.item.gather_all_styles_into (a_all_styles)
 			end
 		end
 
@@ -276,12 +281,6 @@ feature -- HTML Content
 			-- HTML <script> `head_styles' to be applied to <head> ... </head>
 		attribute
 			create Result.make (Default_capacity)
---			if attached {STRING} css_internal_out as al_style_text and then
---				not al_style_text.is_empty
---			then
---				Result.force (new_style)
---				last_new_style.set_text_content (al_style_text)
---			end
 		end
 
 	text_content: STRING
@@ -306,13 +305,6 @@ feature -- Setting: Content
 			html_content_items.force (a_item)
 		end
 
-	html_content_items_has (a_item: attached like content_anchor): BOOLEAN
-			-- `html_content_items_has' `a_item'?
-			-- Check if the content has `a_item', True if it does.
-		do
-			Result := html_content_items.has (a_item)
-		end
-
 	add_contents (a_items: ARRAY [attached like content_anchor])
 			-- `add_contents' of `a_items' to `html_content_items'.
 		do
@@ -332,8 +324,6 @@ feature -- Setting: Content
 				--	`html_content_items', which is the goal of this feature.
 		end
 
-feature -- Setting: Text Content
-
 	set_text_content (a_text: like text_content)
 			-- `set_text_content' with `a_text'.
 		do
@@ -343,34 +333,29 @@ feature -- Setting: Text Content
 				-- Promises `text_content' will be precisely `same_string' as `a_text'.
 		end
 
-feature -- Nested Creators
-
 	add_text_content (a_text: STRING)
 			-- `add_text_content' as {HTML_TEXT} to `html_content_items'.
 		do
 			html_content_items.force (create {HTML_TEXT}.make_with_text (a_text))
 		end
 
-	add_code_tag_content (a_text: STRING)
-		do
-			html_content_items.force (create {HTML_CODE}.make_with_content (<<create {HTML_TEXT}.make_with_text (a_text)>>))
-		end
+feature -- Queries: Contents
 
-	add_a_tag_content_link_and_text (a_link, a_text: STRING)
+	html_content_items_has (a_item: attached like content_anchor): BOOLEAN
+			-- `html_content_items_has' `a_item'?
+			-- Check if the content has `a_item', True if it does.
 		do
-			html_content_items.force (create {HTML_A}.make_with_link_and_text (a_link, a_text))
+			Result := html_content_items.has (a_item)
 		end
 
 feature -- Output
 
-	innerHTML_out,
 	html_out: STRING
 			-- `html_out' of Current {HTML_TAG}.
 		do
 			Result := common_out (not_pretty)
 		end
 
-	innerHTML_pretty_out,
 	pretty_out: STRING
 			-- `pretty_out' of Current {HTML_TAG}.
 		do
@@ -384,7 +369,9 @@ feature -- Output
 			valid_tag: across valid_tags as ic some ic.item.same_string (Result) end
 		end
 
-	add_head_items (a_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]; a_css_files: HASH_TABLE [HTML_LINK, INTEGER]; a_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER])
+feature -- Gathering Functions
+
+	gather_head_items_into (a_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]; a_css_files: HASH_TABLE [HTML_LINK, INTEGER]; a_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER])
 		local
 			l_script: HTML_SCRIPT
 			l_script_text: STRING
@@ -415,11 +402,11 @@ feature -- Output
 			across
 				html_content_items as ic_content_items
 			loop
-				ic_content_items.item.add_head_items (a_javascript_files, a_css_files, a_scripts)
+				ic_content_items.item.gather_head_items_into (a_javascript_files, a_css_files, a_scripts)
 			end
 		end
 
-	add_body_scripts (a_body_scripts: ARRAYED_LIST [HTML_SCRIPT])
+	gather_body_scripts_into (a_body_scripts: ARRAYED_LIST [HTML_SCRIPT])
 			--
 		do
 			across
@@ -437,11 +424,11 @@ feature -- Output
 			across
 				html_content_items as ic
 			loop
-				ic.item.add_body_scripts (a_body_scripts)
+				ic.item.gather_body_scripts_into (a_body_scripts)
 			end
 		end
 
-	add_head_styles (a_head_styles: ARRAYED_LIST [HTML_STYLE])
+	gather_head_styles_into (a_head_styles: ARRAYED_LIST [HTML_STYLE])
 			--
 		do
 			across
@@ -459,7 +446,7 @@ feature -- Output
 			across
 				html_content_items as ic
 			loop
-				ic.item.add_head_styles (a_head_styles)
+				ic.item.gather_head_styles_into (a_head_styles)
 			end
 		end
 

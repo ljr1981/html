@@ -9,6 +9,8 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			colspan, set_colspan,
+			rowspan, set_rowspan,
 			valign, set_valign
 		end
 

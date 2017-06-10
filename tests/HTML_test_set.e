@@ -57,7 +57,7 @@ feature -- Test routines
 		 l_nav: HTML_NAV
 		 l_ol: HTML_OL
 		 l_p: HTML_P
-		 l_page: HTML_PAGE
+		 l_page: MOCK_PAGE
 		 l_script: HTML_SCRIPT
 		 l_style: HTML_STYLE
 		 l_table: HTML_TABLE
@@ -117,7 +117,6 @@ feature -- Test routines
 			create l_p
 			create l_p.make_with_content (<<>>)
 			create l_page
-			create l_page.make_with_content (<<>>)
 			create l_script
 			create l_script.make_with_content (<<>>)
 			create l_source

@@ -297,9 +297,6 @@ feature -- Page Element Factories
 	new_meta: HTML_META do create Result; last_new_meta := Result end
 	last_new_meta: like new_meta attribute Result := new_meta end
 
-	new_page: HTML_PAGE do create Result; last_new_page := Result end
-	last_new_page: like new_page attribute Result := new_page end
-
 	new_script: HTML_SCRIPT do create Result; last_new_script := Result end
 	last_new_script: like new_script attribute Result := new_script end
 

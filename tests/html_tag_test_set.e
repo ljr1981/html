@@ -23,12 +23,17 @@ inherit
 			default_create
 		end
 
+	HTML_FACTORY
+		undefine
+			default_create
+		end
+
 feature -- Test routines
 
 	html_tag_basic_tests
 			-- `html_tag_basic_tests'.
 		local
-			l_html: HTML_PAGE
+			l_page: MOCK_PAGE
 			l_head: HTML_HEAD
 			l_body: HTML_BODY
 
@@ -39,27 +44,26 @@ feature -- Test routines
 			l_style: HTML_STYLE
 			l_title: HTML_TITLE
 		do
-			create l_html
-			assert_strings_equal ("html_page1", "<!DOCTYPE html><html><head></head><body></body></html>", l_html.html_out)
+			create l_page
 
 			create l_base
-			l_html.head.extend (l_base)
-			assert_strings_equal ("html_page2", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_html.html_out)
+			l_page.head.extend (l_base)
+			assert_strings_equal ("html_page2", "<!DOCTYPE html><html><head><base></base></head><body></body></html>", l_page.html_out)
 			create l_link
-			l_html.head.extend (l_link)
-			assert_strings_equal ("html_page3", "<!DOCTYPE html><html><head><base></base><link/></head><body></body></html>", l_html.html_out)
+			l_page.head.extend (l_link)
+			assert_strings_equal ("html_page3", "<!DOCTYPE html><html><head><base></base><link/></head><body></body></html>", l_page.html_out)
 			create l_meta
-			l_html.head.extend (l_meta)
-			assert_strings_equal ("html_page4", "<!DOCTYPE html><html><head><base></base><link/><meta/></head><body></body></html>", l_html.html_out)
+			l_page.head.extend (l_meta)
+			assert_strings_equal ("html_page4", "<!DOCTYPE html><html><head><base></base><link/><meta/></head><body></body></html>", l_page.html_out)
 			create l_script
-			l_html.head.extend (l_script)
-			assert_strings_equal ("html_page5", "<!DOCTYPE html><html><head><base></base><link/><meta/><script></script></head><body></body></html>", l_html.html_out)
+			l_page.head.extend (l_script)
+			assert_strings_equal ("html_page5", "<!DOCTYPE html><html><head><base></base><link/><meta/><script></script></head><body></body></html>", l_page.html_out)
 			create l_style
-			l_html.head.extend (l_style)
-			assert_strings_equal ("html_page6", "<!DOCTYPE html><html><head><base></base><link/><meta/><script></script><style></style></head><body></body></html>", l_html.html_out)
+			l_page.head.extend (l_style)
+			assert_strings_equal ("html_page6", "<!DOCTYPE html><html><head><base></base><link/><meta/><script></script><style></style></head><body></body></html>", l_page.html_out)
 			create l_title
-			l_html.head.extend (l_title)
-			assert_strings_equal ("html_page7", "<!DOCTYPE html><html><head><base></base><link/><meta/><script></script><style></style><title></title></head><body></body></html>", l_html.html_out)
+			l_page.head.extend (l_title)
+			assert_strings_equal ("html_page7", "<!DOCTYPE html><html><head><base></base><link/><meta/><script></script><style></style><title></title></head><body></body></html>", l_page.html_out)
 		end
 
 feature -- Testing: Creation Tests
@@ -75,7 +79,6 @@ feature -- Testing: Creation Tests
 			l_h1: HTML_H1
 			l_h2: HTML_H2
 			l_h3: HTML_H3
-			l_page: HTML_PAGE
 				-- Forms
 			l_form: HTML_FORM
 			l_button: HTML_BUTTON
@@ -127,9 +130,6 @@ feature -- Testing: Creation Tests
 
 			create l_h1.make_with_content (<<create {HTML_H2}.make_with_content (<<create {HTML_H3}>>)>>)
 			assert_strings_equal ("h1_h2_h3_2", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
-
-			create l_page.make_with_content (<<l_a, l_br, l_div, l_footer, l_form, l_h1>>)
-			assert_strings_equal ("page", "<!DOCTYPE html><html><head></head><body><a></a><br><div></div><footer></footer><form></form><h1><h2><h3></h3></h2></h1></body></html>", l_page.html_out)
 		end
 
 	html_style_tests
@@ -192,7 +192,6 @@ feature -- Testing: Creation Tests
 			create l_h2
 			create l_h3
 			create l_text
-			create l_page
 
 			l_text.set_text_content ("This is some text.")
 			l_div.html_content_items.force (l_text)

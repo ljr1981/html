@@ -141,6 +141,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_cols.asp"
 		attribute Result := ["", "", Void, cols_kw, is_quoted] ensure Result.attr_name.same_string (cols_kw) end
 
+	colspan: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_colspan.asp"
+		attribute Result := ["", "", Void, colspan_kw, is_quoted] ensure Result.attr_name.same_string (colspan_kw) end
+
 	content: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_content.asp"
 		attribute Result := ["", "", Void, content_kw, is_quoted] ensure Result.attr_name.same_string (content_kw) end
@@ -220,6 +224,10 @@ feature {NONE} -- Tag-specific Attributes
 	rows: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_role.asp"
 		attribute Result := ["", "", Void, rows_kw, is_quoted] ensure Result.attr_name.same_string (rows_kw) end
+
+	rowspan: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_rowspan.asp"
+		attribute Result := ["", "", Void, rowspan_kw, is_quoted] ensure Result.attr_name.same_string (rowspan_kw) end
 
 	size: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_rows.asp"
@@ -1026,6 +1034,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} cols.attr_value as al_value and then al_value.same_string (a_cols)
 		end
 
+	set_colspan (a_colspan: STRING)
+			-- `set_colspan' with `a_colspan'
+		do
+			set_attribute_value (agent colspan, a_colspan)
+		ensure
+			set: attached {STRING} colspan.attr_value as al_value and then al_value.same_string (a_colspan)
+		end
+
 	set_cell_spacing (a_cell_spacing: STRING)
 			-- `set_cell_spacing' with `a_cell_spacing'
 		do
@@ -1183,6 +1199,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} rows.attr_value as al_value and then al_value.same_string (a_rows)
 		end
 
+	set_rowspan (a_rowspan: STRING)
+			-- `set_rowspan' with `a_rowspan'
+		do
+			set_attribute_value (agent rowspan, a_rowspan)
+		ensure
+			set: attached {STRING} rowspan.attr_value as al_value and then al_value.same_string (a_rowspan)
+		end
+
 	set_rel (a_value: STRING)
 			-- `set_rel' with `a_value'.
 		do
@@ -1300,6 +1324,7 @@ feature {NONE} -- Attribute List
 			Result.force (autocomplete, autocomplete.attr_name)
 			Result.force (border, border.attr_name)
 			Result.force (cols, cols.attr_name)
+			Result.force (colspan, colspan.attr_name)
 			Result.force (content, content.attr_name)
 			Result.force (cell_spacing, cell_spacing.attr_name)
 			Result.force (cell_padding, cell_padding.attr_name)
@@ -1320,6 +1345,7 @@ feature {NONE} -- Attribute List
 			Result.force (rel, rel.attr_name)
 			Result.force (role, role.attr_name)
 			Result.force (rows, rows.attr_name)
+			Result.force (rowspan, rowspan.attr_name)
 			Result.force (size, size.attr_name)
 			Result.force (src, src.attr_name)
 			Result.force (status, status.attr_name)
