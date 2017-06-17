@@ -36,6 +36,7 @@ feature -- Keywords
 	cols_kw: STRING = "cols"
 	colspan_kw: STRING = "colspan"
 	content_kw: STRING = "content"
+	contenteditable_kw: STRING = "contenteditable"
 	dat_back_btn_theme_kw: STRING = "data-back-btn-theme"
 	data_add_back_btn_kw: STRING = "data-add-back-btn"
 	data_back_btn_text_kw: STRING = "data-back-btn-text"

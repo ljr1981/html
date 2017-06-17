@@ -98,6 +98,9 @@ feature -- HTML Components: Parallax Section
 
 feature -- Text Element Factory
 
+	new_text_content: STRING do create Result.make_empty; last_new_text_content := Result end
+	last_new_text_content: like new_text_content attribute Result := new_text_content end
+
 	new_text: HTML_TEXT do create Result; last_new_text := Result end
 	last_new_text: like new_text attribute Result := new_text end
 
@@ -144,6 +147,9 @@ feature -- Block Element Factories
 
 	new_p: HTML_P do create Result; last_new_p := Result end
 	last_new_p: like new_p attribute Result := new_p end
+
+	new_page: HTML_PAGE_GENERIC do create Result; last_new_page := Result end
+	last_new_page: like new_page attribute Result := new_page end
 
 	new_section: HTML_SECTION do create Result; last_new_section := Result end
 	last_new_section: like new_section attribute Result := new_section end

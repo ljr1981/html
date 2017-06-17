@@ -16,7 +16,9 @@ inherit
 
 	HTML_ATTRIBUTES
 		export {ANY}
+			contenteditable, set_contenteditable,
 			href, set_href,
+			on_focus, set_on_focus,
 			rel, set_rel,
 			role, set_role,
 			src, set_source, set_src,

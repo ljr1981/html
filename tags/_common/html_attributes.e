@@ -135,7 +135,7 @@ feature {NONE} -- Tag-specific Attributes
 
 	border: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_table_border.asp"
-		attribute Result := ["0", "0", Void, border_kw, is_quoted] ensure Result.attr_name.same_string (border_kw) end
+		attribute Result := ["", "", Void, border_kw, is_quoted] ensure Result.attr_name.same_string (border_kw) end
 
 	cols: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_cols.asp"
@@ -160,6 +160,10 @@ feature {NONE} -- Tag-specific Attributes
 	charset: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/charset.asp"
 		attribute Result := ["", "", Void, charset_kw, is_quoted] ensure Result.attr_name.same_string (charset_kw) end
+
+	contenteditable: attached like attribute_tuple_anchor
+		note EIS: "src=https://www.w3schools.com/tags/att_global_contenteditable.asp"
+		attribute Result := ["", "|false|true", Void, contenteditable_kw, is_quoted] ensure Result.attr_name.same_string (contenteditable_kw) end
 
 	for: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_for.asp"
@@ -1002,6 +1006,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} content.attr_value as al_value and then al_value.same_string (a_content)
 		end
 
+	set_contenteditable (a_contenteditable: STRING)
+			-- `set_contenteditable' with `a_contenteditable'
+		do
+			set_attribute_value (agent contenteditable, a_contenteditable)
+		ensure
+			set: attached {STRING} contenteditable.attr_value as al_value and then al_value.same_string (a_contenteditable)
+		end
+
 	set_valign (a_valign: STRING)
 			-- `set_valign' with `a_valign'
 		do
@@ -1157,6 +1169,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent on_click, a_value)
 		ensure
 			set: attached {STRING} on_click.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_on_focus (a_value: STRING)
+			-- `set_on_focus' with `a_value'.
+		do
+			set_attribute_value (agent on_focus, a_value)
+		ensure
+			set: attached {STRING} on_focus.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_on_submit (a_value: STRING)
@@ -1326,6 +1346,7 @@ feature {NONE} -- Attribute List
 			Result.force (cols, cols.attr_name)
 			Result.force (colspan, colspan.attr_name)
 			Result.force (content, content.attr_name)
+			Result.force (contenteditable, contenteditable.attr_name)
 			Result.force (cell_spacing, cell_spacing.attr_name)
 			Result.force (cell_padding, cell_padding.attr_name)
 			Result.force (charset, charset.attr_name)
