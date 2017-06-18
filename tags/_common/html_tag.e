@@ -18,6 +18,7 @@ inherit
 		export {ANY}
 			contenteditable, set_contenteditable,
 			href, set_href,
+			on_click, set_on_click,
 			on_focus, set_on_focus,
 			rel, set_rel,
 			role, set_role,

@@ -13,7 +13,8 @@ inherit
 			name, set_name,
 			placeholder, set_placeholder,
 			size, set_size,
-			type, set_type
+			type, set_type,
+			value, set_value
 		end
 
 	HTML_FORM_COMPONENT

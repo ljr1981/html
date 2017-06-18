@@ -69,6 +69,8 @@ feature -- Test routines
 		 l_video: HTML_VIDEO
 		 l_source: HTML_SOURCE
 		 l_span: HTML_SPAN
+		 l_js: JS_BASE
+		 l_css: CSS_BASE
 		do
 			create l_a_hyperlink
 			create l_a_hyperlink.make_with_content (<<>>)
