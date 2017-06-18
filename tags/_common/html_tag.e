@@ -291,6 +291,24 @@ feature -- HTML Content
 			create Result.make_empty
 		end
 
+feature -- Setting: Attributes
+
+	set_contenteditable_true
+		do
+			set_contenteditable ("true")
+		end
+
+	set_select_all_on_focus
+		do
+			set_on_focus ("document.execCommand('selectAll', false, null);")
+		end
+
+	set_contenteditable_and_select_all_on_focus
+		do
+			set_contenteditable_true
+			set_select_all_on_focus
+		end
+
 feature -- Setting: Content
 
 	extend,

@@ -13,7 +13,7 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<capability>
-			<concurrency support="scoop" use="thread"/>
+			<concurrency support="thread" use="thread"/>
 			<void_safety support="transitional" use="transitional"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
@@ -47,7 +47,7 @@
 		</option>
 		<setting name="console_application" value="false"/>
 		<capability>
-			<concurrency support="scoop" use="scoop"/>
+			<concurrency support="thread" use="thread"/>
 		</capability>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing-safe.ecf"/>
 		<cluster name="tests" location=".\tests\" recursive="true"/>
