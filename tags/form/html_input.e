@@ -9,11 +9,14 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			data_valid_example, set_data_valid_example,
 			maxlength, set_maxlength,
 			name, set_name,
+			pattern, set_pattern,
 			placeholder, set_placeholder,
 			size, set_size,
 			type, set_type,
+			title, set_title,
 			value, set_value
 		end
 

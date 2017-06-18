@@ -209,6 +209,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_name.asp"
 		attribute Result := ["", "", Void, name_kw, is_quoted] ensure Result.attr_name.same_string (name_kw) end
 
+	pattern: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_placeholder.asp"
+		attribute Result := ["", "", Void, pattern_kw, is_quoted] ensure Result.attr_name.same_string (pattern_kw) end
+
 	placeholder: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_placeholder.asp"
 		attribute Result := ["", "", Void, placeholder_kw, is_quoted] ensure Result.attr_name.same_string (placeholder_kw) end
@@ -251,13 +255,17 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "srcattribute //www.w3schools.com/tags/attr_style.asp"
 		attribute Result := ["", "", Void, style_kw, is_quoted] ensure Result.attr_name.same_string (style_kw) end
 
-	type: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/attr_type.asp"
-		attribute Result := ["", "", Void, "type", is_quoted] ensure Result.attr_name.same_string (type_kw) end
-
 	target: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_target.asp"
 		attribute Result := ["", "", Void, target_kw, is_quoted] ensure Result.attr_name.same_string (target_kw) end
+
+	title: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_type.asp"
+		attribute Result := ["", "", Void, title_kw, is_quoted] ensure Result.attr_name.same_string (title_kw) end
+
+	type: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_type.asp"
+		attribute Result := ["", "", Void, type_kw, is_quoted] ensure Result.attr_name.same_string (type_kw) end
 
 	value: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_value.asp"
@@ -579,6 +587,10 @@ feature {NONE} -- Attributes: Datums
 		attribute Result := ["false", "false|true", Void, data_add_back_btn_kw, is_quoted] ensure Result.attr_name.same_string (data_add_back_btn_kw) end
 		--data-add-back-btn	true | false - Auto add back button, header only
 
+	data_auto_init: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["false", "false|true", Void, data_auto_init_kw, is_quoted] ensure Result.attr_name.same_string (data_auto_init_kw) end
+
 	data_back_btn_text: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
 		attribute Result := ["", "", Void, data_back_btn_text_kw, is_quoted] ensure Result.attr_name.same_string (data_back_btn_text_kw) end
@@ -717,6 +729,11 @@ feature {NONE} -- Attributes: Datums
 		attribute Result := ["", "", Void, data_url_kw, is_quoted] ensure Result.attr_name.same_string (data_url_kw) end
 		--data-url	url - Value for updating the URL, instead of the url used to request the page
 
+	data_valid_example: attached like attribute_tuple_anchor
+		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-attributes.html"
+		attribute Result := ["", "", Void, data_valid_example_kw, is_quoted] ensure Result.attr_name.same_string (data_valid_example_kw) end
+		--data_valid_example_kw
+
 	data_x: attached like attribute_tuple_anchor
 		note EIS: "src=http://demos.jquerymobile.com/1.2.0/docs/api/data-x.html"
 		attribute Result := ["", "", Void, data_x_kw, is_quoted] ensure Result.attr_name.same_string (data_x_kw) end
@@ -853,6 +870,9 @@ feature {NONE} -- Implementation: Data Setters
 	set_data_add_back_btn (a_value: STRING) do set_attribute_value (agent data_add_back_btn, a_value)
 		ensure set: attached {STRING} data_add_back_btn.attr_value as al_value and then al_value.same_string (a_value) end
 
+	set_data_auto_init (a_value: STRING) do set_attribute_value (agent data_auto_init, a_value)
+		ensure set: attached {STRING} data_auto_init.attr_value as al_value and then al_value.same_string (a_value) end
+
 	set_data_back_btn_text (a_value: STRING) do set_attribute_value (agent data_back_btn_text, a_value)
 		ensure set: attached {STRING} data_back_btn_text.attr_value as al_value and then al_value.same_string (a_value) end
 
@@ -939,6 +959,9 @@ feature {NONE} -- Implementation: Data Setters
 
 	set_data_url (a_value: STRING) do set_attribute_value (agent data_url, a_value)
 		ensure set: attached {STRING} data_url.attr_value as al_value and then al_value.same_string (a_value) end
+
+	set_data_valid_example (a_value: STRING) do set_attribute_value (agent data_valid_example, a_value)
+		ensure set: attached {STRING} data_valid_example.attr_value as al_value and then al_value.same_string (a_value) end
 
 	set_data_x (a_value: STRING) do set_attribute_value (agent data_x, a_value)
 		ensure set: attached {STRING} data_x.attr_value as al_value and then al_value.same_string (a_value) end
@@ -1187,6 +1210,14 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} on_submit.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
+	set_pattern (a_value: STRING)
+			-- `set_pattern' with `a_value'
+		do
+			set_attribute_value (agent pattern, a_value)
+		ensure
+			set: attached {STRING} pattern.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
 	set_placeholder (a_value: STRING)
 			-- `set_placeholder' with `a_value'
 		do
@@ -1270,6 +1301,14 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent target, a_target)
 		ensure
 			set: attached {STRING} target.attr_value as al_value and then al_value.same_string (a_target)
+		end
+
+	set_title (a_title: STRING)
+			-- `set_title' with `a_title'
+		do
+			set_attribute_value (agent title, a_title)
+		ensure
+			set: attached {STRING} title.attr_value as al_value and then al_value.same_string (a_title)
 		end
 
 	set_type (a_type: STRING)
@@ -1361,6 +1400,7 @@ feature {NONE} -- Attribute List
 			Result.force (maxlength, maxlength.attr_name)
 			Result.force (method, method.attr_name)
 			Result.force (name, name.attr_name)
+			Result.force (pattern, pattern.attr_name)
 			Result.force (placeholder, placeholder.attr_name)
 			Result.force (property, property.attr_name)
 			Result.force (rel, rel.attr_name)
@@ -1372,6 +1412,7 @@ feature {NONE} -- Attribute List
 			Result.force (status, status.attr_name)
 			Result.force (style, style.attr_name)
 			Result.force (target, target.attr_name)
+			Result.force (title, title.attr_name)
 			Result.force (type, type.attr_name)
 			Result.force (value, value.attr_name)
 			Result.force (width, width.attr_name)
@@ -1381,6 +1422,7 @@ feature {NONE} -- Attribute List
 
 				-- Datums
 			Result.force (data_add_back_btn, data_add_back_btn.attr_name)
+			Result.force (data_auto_init, data_auto_init.attr_name)
 			Result.force (data_back_btn_text, data_back_btn_text.attr_name)
 			Result.force (data_back_btn_theme, data_back_btn_theme.attr_name)
 			Result.force (data_close_btn_text, data_close_btn_text.attr_name)
@@ -1409,6 +1451,7 @@ feature {NONE} -- Attribute List
 			Result.force (data_transition, data_transition.attr_name)
 			Result.force (data_type, data_type.attr_name)
 			Result.force (data_url, data_url.attr_name)
+			Result.force (data_valid_example, data_valid_example.attr_name)
 			Result.force (data_x, data_x.attr_name)
 			Result.force (data_y, data_y.attr_name)
 
