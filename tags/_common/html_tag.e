@@ -426,21 +426,14 @@ feature -- Gathering Functions
 			end
 		end
 
-	gather_body_scripts_into (a_body_scripts: ARRAYED_LIST [HTML_SCRIPT])
+	gather_body_scripts_into (a_body_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER_32])
 			--
 		do
 			across
-				body_scripts as ic_internal
+				body_scripts as ic
 			loop
-				if
-					across a_body_scripts as ic_passed all
-						ic_internal.item.hash_code /= ic_passed.item.hash_code
-					end
-				then
-					a_body_scripts.force (ic_internal.item)
-				end
+				a_body_scripts.force (ic.item, ic.item.hash_code)
 			end
-
 			across
 				html_content_items as ic
 			loop

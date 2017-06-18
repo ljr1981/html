@@ -150,7 +150,7 @@ feature {NONE} -- Initialization Support
 	extend_body_scripts (a_widget: HTML_TAG)
 			-- `extend_body_scripts', which are <script> elements extracted from `a_widget' tree.
 		local
-			l_body_scripts: ARRAYED_LIST [HTML_SCRIPT]
+			l_body_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER_32]
 		do
 			create l_body_scripts.make (10)
 			a_widget.gather_body_scripts_into (l_body_scripts)
