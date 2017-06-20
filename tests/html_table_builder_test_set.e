@@ -51,25 +51,26 @@ feature -- Test routines
 			-- PREP WORK
 			-- =============================
 				-- Creations
-			create l_object
 			create l_builder
 
-				-- Construct objects to test with
-			create l_objects.make (2)
-			across
-				from_1_to (2) as ic
-			loop
-				create l_object
-				l_objects.force (l_object, ic.item.out)
-			end
-
-				-- Rubber-meets-road! We now ask out builder to build ...
-			l_table := l_builder.build_editable_input_table ("myTable", "My Table", l_objects)
+				-- Rubber-meets-road! We now ask our builder to build ...
+			l_table := l_builder.build_editable_input_table ("myTable", "My Table", test_mock_json_objects (2))
 
 				-- Output the results to a file where we can see it in the browser
 			new_style.add_text_content (head_styles)
 			new_div.add_content (l_table)
 			output_page_to_browser (last_new_div, last_new_style, <<>>, <<>>, "build_editable_input_table")
+		end
+
+	test_mock_json_objects (a_count: INTEGER): HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
+		do
+				-- Construct objects to test with
+			create Result.make (a_count)
+			across
+				from_1_to (a_count) as ic
+			loop
+				Result.force (create {MOCK_JSON_OBJECT}, ic.item.out)
+			end
 		end
 
 	head_styles: STRING = "[
