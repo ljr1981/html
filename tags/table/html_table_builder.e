@@ -6,21 +6,95 @@ inherit
 
 feature -- Builders
 
-	build_editable_input_table (a_id: STRING; a_caption: detachable STRING; a_objects: HASH_TABLE [G, STRING]): like new_table
+	build_editable_input_table (a_id: STRING; a_caption: detachable STRING; a_objects: HASH_TABLE [G, STRING]; a_include_footers: BOOLEAN): like new_table
+			-- `build_editable_input_table', give `new_table' `a_id' and optional `a_caption', filling with `a_objects'.
+			-- Editable by way of the HTML <input> tag element, with attending "type=" attributes, which control presentation by data type.
+		note
+			design: "[
+				Responsible for creating just the HTML <table> tag structure.
+				Some responsive aspects of the <table> are the result of responsive
+				HTML tags (e.g. <input type="...">).
+				
+				Each element is auto-marked with a generated #ID and set of class names.
+				For example:
+					(1) Columns: <col class="tab1-col tab1-col-c1" id="tab1-col-c1"></col>
+							Where: "tab1" = `a_id' (above). The "tab1-col" means that
+									CSS can be applied to ALL table 1 columns, which
+									translates to independently targeted table CSS.
+									The "tab1-col1" is a little overkill in that you
+									now have a choice to apply the <style> either to
+									the <col>-by-id or to the <col>-by-class-name.
+									Hence--do you want to apply CSS by #ID or by unique
+									class-name? This depends on the JS mechanism you
+									choose (GetElementByID or getElementsByClassName).
+									Because the class-name is also unique in the DOM,
+									the getElementsByClassName function ought to return
+									an array of 1. This means you need extra code to
+									pick up element #1, whereas the GetElementByID
+									will return just the element (if found). Therefore,
+									it does depend on what your purpose is, which way
+									you choose. However, both ID and class-name are
+									included at all levels to ensure multiple vectors
+									of approach to CSS element-selection.
+					(2) Headers: <th class="tab1-hdr tab1-hdr-c1" id="tab1-hdr-c1">my_string</th>
+							Where: For each <th> in <thead>. As with <col>, the <th> ID 
+									and class-name schema works precisely the same way 
+									and with the same intended purpose.
+					(3) Footers: Work the same as headers, but for each <th> in <tfoot>.
+					(4) Inputs: <input class="tab1-inp tab1-inp-r1 tab1-inp-r1-c1 tab1-inp-c1" id="tab1-inp-r1-c1" type="text" value="some_string" />
+							Where: Precisely the same idea for ID vs. class-name is applied
+									to the <input> tag. Multi-vector CSS application ought
+									not require more than what is supplied in the class-name.
+									If entire columns are to have CSS applied, then that
+									CSS ought to be targeted at either <col>-ID or <col>-class-name.
+									Otherwise, one can target "tab1-inp", which will be every
+									input field of Table #1 (e.g. the `a_id' passed above).
+									One may also target <input> elements based on columns
+									like "tab1-inp-c1", which is column #1 of <input>s for
+									Table #1. This allows applying CSS to just the <input>
+									elements of column #1.
+				]"
+			EIS: "name=GetElementByID", "src=https://www.w3schools.com/jsref/met_document_getelementbyid.asp"
+			EIS: "name=getElementsByClassName", "src=https://www.w3schools.com/jsref/met_document_getelementsbyclassname.asp"
+			plan: "[
+				Design other features that take our `new_table' Result and "decorate"
+				it with JS functions and (finally) CSS styling. See the 
+				{HTML_TABLE_BUILDER_TEST_SET}.html_table_builder_tests (and related)
+				for examples of this happening.
+				]"
 		require
 			has_id: not a_id.is_empty
 			has_one: not a_objects.is_empty
 		local
 			l_spec_obj: G -- to obtain specs like metadata, attributes_hash_on_name, et al
+			l_caption_string,
+			l_col_string,
+			l_col_short,
+			l_hdr_string,
+			l_hdr_short,
+			l_ftr_string,
+			l_ftr_short,
+			l_inp_string,
+			l_inp_short,
+			l_classes: STRING
 		do
 			l_spec_obj := a_objects.iteration_item (1)
 			Result := new_table
+			last_new_table.set_id (a_id)
+				-- Row insertion
+			last_new_table.add_content (new_input)
+				last_new_input.set_type ("button")
+				last_new_input.set_value ("Add")
+				last_new_input.set_on_click ("insertRow()")
+
 					-- Gen: Caption
 				if attached a_caption as al_caption then
 					last_new_table.add_content (new_caption)
 						last_new_caption.add_text_content (al_caption)
-						last_new_caption.set_id (a_id + "-caption")
-						last_new_caption.set_class_names (a_id + "-caption")
+						l_caption_string := a_id.twin
+						l_caption_string.append_string_general (caption_suffix)
+						last_new_caption.set_id (l_caption_string)
+						last_new_caption.set_class_names (l_caption_string)
 				end
 					-- Gen: Colgroups / Cols
 				last_new_table.add_content (new_colgroup)
@@ -28,7 +102,18 @@ feature -- Builders
 					l_spec_obj.metadata (l_spec_obj) as ic_metadata
 				loop
 					last_new_colgroup.add_content (new_col)
-						last_new_col.set_id (a_id + "-col" + ic_metadata.cursor_index.out)
+						l_col_string := a_id.twin
+						l_col_string.append_string_general (col_suffix)
+						l_col_short := l_col_string.twin
+						l_col_string.append_character ('-')
+						l_col_string.append_character ('c')
+						l_col_string.append_string_general (ic_metadata.cursor_index.out)
+						last_new_col.set_id (l_col_string)
+
+						l_classes := l_col_short.twin
+						l_classes.append_character (' ')
+						l_classes.append_string_general (l_col_string)
+						last_new_col.set_class_names (l_classes)
 				end
 					-- Gen: Headers
 				last_new_table.add_content (new_thead)
@@ -37,9 +122,45 @@ feature -- Builders
 					l_spec_obj.convertible_features (l_spec_obj) as ic_attrs
 				loop
 					last_new_tr.add_content (new_th)
+						l_ftr_string := a_id.twin
+						l_ftr_string.append_string (header_suffix)
+						l_ftr_short := l_ftr_string.twin
+						l_ftr_string.append_character ('-')
+						l_ftr_string.append_character ('c')
+						l_ftr_string.append_string (ic_attrs.cursor_index.out)
+						last_new_th.set_id (l_ftr_string)
+
+						l_classes := l_ftr_short.twin
+						l_classes.append_character (' ')
+						l_classes.append_string_general (l_ftr_string)
+						last_new_th.set_class_names (l_classes)
+
 						last_new_th.add_text_content (ic_attrs.item)
 				end
 					-- Gen: Footers
+				if a_include_footers then
+					last_new_table.add_content (new_tfoot)
+						last_new_tfoot.add_content (new_tr)
+					across
+						l_spec_obj.convertible_features (l_spec_obj) as ic_attrs
+					loop
+						last_new_tr.add_content (new_th)
+							l_hdr_string := a_id.twin
+							l_hdr_string.append_string (footer_suffix)
+							l_hdr_short := l_hdr_string.twin
+							l_hdr_string.append_character ('-')
+							l_hdr_string.append_character ('c')
+							l_hdr_string.append_string (ic_attrs.cursor_index.out)
+							last_new_th.set_id (l_hdr_string)
+
+							l_classes := l_hdr_short.twin
+							l_classes.append_character (' ')
+							l_classes.append_string_general (l_hdr_string)
+							last_new_th.set_class_names (l_classes)
+
+							last_new_th.add_text_content (ic_attrs.item)
+					end
+				end
 					-- Gen: Rows with cells
 				across
 					a_objects as ic_objs
@@ -51,6 +172,30 @@ feature -- Builders
 						ic_attrs.item.call ([Void])
 						last_new_tr.add_content (new_td)
 							last_new_td.add_content (new_input)
+								l_inp_string := a_id.twin
+								l_inp_string.append_string_general (input_suffix)
+								l_classes := l_inp_string.twin
+								l_inp_string.append_character ('-')
+								l_inp_string.append_character ('r')
+								l_inp_string.append_string_general (ic_objs.cursor_index.out)
+								l_classes.append_character (' ')
+								l_classes.append_string_general (l_inp_string)
+								l_inp_string.append_character ('-')
+								l_inp_string.append_character ('c')
+								l_inp_string.append_string_general (ic_attrs.cursor_index.out)
+								l_classes.append_character (' ')
+								l_classes.append_string_general (l_inp_string)
+								last_new_input.set_id (l_inp_string)
+
+								l_classes.append_character (' ')
+								l_classes.append_string_general (a_id.twin)
+								l_classes.append_string_general (input_suffix)
+								l_classes.append_character ('-')
+								l_classes.append_character ('c')
+								l_classes.append_string_general (ic_attrs.cursor_index.out)
+
+								last_new_input.set_class_names (l_classes)
+
 								if attached ic_attrs.item.last_result as al_last_result then
 									last_new_input.set_value (al_last_result.out)
 									check has_type: attached {STRING} ic_objs.item.metadata (ic_objs.item)[ic_attrs.cursor_index].type as al_metadata then
@@ -58,8 +203,83 @@ feature -- Builders
 									end
 								end
 					end
-				end
+					-- Row deletion
+				last_new_tr.add_content (new_td)
+					last_new_td.add_content (row_deletion_input_button ("this"))
+			end
 		end
+
+	row_deletion_input_button (a_on_click_arg: STRING): like new_input
+		do
+			new_input.set_value ("Delete")
+				last_new_input.set_type ("button")
+				last_new_input.set_on_click ("deleteRow(" + a_on_click_arg + ")") -- e.g. "this"
+
+			Result := last_new_input
+		end
+
+	build_table_row_insertion_script (a_id: STRING; a_caption: detachable STRING; a_object: G; a_include_footers: BOOLEAN): like new_script
+		local
+			l_js,
+			l_row_insertion_js: STRING
+			l_del_button_js: STRING
+			l_row_number,
+			l_col_number: INTEGER
+			l_def_value_text: STRING
+		do
+			-- For <table> `a_id', and each <col> of it,
+			-- Construct a Javascript <script>, building each <col> according to metadata in `a_objects'
+			l_js := table_row_insertion_js.twin
+			l_js.replace_substring_all ("<<TABLE_NAME>>", a_id)
+			create l_row_insertion_js.make_empty
+			across
+				a_object.attributes_hash_on_name (a_object) as ic_attrs
+			loop
+				l_col_number := ic_attrs.cursor_index
+				l_def_value_text := "def-value" -- REPLACE WITH metadata version of default value based on "type="
+				l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_def_value_text))
+			end
+			l_del_button_js := row_deletion_input_button ("this").html_out
+			l_del_button_js.replace_substring_all ("%"", "\%"")
+			l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (a_object.attributes_hash_on_name (a_object).count + 1, l_del_button_js))
+			l_js.replace_substring_all ("<<ROW_INSERTION_SCRIPTS>>", l_row_insertion_js)
+
+			Result := new_script
+			last_new_script.add_text_content (l_js)
+		end
+
+	table_row_insertion_js: STRING = "[
+function insertRow() {
+  var table = document.getElementById("<<TABLE_NAME>>");
+  var count = table.rows.length;
+  var row = table.insertRow(count);
+  <<ROW_INSERTION_SCRIPTS>>
+}
+]"
+
+	build_table_row_cell_insertion_script (a_col_number: INTEGER; a_default_value_text: STRING): STRING
+		do
+			Result := table_row_cell_insertion_js.twin
+			Result.replace_substring_all ("<<COL_NUMBER>>", (a_col_number - 1).out)
+			Result.replace_substring_all ("<<DEFAULT_VALUE_TEXT>>", a_default_value_text)
+		end
+
+	table_row_cell_insertion_js: STRING = "[
+var cell<<COL_NUMBER>> = row.insertCell(<<COL_NUMBER>>);
+cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
+]"
+
+feature -- Constants
+
+	caption_suffix: STRING = "-caption"
+
+	col_suffix: STRING = "-col"
+
+	header_suffix: STRING = "-hdr"
+
+	footer_suffix: STRING = "-ftr"
+
+	input_suffix: STRING = "-inp"
 
 note
 	design: "[

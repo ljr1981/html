@@ -47,6 +47,9 @@ feature -- Test routines
 			l_object: MOCK_JSON_OBJECT
 			l_table: like new_table
 			l_objects: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
+			l_delete_script_text: STRING
+			l_delete_script: HTML_SCRIPT
+			l_insert_script: HTML_SCRIPT
 		do
 			-- PREP WORK
 			-- =============================
@@ -54,12 +57,19 @@ feature -- Test routines
 			create l_builder
 
 				-- Rubber-meets-road! We now ask our builder to build ...
-			l_table := l_builder.build_editable_input_table ("myTable", "My Table", test_mock_json_objects (2))
+			l_table := l_builder.build_editable_input_table (my_table_id, my_table_caption, test_mock_json_objects (2), not include_footers)
+
+				-- Row deletion script
+			l_delete_script_text := {JS_BASE}.delete_row_js_min.twin
+				l_delete_script_text.replace_substring_all ("<<TABLE_NAME>>", my_table_id)
+				l_delete_script := new_script
+				l_delete_script.add_text_content (l_delete_script_text)
+			l_insert_script := l_builder.build_table_row_insertion_script (my_table_id, my_table_caption, create {MOCK_JSON_OBJECT}, not include_footers)
 
 				-- Output the results to a file where we can see it in the browser
 			new_style.add_text_content (head_styles)
 			new_div.add_content (l_table)
-			output_page_to_browser (last_new_div, last_new_style, <<>>, <<>>, "build_editable_input_table")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, <<l_delete_script, l_insert_script>>, "build_editable_input_table")
 		end
 
 	test_mock_json_objects (a_count: INTEGER): HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
@@ -105,10 +115,28 @@ feature {NONE} -- Implementation
 				end
 
 				-- write it to a file
-			create l_file.make_create_read_write (".\tests\html_outs\" + a_file_name + ".html")
+			create l_file.make_create_read_write (test_html_outs_path_string + a_file_name + html_file_ext)
 			l_file.put_string (last_new_page.html_out)
 			l_file.close
 		end
+
+feature -- Constants
+
+	my_table_id: STRING = "tab1"
+
+	my_table_caption: STRING = "My Table"
+
+	empty_head_style: detachable HTML_STYLE
+
+	empty_body_styles: ARRAY [HTML_STYLE] once Result := <<>> end
+
+	empty_body_scripts: ARRAY [HTML_SCRIPT] once Result := <<>> end
+
+	test_html_outs_path_string: STRING = ".\tests\html_outs\"
+
+	html_file_ext: STRING = ".html"
+
+	include_footers: BOOLEAN = True
 
 end
 
