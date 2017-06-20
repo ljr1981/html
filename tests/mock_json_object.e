@@ -82,35 +82,35 @@ feature -- Access
 
 feature -- Access: Convertibles
 
-	metadata (a_current: ANY): ARRAY [TUPLE [type: STRING]]
+	metadata (a_current: ANY): ARRAY [JSON_METADATA]
 		do
 			Result := <<
-						["text"],
-						["text"],
-						["text"],
-						["text"],
-						["button"],
-						["checkbox"],
-						["color"],
-						["date"],
-						["datetime_local"],
-						["email"],
-						["file"],
-						["hidden"],
-						["image"],
-						["month"],
-						["number"],
-						["password"],
-						["radio"],
-						["range"],
-						["reset"],
-						["search"],
-						["submit"],
-						["tel"],
-						["text"],
-						["time"],
-						["url"],
-						["week"]
+						create {JSON_METADATA}.make_text_default,
+						create {JSON_METADATA}.make_text_default,
+						create {JSON_METADATA}.make_text_default,
+						create {JSON_METADATA}.make_text_default,
+						create {JSON_METADATA}.make_button ("Button Name"),
+						create {JSON_METADATA}.make_checkbox ("Name", Void),
+						create {JSON_METADATA}.make_color ("Name", Void),
+						create {JSON_METADATA}.make_date ("Name", Void),
+						create {JSON_METADATA}.make_datetime_local ("Name", Void),
+						create {JSON_METADATA}.make_email ("Name", Void),
+						create {JSON_METADATA}.make_file ("Name"),
+						create {JSON_METADATA}.make_hidden ("Name"),
+						create {JSON_METADATA}.make_image ("Src", "Alt", 20, 20),
+						create {JSON_METADATA}.make_month ("Name", Void),
+						create {JSON_METADATA}.make_number ("Name", 1, 10, 5),
+						create {JSON_METADATA}.make_password ("Name", 8),
+						create {JSON_METADATA}.make_radio ("Name", Void),
+						create {JSON_METADATA}.make_range ("Name", 1, 10, 5),
+						create {JSON_METADATA}.make_reset,
+						create {JSON_METADATA}.make_search ("Name", Void),
+						create {JSON_METADATA}.make_submit,
+						create {JSON_METADATA}.make_tel ("Name", Void),
+						create {JSON_METADATA}.make_text_default,
+						create {JSON_METADATA}.make_time ("Name", Void),
+						create {JSON_METADATA}.make_url ("Name", Void),
+						create {JSON_METADATA}.make_week ("Name", Void)
 						>>
 		end
 
