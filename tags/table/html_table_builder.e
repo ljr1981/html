@@ -80,133 +80,136 @@ feature -- Builders
 		do
 			l_spec_obj := a_objects.iteration_item (1)
 			Result := new_table
-			last_new_table.set_id (a_id)
+				last_new_table.set_id (a_id)
+				last_new_table.set_attribute_manual ("data-rowcount", a_objects.count.out, not is_quoted)
+
 				-- Row insertion
-			last_new_table.add_content (new_input)
-				last_new_input.set_type ("button")
-				last_new_input.set_value ("Add")
-				last_new_input.set_on_click ("insertRow()")
+				last_new_table.add_content (new_input)
+					last_new_input.set_type ("button")
+					last_new_input.set_value ("Add")
+					last_new_input.set_on_click ("insertRow()")
 
-					-- Gen: Caption
-				if attached a_caption as al_caption then
-					last_new_table.add_content (new_caption)
-						last_new_caption.add_text_content (al_caption)
-						l_caption_string := a_id.twin
-						l_caption_string.append_string_general (caption_suffix)
-						last_new_caption.set_id (l_caption_string)
-						last_new_caption.set_class_names (l_caption_string)
-				end
-					-- Gen: Colgroups / Cols
-				last_new_table.add_content (new_colgroup)
-				across
-					l_spec_obj.metadata (l_spec_obj) as ic_metadata
-				loop
-					last_new_colgroup.add_content (new_col)
-						l_col_string := a_id.twin
-						l_col_string.append_string_general (col_suffix)
-						l_col_short := l_col_string.twin
-						l_col_string.append_character ('-')
-						l_col_string.append_character ('c')
-						l_col_string.append_string_general (ic_metadata.cursor_index.out)
-						last_new_col.set_id (l_col_string)
+						-- Gen: Caption
+					if attached a_caption as al_caption then
+						last_new_table.add_content (new_caption)
+							last_new_caption.add_text_content (al_caption)
+							l_caption_string := a_id.twin
+							l_caption_string.append_string_general (caption_suffix)
+							last_new_caption.set_id (l_caption_string)
+							last_new_caption.set_class_names (l_caption_string)
+					end
+						-- Gen: Colgroups / Cols
+					last_new_table.add_content (new_colgroup)
+					across
+						l_spec_obj.metadata (l_spec_obj) as ic_metadata
+					loop
+						last_new_colgroup.add_content (new_col)
+							l_col_string := a_id.twin
+							l_col_string.append_string_general (col_suffix)
+							l_col_short := l_col_string.twin
+							l_col_string.append_character ('-')
+							l_col_string.append_character ('c')
+							l_col_string.append_string_general (ic_metadata.cursor_index.out)
+							last_new_col.set_id (l_col_string)
 
-						l_classes := l_col_short.twin
-						l_classes.append_character (' ')
-						l_classes.append_string_general (l_col_string)
-						last_new_col.set_class_names (l_classes)
-				end
-					-- Gen: Headers
-				last_new_table.add_content (new_thead)
-					last_new_thead.add_content (new_tr)
-				across
-					l_spec_obj.convertible_features (l_spec_obj) as ic_attrs
-				loop
-					last_new_tr.add_content (new_th)
-						l_ftr_string := a_id.twin
-						l_ftr_string.append_string (header_suffix)
-						l_ftr_short := l_ftr_string.twin
-						l_ftr_string.append_character ('-')
-						l_ftr_string.append_character ('c')
-						l_ftr_string.append_string (ic_attrs.cursor_index.out)
-						last_new_th.set_id (l_ftr_string)
-
-						l_classes := l_ftr_short.twin
-						l_classes.append_character (' ')
-						l_classes.append_string_general (l_ftr_string)
-						last_new_th.set_class_names (l_classes)
-
-						last_new_th.add_text_content (ic_attrs.item)
-				end
-					-- Gen: Footers
-				if a_include_footers then
-					last_new_table.add_content (new_tfoot)
-						last_new_tfoot.add_content (new_tr)
+							l_classes := l_col_short.twin
+							l_classes.append_character (' ')
+							l_classes.append_string_general (l_col_string)
+							last_new_col.set_class_names (l_classes)
+					end
+						-- Gen: Headers
+					last_new_table.add_content (new_thead)
+						last_new_thead.add_content (new_tr)
 					across
 						l_spec_obj.convertible_features (l_spec_obj) as ic_attrs
 					loop
 						last_new_tr.add_content (new_th)
-							l_hdr_string := a_id.twin
-							l_hdr_string.append_string (footer_suffix)
-							l_hdr_short := l_hdr_string.twin
-							l_hdr_string.append_character ('-')
-							l_hdr_string.append_character ('c')
-							l_hdr_string.append_string (ic_attrs.cursor_index.out)
-							last_new_th.set_id (l_hdr_string)
+							l_ftr_string := a_id.twin
+							l_ftr_string.append_string (header_suffix)
+							l_ftr_short := l_ftr_string.twin
+							l_ftr_string.append_character ('-')
+							l_ftr_string.append_character ('c')
+							l_ftr_string.append_string (ic_attrs.cursor_index.out)
+							last_new_th.set_id (l_ftr_string)
 
-							l_classes := l_hdr_short.twin
+							l_classes := l_ftr_short.twin
 							l_classes.append_character (' ')
-							l_classes.append_string_general (l_hdr_string)
+							l_classes.append_string_general (l_ftr_string)
 							last_new_th.set_class_names (l_classes)
 
 							last_new_th.add_text_content (ic_attrs.item)
 					end
-				end
-					-- Gen: Rows with cells
-				across
-					a_objects as ic_objs
-				loop
-					last_new_table.add_content (new_tr)
-					across
-						ic_objs.item.attributes_hash_on_name (ic_objs.item) as ic_attrs
-					loop
-						ic_attrs.item.call ([Void])
-						last_new_tr.add_content (new_td)
-							last_new_td.add_content (new_input)
-								l_inp_string := a_id.twin
-								l_inp_string.append_string_general (input_suffix)
-								l_classes := l_inp_string.twin
-								l_inp_string.append_character ('-')
-								l_inp_string.append_character ('r')
-								l_inp_string.append_string_general (ic_objs.cursor_index.out)
-								l_classes.append_character (' ')
-								l_classes.append_string_general (l_inp_string)
-								l_inp_string.append_character ('-')
-								l_inp_string.append_character ('c')
-								l_inp_string.append_string_general (ic_attrs.cursor_index.out)
-								l_classes.append_character (' ')
-								l_classes.append_string_general (l_inp_string)
-								last_new_input.set_id (l_inp_string)
+						-- Gen: Footers
+					if a_include_footers then
+						last_new_table.add_content (new_tfoot)
+							last_new_tfoot.add_content (new_tr)
+						across
+							l_spec_obj.convertible_features (l_spec_obj) as ic_attrs
+						loop
+							last_new_tr.add_content (new_th)
+								l_hdr_string := a_id.twin
+								l_hdr_string.append_string (footer_suffix)
+								l_hdr_short := l_hdr_string.twin
+								l_hdr_string.append_character ('-')
+								l_hdr_string.append_character ('c')
+								l_hdr_string.append_string (ic_attrs.cursor_index.out)
+								last_new_th.set_id (l_hdr_string)
 
+								l_classes := l_hdr_short.twin
 								l_classes.append_character (' ')
-								l_classes.append_string_general (a_id.twin)
-								l_classes.append_string_general (input_suffix)
-								l_classes.append_character ('-')
-								l_classes.append_character ('c')
-								l_classes.append_string_general (ic_attrs.cursor_index.out)
+								l_classes.append_string_general (l_hdr_string)
+								last_new_th.set_class_names (l_classes)
 
-								last_new_input.set_class_names (l_classes)
-
-								if attached ic_attrs.item.last_result as al_last_result then
-									last_new_input.set_value (al_last_result.out)
-									check has_type: attached {STRING} ic_objs.item.metadata (ic_objs.item)[ic_attrs.cursor_index].type as al_metadata then
-										last_new_input.set_type (al_metadata) -- See {JSON_TRANSFORMABLE}.valid_types
-									end
-								end
+								last_new_th.add_text_content (ic_attrs.item)
+						end
 					end
-					-- Row deletion
-				last_new_tr.add_content (new_td)
-					last_new_td.add_content (row_deletion_input_button ("this"))
-			end
+						-- Gen: Rows with cells
+					across
+						a_objects as ic_objs
+					loop
+						last_new_table.add_content (new_tr)
+						across
+							ic_objs.item.attributes_hash_on_name (ic_objs.item) as ic_attrs
+						loop
+							ic_attrs.item.call ([Void])
+							last_new_tr.add_content (new_td)
+								last_new_td.add_content (new_input)
+									l_inp_string := a_id.twin
+									l_inp_string.append_string_general (input_suffix)
+									l_classes := l_inp_string.twin
+									l_inp_string.append_character ('-')
+									l_inp_string.append_character ('r')
+									l_inp_string.append_string_general (ic_objs.cursor_index.out)
+									l_classes.append_character (' ')
+									l_classes.append_string_general (l_inp_string)
+									l_inp_string.append_character ('-')
+									l_inp_string.append_character ('c')
+									l_inp_string.append_string_general (ic_attrs.cursor_index.out)
+									l_classes.append_character (' ')
+									l_classes.append_string_general (l_inp_string)
+									last_new_input.set_id (l_inp_string)
+
+									l_classes.append_character (' ')
+									l_classes.append_string_general (a_id.twin)
+									l_classes.append_string_general (input_suffix)
+									l_classes.append_character ('-')
+									l_classes.append_character ('c')
+									l_classes.append_string_general (ic_attrs.cursor_index.out)
+
+									last_new_input.set_class_names (l_classes)
+
+									if attached ic_attrs.item.last_result as al_last_result then
+										last_new_input.set_value (al_last_result.out)
+										check has_type: attached {STRING} ic_objs.item.metadata (ic_objs.item)[ic_attrs.cursor_index].type as al_metadata then
+											last_new_input.set_type (al_metadata) -- See {JSON_TRANSFORMABLE}.valid_types
+										end
+									end
+						end
+						-- Row deletion
+					last_new_tr.add_content (new_td)
+						last_new_td.add_content (row_deletion_input_button ("this"))
+				end
+			-- end of new table
 		end
 
 	row_deletion_input_button (a_on_click_arg: STRING): like new_input
@@ -263,24 +266,26 @@ feature -- Builders
 			end
 
 			if a_metadata.type.same_string ("number") then
-				last_new_input.set_attribute_manual ("min", a_metadata.min_attached.out)
-				last_new_input.set_attribute_manual ("max", a_metadata.max_attached.out)
+				last_new_input.set_attribute_manual ("min", a_metadata.min_attached.out, not is_quoted)
+				last_new_input.set_attribute_manual ("max", a_metadata.max_attached.out, not is_quoted)
 			elseif a_metadata.type.same_string ("password") then
 				last_new_input.set_maxlength (a_metadata.maxlength_attached.out)
 			elseif a_metadata.type.same_string ("checkbox") then
-				last_new_input.set_attribute_manual ("checked", a_metadata.is_checked.out)
+				last_new_input.set_attribute_manual ("checked", a_metadata.is_checked.out, is_quoted)
 			elseif a_metadata.type.same_string ("range") then
-				last_new_input.set_attribute_manual ("min", a_metadata.min_attached.out)
-				last_new_input.set_attribute_manual ("max", a_metadata.max_attached.out)
+				last_new_input.set_attribute_manual ("min", a_metadata.min_attached.out, not is_quoted)
+				last_new_input.set_attribute_manual ("max", a_metadata.max_attached.out, not is_quoted)
 			elseif a_metadata.type.same_string ("image") then
 				last_new_input.set_src (a_metadata.src_attached)
-				last_new_input.set_attribute_manual ("alt", a_metadata.alt_attached)
-				last_new_input.set_attribute_manual ("width", a_metadata.width_attached.out)
-				last_new_input.set_attribute_manual ("height", a_metadata.height_attached.out)
+				last_new_input.set_attribute_manual ("alt", a_metadata.alt_attached, is_quoted)
+				last_new_input.set_attribute_manual ("width", a_metadata.width_attached.out, not is_quoted)
+				last_new_input.set_attribute_manual ("height", a_metadata.height_attached.out, not is_quoted)
 			end
 
 			Result := last_new_input
 		end
+
+	is_quoted: BOOLEAN = True
 
 	table_row_insertion_js: STRING = "[
 function insertRow() {

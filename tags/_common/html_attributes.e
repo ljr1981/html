@@ -30,7 +30,7 @@ note
 		mechanisms.
 		]"
 
-class
+deferred class
 	HTML_ATTRIBUTES
 
 inherit
@@ -746,12 +746,24 @@ feature {NONE} -- Attributes: Datums
 
 feature -- Setters
 
-	set_attribute_manual (a_attr_name, a_attr_value: STRING)
+	set_attribute_manual (a_attr_name, a_attr_value: STRING; a_is_quoted: BOOLEAN)
+		require
+			not_has_attribute: not has_manually_set_attribute (a_attr_value)
 		local
 			l_attr: attached like attribute_tuple_anchor
 		do
-			l_attr := [a_attr_value, "", 0, a_attr_name, is_quoted]
-			attribute_list.force (l_attr, a_attr_name)
+			l_attr := [a_attr_value, "", 0, a_attr_name, a_is_quoted]
+			manually_added_attributes_list.force (l_attr, a_attr_name)
+		ensure
+			has: manually_added_attributes_list.has (a_attr_name)
+			count: manually_added_attributes_list.count = (old manually_added_attributes_list.count + 1)
+		end
+
+	has_manually_set_attribute (a_attr_name: STRING): BOOLEAN
+		require
+			not_empty: not a_attr_name.is_empty
+		do
+			Result := manually_added_attributes_list.has (a_attr_name)
 		end
 
 	set_class_names (a_class_names: STRING)
@@ -1368,8 +1380,22 @@ feature {NONE} -- Implementation: Setters
 feature {NONE} -- Attribute List
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
+		do
+			Result := core_attribute_list.twin
+			across
+				manually_added_attributes_list as ic
+			loop
+				Result.force (ic.item, ic.key)
+			end
+		end
+
+	manually_added_attributes_list: like attribute_list
+		attribute
+			create Result.make (10)
+		end
 			-- <Precursor>
 			-- HTML attributes for <table>
+	core_attribute_list: HASH_TABLE [TUPLE [attr_value: detachable ANY; attr_default: detachable ANY; attr_minimum: detachable NUMERIC; attr_name: STRING_8; is_quoted: BOOLEAN], STRING]
 		do
 				-- Global
 			create Result.make (Default_capacity)

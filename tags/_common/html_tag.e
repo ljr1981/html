@@ -65,27 +65,27 @@ feature {NONE} -- Initialization
 	make_with_content (a_content: ARRAY [attached like content_anchor])
 			-- `make_with_content' using `a_content' into `html_content_items'
 		do
+			default_create
 			across
 				a_content as ic_content
 			loop
 				html_content_items.force (ic_content.item)
 			end
-			default_create
 		end
 
 	make_with_raw_text (a_text: STRING)
 			-- `make_with_raw_text' of `a_text'.
 			-- `a_text' goes <tag>here</tag>
 		do
-			set_text_content (a_text)
 			default_create
+			set_text_content (a_text)
 		end
 
 	make_with_src (a_source_text: STRING)
 			-- `make_with_src' (i.e. source) using `a_string'.
 		do
-			set_attribute_value (agent src, a_source_text)
 			default_create
+			set_attribute_value (agent src, a_source_text)
 		end
 
 feature -- Style

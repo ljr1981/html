@@ -97,7 +97,7 @@ feature -- Access: Convertibles
 						create {JSON_METADATA}.make_email ("usremail", "ljr1981@msn.com"),
 						create {JSON_METADATA}.make_file ("img"),
 						create {JSON_METADATA}.make_hidden ("country", "Norway"),
-						create {JSON_METADATA}.make_image ("", "Submit", 48, 48),
+						create {JSON_METADATA}.make_image ("", "Submit image", 40, 20),
 						create {JSON_METADATA}.make_month ("bdaymonth", "2017-06"),
 						create {JSON_METADATA}.make_number ("quantity", 1, 5, 3),
 						create {JSON_METADATA}.make_password ("pwd", 8),
