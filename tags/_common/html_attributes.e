@@ -746,6 +746,14 @@ feature {NONE} -- Attributes: Datums
 
 feature -- Setters
 
+	set_attribute_manual (a_attr_name, a_attr_value: STRING)
+		local
+			l_attr: attached like attribute_tuple_anchor
+		do
+			l_attr := [a_attr_value, "", 0, a_attr_name, is_quoted]
+			attribute_list.force (l_attr, a_attr_name)
+		end
+
 	set_class_names (a_class_names: STRING)
 			-- `set_class_names' of `global_class' with `a_class_names'.
 		require

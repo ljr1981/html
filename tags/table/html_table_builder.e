@@ -225,7 +225,8 @@ feature -- Builders
 			l_del_button_js: STRING
 			l_row_number,
 			l_col_number: INTEGER
-			l_def_value_text: STRING
+			l_def_value_text,
+			l_type: STRING
 		do
 			-- For <table> `a_id', and each <col> of it,
 			-- Construct a Javascript <script>, building each <col> according to metadata in `a_objects'
@@ -237,6 +238,8 @@ feature -- Builders
 			loop
 				l_col_number := ic_attrs.cursor_index
 				l_def_value_text := "def-value" -- REPLACE WITH metadata version of default value based on "type="
+				l_def_value_text := build_input_tag_from_metadata (a_object.metadata (a_object)[ic_attrs.cursor_index]).html_out
+				l_def_value_text.replace_substring_all ("%"", "\%"")
 				l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_def_value_text))
 			end
 			l_del_button_js := row_deletion_input_button ("this").html_out
@@ -246,6 +249,37 @@ feature -- Builders
 
 			Result := new_script
 			last_new_script.add_text_content (l_js)
+		end
+
+	build_input_tag_from_metadata (a_metadata: JSON_METADATA): like new_input
+		do
+				-- Set type, name, and value (deafult_value)
+			new_input.set_type (a_metadata.type)
+			if attached a_metadata.name as al_name and then not al_name.is_empty then
+				last_new_input.set_name (al_name)
+			end
+			if attached a_metadata.default_value as al_value and then not al_value.is_empty then
+				last_new_input.set_value (al_value)
+			end
+
+			if a_metadata.type.same_string ("number") then
+				last_new_input.set_attribute_manual ("min", a_metadata.min_attached.out)
+				last_new_input.set_attribute_manual ("max", a_metadata.max_attached.out)
+			elseif a_metadata.type.same_string ("password") then
+				last_new_input.set_maxlength (a_metadata.maxlength_attached.out)
+			elseif a_metadata.type.same_string ("checkbox") then
+				last_new_input.set_attribute_manual ("checked", a_metadata.is_checked.out)
+			elseif a_metadata.type.same_string ("range") then
+				last_new_input.set_attribute_manual ("min", a_metadata.min_attached.out)
+				last_new_input.set_attribute_manual ("max", a_metadata.max_attached.out)
+			elseif a_metadata.type.same_string ("image") then
+				last_new_input.set_src (a_metadata.src_attached)
+				last_new_input.set_attribute_manual ("alt", a_metadata.alt_attached)
+				last_new_input.set_attribute_manual ("width", a_metadata.width_attached.out)
+				last_new_input.set_attribute_manual ("height", a_metadata.height_attached.out)
+			end
+
+			Result := last_new_input
 		end
 
 	table_row_insertion_js: STRING = "[
