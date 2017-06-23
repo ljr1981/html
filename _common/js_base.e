@@ -19,11 +19,11 @@ function deleteRow(r) {
 
 feature -- Table: Sort Rows
 
-	sortable_js_min: STRING = "[
-function sortTable(e){var a,n,t,r,o,s,T,i,L=0;for(a=document.getElementById("<<TABLE_NAME>>"),t=!0,i="asc";t;){for(t=!1,n=a.getElementsByTagName("TR"),r=1;r<n.length-1;r++)if(T=!1,o=n[r].getElementsByTagName("TD")[e],s=n[r+1].getElementsByTagName("TD")[e],"asc"==i){if(o.innerHTML.toLowerCase()>s.innerHTML.toLowerCase()){T=!0;break}}else if("desc"==i&&o.innerHTML.toLowerCase()<s.innerHTML.toLowerCase()){T=!0;break}T?(n[r].parentNode.insertBefore(n[r+1],n[r]),t=!0,L++):0==L&&"asc"==i&&(i="desc",t=!0)}}
+	sort_table_js_min: STRING = "[
+function sortTable(e){var a,t,o,s,r,l,n,g,m=0;for(a=document.getElementById("<<TABLE_NAME>>"),o=!0,g="asc";o;){for(o=!1,t=a.getElementsByTagName("TR"),s=1;s<t.length-1;s++)if(n=!1,r=t[s].getElementsByTagName("INPUT")[e],l=t[s+1].getElementsByTagName("INPUT")[e],"asc"==g){if(r.value.toLowerCase()>l.value.toLowerCase()){n=!0;break}}else if("desc"==g&&r.value.toLowerCase()<l.value.toLowerCase()){n=!0;break}n?(t[s].parentNode.insertBefore(t[s+1],t[s]),o=!0,m++):0==m&&"asc"==g&&(g="desc",o=!0)}}
 ]"
 
-	sorttable_js: STRING = "[
+	sort_table_js: STRING = "[
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("<<TABLE_NAME>>");
@@ -43,18 +43,18 @@ function sortTable(n) {
       shouldSwitch = false;
       /*Get the two elements you want to compare,
       one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
+      x = rows[i].getElementsByTagName("INPUT")[n];
+      y = rows[i + 1].getElementsByTagName("INPUT")[n];
       /*check if the two rows should switch place,
       based on the direction, asc or desc:*/
       if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        if (x.value.toLowerCase() > y.value.toLowerCase()) {
           //if so, mark as a switch and break the loop:
           shouldSwitch= true;
           break;
         }
       } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+        if (x.value.toLowerCase() < y.value.toLowerCase()) {
           //if so, mark as a switch and break the loop:
           shouldSwitch= true;
           break;

@@ -47,9 +47,11 @@ feature -- Test routines
 			l_object: MOCK_JSON_OBJECT
 			l_table: like new_table
 			l_objects: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
-			l_delete_script_text: STRING
-			l_delete_script: HTML_SCRIPT
-			l_insert_script: HTML_SCRIPT
+			l_delete_script_text,
+			l_js: STRING
+			l_delete_script,
+			l_insert_script,
+			l_sort_script: HTML_SCRIPT
 			l_mocks: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
 		do
 			-- PREP WORK
@@ -69,17 +71,23 @@ feature -- Test routines
 			end
 			l_table := l_builder.build_editable_input_table (my_table_id, my_table_caption, l_mocks, not include_footers)
 
-				-- Row deletion script
+				-- Row deletion, insert scripts
 			l_delete_script_text := {JS_BASE}.delete_row_js_min.twin
 				l_delete_script_text.replace_substring_all ("<<TABLE_NAME>>", my_table_id)
 				l_delete_script := new_script
 				l_delete_script.add_text_content (l_delete_script_text)
 			l_insert_script := l_builder.build_table_row_insertion_script (my_table_id, my_table_caption, create {MOCK_JSON_OBJECT}, not include_footers)
+				-- Column sorting scripts
+			l_js := {JS_BASE}.sort_table_js_min.twin
+				l_js.replace_substring_all ("<<TABLE_NAME>>", my_table_id)
+				new_script.add_text_content (l_js)
+				l_sort_script := last_new_script
+
 
 				-- Output the results to a file where we can see it in the browser
 			new_style.add_text_content (head_styles)
 			new_div.add_content (l_table)
-			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, <<l_delete_script, l_insert_script>>, "build_editable_input_table")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, <<l_delete_script, l_insert_script, l_sort_script>>, "build_editable_input_table")
 		end
 
 	test_mock_json_objects (a_count: INTEGER): HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]

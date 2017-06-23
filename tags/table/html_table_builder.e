@@ -190,6 +190,7 @@ feature -- Supporting Builders
 					l_classes.append_string_general (l_ftr_string)
 					last_new_th.set_class_names (l_classes)
 					last_new_th.add_text_content (ic_attrs.item)
+					last_new_th.set_on_click ("sortTable(" + (l_col_number - 1).out + ")") -- "-1" is due to JS zero-based array
 					l_col_number := l_col_number + 1
 				end
 			end
