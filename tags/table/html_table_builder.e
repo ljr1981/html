@@ -93,6 +93,7 @@ feature -- Primary Builders
 					if attached a_caption as al_caption then
 						last_new_table.add_content (build_table_new_caption (a_id, a_caption))
 					end
+					metadata_is_for_output (l_spec_obj, refresh).do_nothing
 					last_new_table.add_content (build_table_new_colgroup (a_id, l_spec_obj))
 					last_new_table.add_content (build_table_new_thead (a_id, l_spec_obj))
 					if a_include_footers then
@@ -134,23 +135,29 @@ feature -- Supporting Builders
 			l_col_string,
 			l_classes,
 			l_col_short: STRING
+			l_col_number: INTEGER
 		do
 			new_colgroup.do_nothing
 			across
-				a_spec_obj.metadata (a_spec_obj) as ic_metadata
+				metadata (a_spec_obj, not refresh) as ic_metadata
+			from
+				l_col_number := 1
 			loop
-				last_new_colgroup.add_content (new_col)
-				l_col_string := a_id.twin
-				l_col_string.append_string_general (Col_suffix)
-				l_col_short := l_col_string.twin
-				l_col_string.append_character ('-')
-				l_col_string.append_character ('c')
-				l_col_string.append_string_general (ic_metadata.cursor_index.out)
-				last_new_col.set_id (l_col_string)
-				l_classes := l_col_short.twin
-				l_classes.append_character (' ')
-				l_classes.append_string_general (l_col_string)
-				last_new_col.set_class_names (l_classes)
+				if metadata_is_for_output (a_spec_obj, not refresh) [ic_metadata.cursor_index] then
+					last_new_colgroup.add_content (new_col)
+					l_col_string := a_id.twin
+					l_col_string.append_string_general (Col_suffix)
+					l_col_short := l_col_string.twin
+					l_col_string.append_character ('-')
+					l_col_string.append_character ('c')
+					l_col_string.append_string_general (l_col_number.out)
+					last_new_col.set_id (l_col_string)
+					l_classes := l_col_short.twin
+					l_classes.append_character (' ')
+					l_classes.append_string_general (l_col_string)
+					last_new_col.set_class_names (l_classes)
+					l_col_number := l_col_number + 1
+				end
 			end
 			Result := last_new_colgroup
 		end
@@ -160,25 +167,31 @@ feature -- Supporting Builders
 			l_ftr_string,
 			l_classes,
 			l_ftr_short: STRING
+			l_col_number: INTEGER
 		do
 			Result := new_thead
 			last_new_thead.add_content (new_tr)
 			across
 				a_spec_obj.convertible_features (a_spec_obj) as ic_attrs
+			from
+				l_col_number := 1
 			loop
-				last_new_tr.add_content (new_th)
-				l_ftr_string := a_id.twin
-				l_ftr_string.append_string (Header_suffix)
-				l_ftr_short := l_ftr_string.twin
-				l_ftr_string.append_character ('-')
-				l_ftr_string.append_character ('c')
-				l_ftr_string.append_string (ic_attrs.cursor_index.out)
-				last_new_th.set_id (l_ftr_string)
-				l_classes := l_ftr_short.twin
-				l_classes.append_character (' ')
-				l_classes.append_string_general (l_ftr_string)
-				last_new_th.set_class_names (l_classes)
-				last_new_th.add_text_content (ic_attrs.item)
+				if metadata_is_for_output (a_spec_obj, not refresh) [ic_attrs.cursor_index] then
+					last_new_tr.add_content (new_th)
+					l_ftr_string := a_id.twin
+					l_ftr_string.append_string (Header_suffix)
+					l_ftr_short := l_ftr_string.twin
+					l_ftr_string.append_character ('-')
+					l_ftr_string.append_character ('c')
+					l_ftr_string.append_string (l_col_number.out)
+					last_new_th.set_id (l_ftr_string)
+					l_classes := l_ftr_short.twin
+					l_classes.append_character (' ')
+					l_classes.append_string_general (l_ftr_string)
+					last_new_th.set_class_names (l_classes)
+					last_new_th.add_text_content (ic_attrs.item)
+					l_col_number := l_col_number + 1
+				end
 			end
 		end
 
@@ -187,27 +200,33 @@ feature -- Supporting Builders
 			l_hdr_string,
 			l_classes,
 			l_hdr_short: STRING
+			l_col_number: INTEGER
 		do
 			Result := new_tfoot
 				last_new_tfoot.add_content (new_tr)
 				across
 					a_spec_obj.convertible_features (a_spec_obj) as ic_attrs
+				from
+					l_col_number := 1
 				loop
-					last_new_tr.add_content (new_th)
-						l_hdr_string := a_id.twin
-						l_hdr_string.append_string (footer_suffix)
-						l_hdr_short := l_hdr_string.twin
-						l_hdr_string.append_character ('-')
-						l_hdr_string.append_character ('c')
-						l_hdr_string.append_string (ic_attrs.cursor_index.out)
-						last_new_th.set_id (l_hdr_string)
+					if metadata_is_for_output (a_spec_obj, not refresh) [ic_attrs.cursor_index] then
+						last_new_tr.add_content (new_th)
+							l_hdr_string := a_id.twin
+							l_hdr_string.append_string (footer_suffix)
+							l_hdr_short := l_hdr_string.twin
+							l_hdr_string.append_character ('-')
+							l_hdr_string.append_character ('c')
+							l_hdr_string.append_string (l_col_number.out)
+							last_new_th.set_id (l_hdr_string)
 
-						l_classes := l_hdr_short.twin
-						l_classes.append_character (' ')
-						l_classes.append_string_general (l_hdr_string)
-						last_new_th.set_class_names (l_classes)
+							l_classes := l_hdr_short.twin
+							l_classes.append_character (' ')
+							l_classes.append_string_general (l_hdr_string)
+							last_new_th.set_class_names (l_classes)
 
-						last_new_th.add_text_content (ic_attrs.item)
+							last_new_th.add_text_content (ic_attrs.item)
+						l_col_number := l_col_number + 1
+					end
 				end
 		end
 
@@ -247,44 +266,50 @@ feature -- Supporting Builders
 			l_inp_string,
 			l_classes,
 			l_inp_short: STRING
+			l_col_number: INTEGER
 		do
 			new_tr.do_nothing
 			across
 				a_object.attributes_hash_on_name (a_object) as ic_attrs
+			from
+				l_col_number := 1
 			loop
-				ic_attrs.item.call ([Void])
-				last_new_tr.add_content (new_td)
-					last_new_td.add_content (new_input)
-						l_inp_string := a_id.twin
-						l_inp_string.append_string_general (Input_suffix)
-						l_classes := l_inp_string.twin
-						l_inp_string.append_character ('-')
-						l_inp_string.append_character ('r')
-						l_inp_string.append_string_general (a_row_number.out)
-						l_classes.append_character (' ')
-						l_classes.append_string_general (l_inp_string)
-						l_inp_string.append_character ('-')
-						l_inp_string.append_character ('c')
-						l_inp_string.append_string_general (a_row_number.out)
-						l_classes.append_character (' ')
-						l_classes.append_string_general (l_inp_string)
-						last_new_input.set_id (l_inp_string)
+				if metadata_is_for_output (a_object, not refresh)[ic_attrs.cursor_index] then
+					ic_attrs.item.call ([Void])
+					last_new_tr.add_content (new_td)
+						last_new_td.add_content (new_input)
+							l_inp_string := a_id.twin
+							l_inp_string.append_string_general (Input_suffix)
+							l_classes := l_inp_string.twin
+							l_inp_string.append_character ('-')
+							l_inp_string.append_character ('r')
+							l_inp_string.append_string_general (a_row_number.out)
+							l_classes.append_character (' ')
+							l_classes.append_string_general (l_inp_string)
+							l_inp_string.append_character ('-')
+							l_inp_string.append_character ('c')
+							l_inp_string.append_string_general (a_row_number.out)
+							l_classes.append_character (' ')
+							l_classes.append_string_general (l_inp_string)
+							last_new_input.set_id (l_inp_string)
 
-						l_classes.append_character (' ')
-						l_classes.append_string_general (a_id.twin)
-						l_classes.append_string_general (input_suffix)
-						l_classes.append_character ('-')
-						l_classes.append_character ('c')
-						l_classes.append_string_general (ic_attrs.cursor_index.out)
+							l_classes.append_character (' ')
+							l_classes.append_string_general (a_id.twin)
+							l_classes.append_string_general (input_suffix)
+							l_classes.append_character ('-')
+							l_classes.append_character ('c')
+							l_classes.append_string_general (l_col_number.out)
 
-						last_new_input.set_class_names (l_classes)
+							last_new_input.set_class_names (l_classes)
 
-						if attached ic_attrs.item.last_result as al_last_result then
-							last_new_input.set_value (al_last_result.out)
-							check has_type: attached {STRING} a_object.metadata (a_object)[ic_attrs.cursor_index].type as al_metadata then
-								last_new_input.set_type (al_metadata) -- See {JSON_TRANSFORMABLE}.valid_types
+							if attached ic_attrs.item.last_result as al_last_result then
+								last_new_input.set_value (al_last_result.out)
+								check has_type: attached {STRING} a_object.metadata (a_object)[ic_attrs.cursor_index].type as al_metadata then
+									last_new_input.set_type (al_metadata) -- See {JSON_TRANSFORMABLE}.valid_types
+								end
 							end
-						end
+						l_col_number := l_col_number + 1
+				end
 			end
 				-- Row deletion
 			last_new_tr.add_content (new_td)
@@ -292,19 +317,90 @@ feature -- Supporting Builders
 			Result := last_new_tr
 		end
 
-feature -- JavaScript
+feature -- Metadata
 
-	build_table_row_cell_insertion_script (a_col_number: INTEGER; a_default_value_text: STRING): STRING
+	metadata (a_object: G; a_refresh: BOOLEAN): like {G}.metadata
 		do
-			Result := table_row_cell_insertion_js.twin
-			Result.replace_substring_all ("<<COL_NUMBER>>", (a_col_number - 1).out)
-			Result.replace_substring_all ("<<DEFAULT_VALUE_TEXT>>", a_default_value_text)
+			Result := metadata_attached (a_object, a_refresh)
 		end
 
-	table_row_cell_insertion_js: STRING = "[
-var cell<<COL_NUMBER>> = row.insertCell(<<COL_NUMBER>>);
-cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
-]"
+	metadata_is_required (a_object: G; a_refresh: BOOLEAN): ARRAY [BOOLEAN]
+			-- `metadata_is_required' from `a_object', `a_refresh' if True.
+			-- Follows once-per-object pattern with using: once ("object").
+			-- Offers convenience of refreshing the "onced" object if needed.
+		do
+			if not a_refresh and then attached metadata_is_required_internal as al_result then
+				Result := al_result
+			else
+				Result := metadata_is_required_attached (a_object, a_refresh)
+			end
+		end
+
+	metadata_is_for_output (a_object: G; a_refresh: BOOLEAN): ARRAY [BOOLEAN]
+			-- `metadata_is_for_output' from `a_object', `a_refresh' if True.
+			-- Follows once-per-object pattern with using: once ("object").
+			-- Offers convenience of refreshing the "onced" object if needed.
+		do
+			if not a_refresh and then attached metadata_is_for_output_internal as al_result then
+				Result := al_result
+			else
+				Result := metadata_is_for_output_attached (a_object, a_refresh)
+			end
+		end
+
+feature {NONE} -- Metadata: Internals
+
+	metadata_attached (a_object: G; a_refresh: BOOLEAN): like {G}.metadata
+		do
+			if a_refresh and then attached metadata_internal as al_result then
+				Result := al_result
+			else
+				Result := a_object.metadata (a_object)
+				metadata_internal := Result
+			end
+		end
+
+	metadata_internal: detachable like {G}.metadata
+
+	metadata_is_required_attached (a_object: G; a_refresh: BOOLEAN): ARRAY [BOOLEAN]
+			-- `metadata_is_required_attached' once-per-object patterned.
+			-- See also `metadata_is_required_internal'.
+			-- Temporary replacement for the once ("object") pattern.
+		local
+			l_list: ARRAYED_LIST [BOOLEAN]
+		do
+			check attached metadata (a_object, a_refresh) as al_meta then
+				create Result.make_filled (False, 1, al_meta.count)
+				across
+					al_meta as ic_meta
+				loop
+					Result [ic_meta.cursor_index] := ic_meta.item.is_required
+					metadata_is_required_internal := Result
+				end
+			end
+		end
+
+	metadata_is_required_internal: detachable ARRAY [BOOLEAN]
+
+	metadata_is_for_output_attached (a_object: G; a_refresh: BOOLEAN): ARRAY [BOOLEAN]
+			-- `metadata_is_for_output_attached' once-per-object patterned.
+			-- See also `metadata_is_for_output_internal'.
+			-- Temporary replacement for the once ("object") pattern.
+		do
+			check attached metadata (a_object, a_refresh) as al_meta then
+				create Result.make_filled (False, 1, al_meta.count)
+				across
+					al_meta as ic_meta
+				loop
+					Result [ic_meta.cursor_index] := ic_meta.item.is_for_output
+					metadata_is_for_output_internal := Result
+				end
+			end
+		end
+
+	metadata_is_for_output_internal: detachable ARRAY [BOOLEAN]
+
+feature -- JavaScript
 
 	build_table_row_insertion_script (a_id: STRING; a_caption: detachable STRING; a_object: G; a_include_footers: BOOLEAN): like new_script
 		local
@@ -323,21 +419,36 @@ cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
 			create l_row_insertion_js.make_empty
 			across
 				a_object.attributes_hash_on_name (a_object) as ic_attrs
+			from
+				l_col_number := 1
 			loop
-				l_col_number := ic_attrs.cursor_index
-				l_def_value_text := "def-value" -- REPLACE WITH metadata version of default value based on "type="
-				l_def_value_text := build_metadata_new_input (a_object.metadata (a_object)[ic_attrs.cursor_index]).html_out
-				l_def_value_text.replace_substring_all ("%"", "\%"")
-				l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_def_value_text))
+				if metadata_is_for_output (a_object, not refresh)[ic_attrs.cursor_index] then
+					l_def_value_text := build_metadata_new_input (a_object.metadata (a_object)[ic_attrs.cursor_index]).html_out
+					l_def_value_text.replace_substring_all ("%"", "\%"")
+					l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_def_value_text))
+					l_col_number := l_col_number + 1
+				end
 			end
 			l_del_button_js := build_row_deletion_new_input ("this").html_out
 			l_del_button_js.replace_substring_all ("%"", "\%"")
-			l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (a_object.attributes_hash_on_name (a_object).count + 1, l_del_button_js))
+			l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_del_button_js))
 			l_js.replace_substring_all ("<<ROW_INSERTION_SCRIPTS>>", l_row_insertion_js)
 
 			Result := new_script
 			last_new_script.add_text_content (l_js)
 		end
+
+	build_table_row_cell_insertion_script (a_col_number: INTEGER; a_default_value_text: STRING): STRING
+		do
+			Result := table_row_cell_insertion_js.twin
+			Result.replace_substring_all ("<<COL_NUMBER>>", (a_col_number - 1).out)
+			Result.replace_substring_all ("<<DEFAULT_VALUE_TEXT>>", a_default_value_text)
+		end
+
+	table_row_cell_insertion_js: STRING = "[
+var cell<<COL_NUMBER>> = row.insertCell(<<COL_NUMBER>>);
+cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
+]"
 
 	table_row_insertion_js: STRING = "[
 function insertRow() {
@@ -349,6 +460,8 @@ function insertRow() {
 ]"
 
 feature -- Constants
+
+	refresh: BOOLEAN = True
 
 	is_quoted: BOOLEAN = True
 

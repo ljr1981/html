@@ -50,6 +50,7 @@ feature -- Test routines
 			l_delete_script_text: STRING
 			l_delete_script: HTML_SCRIPT
 			l_insert_script: HTML_SCRIPT
+			l_mocks: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
 		do
 			-- PREP WORK
 			-- =============================
@@ -57,7 +58,16 @@ feature -- Test routines
 			create l_builder
 
 				-- Rubber-meets-road! We now ask our builder to build ...
-			l_table := l_builder.build_editable_input_table (my_table_id, my_table_caption, test_mock_json_objects (2), not include_footers)
+			l_mocks := test_mock_json_objects (2)
+			across
+				l_mocks as ic
+			loop
+				ic.item.metadata (ic.item) [1].reset_is_for_output
+				ic.item.metadata (ic.item) [2].reset_is_for_output
+				ic.item.metadata (ic.item) [3].reset_is_for_output
+				ic.item.metadata (ic.item) [4].reset_is_for_output
+			end
+			l_table := l_builder.build_editable_input_table (my_table_id, my_table_caption, l_mocks, not include_footers)
 
 				-- Row deletion script
 			l_delete_script_text := {JS_BASE}.delete_row_js_min.twin

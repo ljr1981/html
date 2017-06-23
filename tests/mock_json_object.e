@@ -82,7 +82,7 @@ feature -- Access
 
 feature -- Access: Convertibles
 
-	metadata (a_current: ANY): ARRAY [JSON_METADATA]
+	metadata_refreshed (a_current: ANY): ARRAY [JSON_METADATA]
 		do
 			Result := <<
 						create {JSON_METADATA}.make_text_default,
