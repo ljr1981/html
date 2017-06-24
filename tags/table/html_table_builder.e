@@ -113,7 +113,7 @@ feature -- Primary Builders
 				last_new_table.add_content (new_input)
 					last_new_input.set_type (button_type_kw)
 					last_new_input.set_value (add_button_name)
-					last_new_input.set_on_click (insert_row_fn_text)
+					last_new_input.set_on_click (js_fn_name (insert_row_fn_text, empty_args))
 
 						-- Gen: Captions, Colgroup, Cols, Headers, and Footers
 					if attached a_caption as al_caption then
@@ -141,7 +141,7 @@ feature -- Supporting Builders
 		do
 			new_input.set_value (delete_button_name)
 				last_new_input.set_type (button_type_kw)
-				last_new_input.set_on_click (delete_row_fn_text + "(" + a_on_click_arg + ")") -- e.g. "this"
+				last_new_input.set_on_click (js_fn_name (delete_row_fn_text, a_on_click_arg))
 			Result := last_new_input.twin
 		end
 
@@ -215,7 +215,7 @@ feature -- Supporting Builders
 					l_classes.append_string_general (l_ftr_string)
 					last_new_th.set_class_names (l_classes)
 					last_new_th.add_text_content (ic_attrs.item)
-					last_new_th.set_on_click (sort_table_fn_text + "(" + (l_col_number - 1).out + ")") -- "-1" is due to JS zero-based array
+					last_new_th.set_on_click (js_fn_name (sort_table_fn_text, (l_col_number - 1).out)) -- "-1" is due to JS zero-based array
 					l_col_number := l_col_number + 1
 				end
 			end
@@ -429,6 +429,14 @@ feature {NONE} -- Metadata: Internals
 
 feature -- JavaScript
 
+	js_fn_name (a_function, a_args: STRING): STRING
+		do
+			Result := a_function.twin
+			Result.append_character ('(')
+			Result.append_string_general (a_args)
+			Result.append_character (')')
+		end
+
 	build_table_row_insertion_script (a_id: STRING): like new_script
 			-- `build_table_row_insertion_script' using `a_id' and `a_caption' for <table>
 			--		and filling a row with `a_object', with optional <tfoot>s.
@@ -493,11 +501,13 @@ feature -- Constants
 
 	delete_button_name: STRING = "Delete"
 
-	insert_row_fn_text: STRING = "insertRow()"
+	insert_row_fn_text: STRING = "insertRow"
 
 	sort_table_fn_text: STRING = "sortTable"
 
 	delete_row_fn_text: STRING = "deleteRow"
+
+	empty_args: STRING = ""
 
 	refresh: BOOLEAN = True
 
