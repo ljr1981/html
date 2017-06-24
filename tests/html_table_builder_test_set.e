@@ -38,6 +38,13 @@ inherit
 
 feature -- Test routines
 
+	table_dressup_tests
+			-- Play "dressup" with CSS on the same table structure
+			-- 	(i.e. prove that we can change how the table looks/feels based only on CSS)
+		do
+
+		end
+
 	html_table_builder_tests
 			-- `html_table_builder_tests'
 		note
@@ -60,7 +67,7 @@ feature -- Test routines
 		local
 			l_builder: HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]
 			l_mocks: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
-		do
+		once
 			-- PREP WORK
 			-- =============================
 				-- Creations: Builder and Mock Objects
@@ -83,7 +90,7 @@ feature -- Test routines
 		end
 
 	test_mock_json_objects (a_count: INTEGER): HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
-		do
+		once
 				-- Construct objects to test with
 			create Result.make (a_count)
 			across
