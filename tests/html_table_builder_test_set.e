@@ -43,9 +43,23 @@ feature -- Test routines
 		note
 			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/build_editable_input_table.html"
 		local
+			l_table_stuff: like stable_table_stuff
+		do
+				-- Get our `stable_table_stuff' ...
+			l_table_stuff := stable_table_stuff
+
+				-- Output the results to a file where we can see it in the browser
+			new_style.add_text_content (head_styles_css)
+			new_div.add_content (l_table_stuff.table)
+
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, l_table_stuff.body_scripts, build_editable_input_table_file_name)
+		end
+
+	stable_table_stuff: like {HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]}.build_editable_table_components
+			-- `stable_table_stuff' provides a stable constant rendering of table components based on `test_mock_json_objects'.
+		local
 			l_builder: HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]
 			l_mocks: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
-			l_table_stuff: like {HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]}.build_editable_table_components
 		do
 			-- PREP WORK
 			-- =============================
@@ -65,17 +79,7 @@ feature -- Test routines
 			-- BUILDER WORK
 			-- =============================
 				-- Rubber-meets-road! We now ask our builder to build ...
-			l_table_stuff := l_builder.build_editable_table_components (my_table_id, my_table_caption, l_mocks, not include_footers)
-
-			-- STYLES & PREP-4-OUTPUT WORK
-			-- =============================
-				-- Output the results to a file where we can see it in the browser
-			new_style.add_text_content (head_styles_css)
-			new_div.add_content (l_table_stuff.table)
-
-			-- OUTPUT
-			-- =============================
-			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, l_table_stuff.body_scripts, build_editable_input_table_file_name)
+			Result := l_builder.build_editable_table_components (my_table_id, my_table_caption, l_mocks, not include_footers)
 		end
 
 	test_mock_json_objects (a_count: INTEGER): HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
