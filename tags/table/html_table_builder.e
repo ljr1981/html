@@ -142,7 +142,7 @@ feature -- Supporting Builders
 			new_input.set_value (delete_button_name)
 				last_new_input.set_type (button_type_kw)
 				last_new_input.set_on_click (delete_row_fn_text + "(" + a_on_click_arg + ")") -- e.g. "this"
-			Result := last_new_input
+			Result := last_new_input.twin
 		end
 
 	build_table_new_caption (a_id, a_caption: STRING): like new_caption
@@ -152,7 +152,7 @@ feature -- Supporting Builders
 				last_new_text_content.append_string_general (Caption_suffix)
 				last_new_caption.set_id (last_new_text_content)
 				last_new_caption.set_class_names (last_new_text_content)
-			Result := last_new_caption
+			Result := last_new_caption.twin
 		end
 
 	build_table_new_colgroup (a_id: STRING; a_spec_obj: G): like new_colgroup
@@ -184,7 +184,7 @@ feature -- Supporting Builders
 					l_col_number := l_col_number + 1
 				end
 			end
-			Result := last_new_colgroup
+			Result := last_new_colgroup.twin
 		end
 
 	build_table_new_thead (a_id: STRING; a_spec_obj: G): like new_thead
@@ -194,8 +194,8 @@ feature -- Supporting Builders
 			l_ftr_short: STRING
 			l_col_number: INTEGER
 		do
-			Result := new_thead
-			last_new_thead.add_content (new_tr)
+
+			new_thead.add_content (new_tr)
 			across
 				a_spec_obj.convertible_features (a_spec_obj) as ic_attrs
 			from
@@ -219,6 +219,7 @@ feature -- Supporting Builders
 					l_col_number := l_col_number + 1
 				end
 			end
+			Result := last_new_thead.twin
 		end
 
 	build_table_new_tfoot (a_id: STRING; a_spec_obj: G): like new_tfoot
@@ -228,8 +229,7 @@ feature -- Supporting Builders
 			l_hdr_short: STRING
 			l_col_number: INTEGER
 		do
-			Result := new_tfoot
-				last_new_tfoot.add_content (new_tr)
+			new_tfoot.add_content (new_tr)
 				across
 					a_spec_obj.convertible_features (a_spec_obj) as ic_attrs
 				from
@@ -254,6 +254,7 @@ feature -- Supporting Builders
 						l_col_number := l_col_number + 1
 					end
 				end
+			Result := last_new_tfoot.twin
 		end
 
 	build_metadata_new_input (a_metadata: JSON_METADATA): like new_input
@@ -284,7 +285,7 @@ feature -- Supporting Builders
 				last_new_input.set_attribute_manual ("height", a_metadata.height_attached.out, not is_quoted)
 			end
 
-			Result := last_new_input
+			Result := last_new_input.twin
 		end
 
 	build_table_new_tr (a_id: STRING; a_object: G; a_row_number: INTEGER): like new_tr
@@ -340,7 +341,7 @@ feature -- Supporting Builders
 				-- Row deletion
 			last_new_tr.add_content (new_td)
 				last_new_td.add_content (build_row_deletion_new_input (this_js_kw))
-			Result := last_new_tr
+			Result := last_new_tr.twin
 		end
 
 feature -- Metadata
@@ -466,8 +467,8 @@ feature -- JavaScript
 			l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_del_button_js))
 			l_js.replace_substring_all ({JS_BASE}.row_insertion_scripts_rtag, l_row_insertion_js)
 
-			Result := new_script
-			last_new_script.add_text_content (l_js)
+			new_script.add_text_content (l_js)
+			Result := last_new_script.twin
 		end
 
 	build_table_row_cell_insertion_script (a_col_number: INTEGER; a_default_value_text: STRING): STRING
