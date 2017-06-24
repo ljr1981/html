@@ -182,17 +182,22 @@ feature -- Supporting Builders
 			loop
 				if metadata_is_for_output (a_spec_obj, not refresh) [ic_metadata.cursor_index] then
 					last_new_colgroup.add_content (new_col)
+
 					l_col_string := a_id.twin
 					l_col_string.append_string_general (Col_suffix)
 					l_col_short := l_col_string.twin
 					l_col_string.append_character (hyphen_char)
 					l_col_string.append_character (col_char)
 					l_col_string.append_string_general (l_col_number.out)
+
 					last_new_col.set_id (l_col_string)
+
 					l_classes := l_col_short.twin
 					l_classes.append_character (space_char)
 					l_classes.append_string_general (l_col_string)
+
 					last_new_col.set_class_names (l_classes)
+
 					l_col_number := l_col_number + 1
 				end
 			end
@@ -215,19 +220,28 @@ feature -- Supporting Builders
 			loop
 				if metadata_is_for_output (a_spec_obj, not refresh) [ic_attrs.cursor_index] then
 					last_new_tr.add_content (new_th)
+
 					l_ftr_string := a_id.twin
 					l_ftr_string.append_string (Header_suffix)
 					l_ftr_short := l_ftr_string.twin
 					l_ftr_string.append_character (hyphen_char)
 					l_ftr_string.append_character (col_char)
 					l_ftr_string.append_string (l_col_number.out)
+
 					last_new_th.set_id (l_ftr_string)
+
 					l_classes := l_ftr_short.twin
 					l_classes.append_character (space_char)
 					l_classes.append_string_general (l_ftr_string)
+
 					last_new_th.set_class_names (l_classes)
-					last_new_th.add_text_content (ic_attrs.item)
+					if attached metadata (a_spec_obj, not refresh) [ic_attrs.cursor_index].name as al_header_name then
+						last_new_th.add_text_content (al_header_name)
+					else
+						--last_new_th.add_text_content (ic_attrs.item)
+					end
 					last_new_th.set_on_click (js_fn_name (sort_table_fn_text, (l_col_number - 1).out)) -- "-1" is due to JS zero-based array
+
 					l_col_number := l_col_number + 1
 				end
 			end
@@ -330,6 +344,7 @@ feature -- Supporting Builders
 							l_inp_string.append_string_general (a_row_number.out)
 							l_classes.append_character (space_char)
 							l_classes.append_string_general (l_inp_string)
+
 							last_new_input.set_id (l_inp_string)
 
 							l_classes.append_character (space_char)
