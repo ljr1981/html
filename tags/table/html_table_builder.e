@@ -122,16 +122,18 @@ feature -- Primary Builders
 				last_new_table.set_attribute_manual ("data-rowcount", a_objects.count.out, not is_quoted)
 
 				-- Row insertion
-				last_new_table.add_content (new_input)
-					last_new_input.set_type (button_type_kw)
-					last_new_input.set_value (add_button_name)
-					last_new_input.set_on_click (js_fn_name (insert_row_fn_text, empty_args))
+--				last_new_table.add_content (new_input)
+--					last_new_input.set_type (button_type_kw)
+--					last_new_input.set_value (add_button_name)
+--					last_new_input.set_on_click (js_fn_name (insert_row_fn_text, empty_args))
 
 						-- Gen: Captions, Colgroup, Cols, Headers, and Footers
 					if attached a_caption as al_caption then
 						last_new_table.add_content (build_table_new_caption (a_id, a_caption))
 					end
+
 					metadata_is_for_output (l_spec_obj, refresh).do_nothing
+
 					last_new_table.add_content (build_table_new_colgroup (a_id, l_spec_obj))
 					last_new_table.add_content (build_table_new_thead (a_id, l_spec_obj))
 					if a_include_footers then
@@ -245,8 +247,15 @@ feature -- Supporting Builders
 					l_col_number := l_col_number + 1
 				end
 			end
+			last_new_tr.add_content (new_th)
+			last_new_th.add_content (new_button)
+				last_new_button.set_text_content ("Add")
+				last_new_button.set_on_click (js_fn_name (insert_row_fn_text, add_at_top.out.as_lower))
+
 			Result := last_new_thead.twin
 		end
+
+	add_at_top: BOOLEAN = True
 
 	build_table_new_tfoot (a_id: STRING; a_spec_obj: G): like new_tfoot
 		local

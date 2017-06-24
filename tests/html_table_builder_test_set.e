@@ -42,6 +42,7 @@ feature -- Table CSS Dressup
 			-- Play "dressup" with CSS on the same table structure
 			-- 	(i.e. prove that we can change how the table looks/feels based only on CSS)
 		note
+			testing: "execution/isolated"
 			EIS: "src=https://www.w3schools.com/css/css_table.asp" -- based on ...
 			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_1.html"
 			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_2.html"
@@ -81,6 +82,20 @@ feature -- Table CSS Dressup
 				last_new_div.set_style ("overflow-x:auto;")
 			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_6")
 		end
+
+	html_table_builder_tests
+			-- `html_table_builder_tests'
+		note
+			testing: "execution/isolated"
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/build_editable_input_table.html"
+		do
+			new_style.add_text_content (head_styles_css)
+			new_div.add_content (stable_table_stuff.table)
+
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, build_editable_input_table_file_name)
+		end
+
+feature {NONE} -- Test Support
 
 	css_dressup_1: STRING = "[
 caption,table {
@@ -151,19 +166,6 @@ th, td {
 tr:hover {background-color: #f5f5f5}
 tr:nth-child(even) {background-color: #f2f2f2}
 ]"
-
-feature -- Table Builder
-
-	html_table_builder_tests
-			-- `html_table_builder_tests'
-		note
-			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/build_editable_input_table.html"
-		do
-			new_style.add_text_content (head_styles_css)
-			new_div.add_content (stable_table_stuff.table)
-
-			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, build_editable_input_table_file_name)
-		end
 
 	stable_table_stuff: like {HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]}.build_editable_table_components
 			-- `stable_table_stuff' provides a stable constant rendering of table components based on `test_mock_json_objects'.

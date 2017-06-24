@@ -32,10 +32,14 @@ cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
 ]"
 
 	table_row_insertion_js_template: STRING = "[
-function insertRow() {
+function insertRow(atTop) {
   var table = document.getElementById("<<TABLE_NAME>>");
   var count = table.rows.length;
-  var row = table.insertRow(count);
+  if (atTop) {
+	    var row = table.insertRow(1);
+	} else { 
+	    var row = table.insertRow(count);
+	}
   <<ROW_INSERTION_SCRIPTS>>
 }
 ]"
