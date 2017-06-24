@@ -41,16 +41,122 @@ feature -- Test routines
 	table_dressup_tests
 			-- Play "dressup" with CSS on the same table structure
 			-- 	(i.e. prove that we can change how the table looks/feels based only on CSS)
+		note
+			EIS: "src=https://www.w3schools.com/css/css_table.asp" -- based on ...
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_1.html"
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_2.html"
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_3.html"
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_4.html"
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_5.html"
+			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/css_dressup_6.html"
 		do
-
+				-- `css_dressup_1'
+			new_style.add_text_content (css_dressup_1)
+			new_div.add_content (stable_table_stuff.table)
+				last_new_div.set_style ("overflow-x:auto;")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_1")
+				-- `css_dressup_2'
+			new_style.add_text_content (css_dressup_2)
+			new_div.add_content (stable_table_stuff.table)
+				last_new_div.set_style ("overflow-x:auto;")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_2")
+				-- `css_dressup_3'
+			new_style.add_text_content (css_dressup_3)
+			new_div.add_content (stable_table_stuff.table)
+				last_new_div.set_style ("overflow-x:auto;")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_3")
+				-- `css_dressup_4'
+			new_style.add_text_content (css_dressup_4)
+			new_div.add_content (stable_table_stuff.table)
+				last_new_div.set_style ("overflow-x:auto;")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_4")
+				-- `css_dressup_5'
+			new_style.add_text_content (css_dressup_5)
+			new_div.add_content (stable_table_stuff.table)
+				last_new_div.set_style ("overflow-x:auto;")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_5")
+				-- `css_dressup_6'
+			new_style.add_text_content (css_dressup_6)
+			new_div.add_content (stable_table_stuff.table)
+				last_new_div.set_style ("overflow-x:auto;")
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, stable_table_stuff.body_scripts, "css_dressup_6")
 		end
+
+	css_dressup_1: STRING = "[
+caption,table {
+    border-collapse: collapse;
+}
+
+caption,table, th, td {
+    border: 1px solid black;
+}
+]"
+
+	css_dressup_2: STRING = "[
+caption,table {
+    border: 1px solid black;
+}
+]"
+
+	css_dressup_3: STRING = "[
+table {
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+]"
+
+	css_dressup_4: STRING = "[
+table {
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+th, td {
+    border-bottom: 1px solid #ddd;
+}
+]"
+
+	css_dressup_5: STRING = "[
+table {
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+th, td {
+    border-bottom: 1px solid #ddd;
+}
+tr:hover {background-color: #f5f5f5}
+]"
+
+	css_dressup_6: STRING = "[
+table {
+    width: 100%;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    height: 50px;
+}
+th, td {
+    border-bottom: 1px solid #ddd;
+}
+tr:hover {background-color: #f5f5f5}
+tr:nth-child(even) {background-color: #f2f2f2}
+]"
 
 	html_table_builder_tests
 			-- `html_table_builder_tests'
 		note
 			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/build_editable_input_table.html"
 		do
-				-- Output the results to a file where we can see it in the browser
 			new_style.add_text_content (head_styles_css)
 			new_div.add_content (stable_table_stuff.table)
 
