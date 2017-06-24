@@ -36,7 +36,7 @@ inherit
 			default_create
 		end
 
-feature -- Test routines
+feature -- Table CSS Dressup
 
 	table_dressup_tests
 			-- Play "dressup" with CSS on the same table structure
@@ -151,6 +151,8 @@ th, td {
 tr:hover {background-color: #f5f5f5}
 tr:nth-child(even) {background-color: #f2f2f2}
 ]"
+
+feature -- Table Builder
 
 	html_table_builder_tests
 			-- `html_table_builder_tests'
