@@ -4,26 +4,49 @@ note
 class
 	JS_BASE
 
+feature -- Constants
+
+	table_name_rtag: STRING = "<<TABLE_NAME>>"
+	row_insertion_scripts_rtag: STRING = "<<ROW_INSERTION_SCRIPTS>>"
+	col_number_rtag: STRING = "<<COL_NUMBER>>"
+	default_value_text_rtag: STRING = "<<DEFAULT_VALUE_TEXT>>"
+
 feature -- Table: Delete Row
 
-	delete_row_js_min: STRING = "[
+	delete_row_js_min_template: STRING = "[
 function deleteRow(e){var t=e.parentNode.parentNode.rowIndex;document.getElementById("<<TABLE_NAME>>").deleteRow(t)}
 ]"
 
-	delete_row_js: STRING = "[
+	delete_row_js_template: STRING = "[
 function deleteRow(r) {
     var i = r.parentNode.parentNode.rowIndex;
     document.getElementById("<<TABLE_NAME>>").deleteRow(i);
 }
 ]"
 
+feature -- Table: Insert Row Templates
+
+	table_row_cell_insertion_js_template: STRING = "[
+var cell<<COL_NUMBER>> = row.insertCell(<<COL_NUMBER>>);
+cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
+]"
+
+	table_row_insertion_js_template: STRING = "[
+function insertRow() {
+  var table = document.getElementById("<<TABLE_NAME>>");
+  var count = table.rows.length;
+  var row = table.insertRow(count);
+  <<ROW_INSERTION_SCRIPTS>>
+}
+]"
+
 feature -- Table: Sort Rows
 
-	sort_table_js_min: STRING = "[
+	sort_table_js_min_template: STRING = "[
 function sortTable(e){var a,t,o,s,r,l,n,g,m=0;for(a=document.getElementById("<<TABLE_NAME>>"),o=!0,g="asc";o;){for(o=!1,t=a.getElementsByTagName("TR"),s=1;s<t.length-1;s++)if(n=!1,r=t[s].getElementsByTagName("INPUT")[e],l=t[s+1].getElementsByTagName("INPUT")[e],"asc"==g){if(r.value.toLowerCase()>l.value.toLowerCase()){n=!0;break}}else if("desc"==g&&r.value.toLowerCase()<l.value.toLowerCase()){n=!0;break}n?(t[s].parentNode.insertBefore(t[s+1],t[s]),o=!0,m++):0==m&&"asc"==g&&(g="desc",o=!0)}}
 ]"
 
-	sort_table_js: STRING = "[
+	sort_table_js_template: STRING = "[
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("<<TABLE_NAME>>");

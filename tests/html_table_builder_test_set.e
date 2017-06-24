@@ -44,22 +44,14 @@ feature -- Test routines
 			EIS: "src=file:///C:/Users/LJR19/Documents/GitHub/html/tests/html_outs/build_editable_input_table.html"
 		local
 			l_builder: HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]
-			l_object: MOCK_JSON_OBJECT
-			l_table: like new_table
-			l_objects: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
-			l_delete_script_text,
-			l_js: STRING
-			l_delete_script,
-			l_insert_script,
-			l_sort_script: HTML_SCRIPT
 			l_mocks: HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
+			l_table_stuff: like {HTML_TABLE_BUILDER [MOCK_JSON_OBJECT]}.build_editable_table_components
 		do
 			-- PREP WORK
 			-- =============================
-				-- Creations
+				-- Creations: Builder and Mock Objects
 			create l_builder
 
-				-- Rubber-meets-road! We now ask our builder to build ...
 			l_mocks := test_mock_json_objects (2)
 			across
 				l_mocks as ic
@@ -69,25 +61,21 @@ feature -- Test routines
 				ic.item.metadata (ic.item) [3].reset_is_for_output
 				ic.item.metadata (ic.item) [4].reset_is_for_output
 			end
-			l_table := l_builder.build_editable_input_table (my_table_id, my_table_caption, l_mocks, not include_footers)
 
-				-- Row deletion, insert scripts
-			l_delete_script_text := {JS_BASE}.delete_row_js_min.twin
-				l_delete_script_text.replace_substring_all ("<<TABLE_NAME>>", my_table_id)
-				l_delete_script := new_script
-				l_delete_script.add_text_content (l_delete_script_text)
-			l_insert_script := l_builder.build_table_row_insertion_script (my_table_id, my_table_caption, create {MOCK_JSON_OBJECT}, not include_footers)
-				-- Column sorting scripts
-			l_js := {JS_BASE}.sort_table_js_min.twin
-				l_js.replace_substring_all ("<<TABLE_NAME>>", my_table_id)
-				new_script.add_text_content (l_js)
-				l_sort_script := last_new_script
+			-- BUILDER WORK
+			-- =============================
+				-- Rubber-meets-road! We now ask our builder to build ...
+			l_table_stuff := l_builder.build_editable_table_components (my_table_id, my_table_caption, l_mocks, not include_footers)
 
-
+			-- STYLES & PREP-4-OUTPUT WORK
+			-- =============================
 				-- Output the results to a file where we can see it in the browser
-			new_style.add_text_content (head_styles)
-			new_div.add_content (l_table)
-			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, <<l_delete_script, l_insert_script, l_sort_script>>, "build_editable_input_table")
+			new_style.add_text_content (head_styles_css)
+			new_div.add_content (l_table_stuff.table)
+
+			-- OUTPUT
+			-- =============================
+			output_page_to_browser (last_new_div, last_new_style, empty_body_styles, l_table_stuff.body_scripts, build_editable_input_table_file_name)
 		end
 
 	test_mock_json_objects (a_count: INTEGER): HASH_TABLE [MOCK_JSON_OBJECT, STRING_8]
@@ -101,7 +89,7 @@ feature -- Test routines
 			end
 		end
 
-	head_styles: STRING = "[
+	head_styles_css: STRING = "[
 caption,table,td {
   border: 1px solid grey;
   padding: 2px;
@@ -151,6 +139,8 @@ feature -- Constants
 	empty_body_scripts: ARRAY [HTML_SCRIPT] once Result := <<>> end
 
 	test_html_outs_path_string: STRING = ".\tests\html_outs\"
+
+	build_editable_input_table_file_name: STRING = "build_editable_input_table"
 
 	html_file_ext: STRING = ".html"
 

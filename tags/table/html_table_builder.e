@@ -1,13 +1,38 @@
 class
-	HTML_TABLE_BUILDER [G -> JSON_TRANSFORMABLE]
+	HTML_TABLE_BUILDER [G -> JSON_TRANSFORMABLE create default_create end]
 
 inherit
 	HTML_FACTORY
 
 feature -- Primary Builders
 
-	build_editable_input_table (a_id: STRING; a_caption: detachable STRING; a_objects: HASH_TABLE [G, STRING]; a_include_footers: BOOLEAN): like new_table
-			-- `build_editable_input_table', give `new_table' `a_id' and optional `a_caption', filling with `a_objects'.
+	build_editable_table_components (a_id: STRING; a_caption: detachable STRING; a_objects: HASH_TABLE [G, STRING]; a_include_footers: BOOLEAN): TUPLE [table: HTML_TABLE; body_scripts: ARRAY [HTML_SCRIPT]]
+		local
+			l_table: like new_table
+			l_delete_script,
+			l_insert_script,
+			l_sort_script: HTML_SCRIPT
+			l_js,
+			l_delete_script_text: STRING
+		do
+			l_table := build_editable_new_table (a_id, a_caption, a_objects, a_include_footers)
+
+				-- Row deletion, insert scripts
+			l_delete_script_text := {JS_BASE}.delete_row_js_min_template.twin
+				l_delete_script_text.replace_substring_all ({JS_BASE}.table_name_rtag, a_id)
+				l_delete_script := new_script
+				l_delete_script.add_text_content (l_delete_script_text)
+			l_insert_script := build_table_row_insertion_script (a_id)
+				-- Column sorting scripts
+			l_js := {JS_BASE}.sort_table_js_min_template.twin
+				l_js.replace_substring_all ({JS_BASE}.table_name_rtag, a_id)
+				new_script.add_text_content (l_js)
+				l_sort_script := last_new_script
+			Result := [l_table, <<l_delete_script, l_insert_script, l_sort_script>>]
+		end
+
+	build_editable_new_table (a_id: STRING; a_caption: detachable STRING; a_objects: HASH_TABLE [G, STRING]; a_include_footers: BOOLEAN): like new_table
+			-- `build_editable_new_table', give `new_table' `a_id' and optional `a_caption', filling with `a_objects'.
 			-- Editable by way of the HTML <input> tag element, with attending "type=" attributes, which control presentation by data type.
 		note
 			design: "[
@@ -64,6 +89,7 @@ feature -- Primary Builders
 				]"
 		require
 			has_id: not a_id.is_empty
+			has_caption_if_sent: attached a_caption as al_caption implies not al_caption.is_empty
 			has_one: not a_objects.is_empty
 		local
 			l_spec_obj: G -- to obtain specs like metadata, attributes_hash_on_name, et al
@@ -85,9 +111,9 @@ feature -- Primary Builders
 
 				-- Row insertion
 				last_new_table.add_content (new_input)
-					last_new_input.set_type ("button")
-					last_new_input.set_value ("Add")
-					last_new_input.set_on_click ("insertRow()")
+					last_new_input.set_type (button_type_kw)
+					last_new_input.set_value (add_button_name)
+					last_new_input.set_on_click (insert_row_fn_text)
 
 						-- Gen: Captions, Colgroup, Cols, Headers, and Footers
 					if attached a_caption as al_caption then
@@ -113,10 +139,9 @@ feature -- Supporting Builders
 
 	build_row_deletion_new_input (a_on_click_arg: STRING): like new_input
 		do
-			new_input.set_value ("Delete")
-				last_new_input.set_type ("button")
-				last_new_input.set_on_click ("deleteRow(" + a_on_click_arg + ")") -- e.g. "this"
-
+			new_input.set_value (delete_button_name)
+				last_new_input.set_type (button_type_kw)
+				last_new_input.set_on_click (delete_row_fn_text + "(" + a_on_click_arg + ")") -- e.g. "this"
 			Result := last_new_input
 		end
 
@@ -148,12 +173,12 @@ feature -- Supporting Builders
 					l_col_string := a_id.twin
 					l_col_string.append_string_general (Col_suffix)
 					l_col_short := l_col_string.twin
-					l_col_string.append_character ('-')
-					l_col_string.append_character ('c')
+					l_col_string.append_character (hyphen_char)
+					l_col_string.append_character (col_char)
 					l_col_string.append_string_general (l_col_number.out)
 					last_new_col.set_id (l_col_string)
 					l_classes := l_col_short.twin
-					l_classes.append_character (' ')
+					l_classes.append_character (space_char)
 					l_classes.append_string_general (l_col_string)
 					last_new_col.set_class_names (l_classes)
 					l_col_number := l_col_number + 1
@@ -181,16 +206,16 @@ feature -- Supporting Builders
 					l_ftr_string := a_id.twin
 					l_ftr_string.append_string (Header_suffix)
 					l_ftr_short := l_ftr_string.twin
-					l_ftr_string.append_character ('-')
-					l_ftr_string.append_character ('c')
+					l_ftr_string.append_character (hyphen_char)
+					l_ftr_string.append_character (col_char)
 					l_ftr_string.append_string (l_col_number.out)
 					last_new_th.set_id (l_ftr_string)
 					l_classes := l_ftr_short.twin
-					l_classes.append_character (' ')
+					l_classes.append_character (space_char)
 					l_classes.append_string_general (l_ftr_string)
 					last_new_th.set_class_names (l_classes)
 					last_new_th.add_text_content (ic_attrs.item)
-					last_new_th.set_on_click ("sortTable(" + (l_col_number - 1).out + ")") -- "-1" is due to JS zero-based array
+					last_new_th.set_on_click (sort_table_fn_text + "(" + (l_col_number - 1).out + ")") -- "-1" is due to JS zero-based array
 					l_col_number := l_col_number + 1
 				end
 			end
@@ -215,13 +240,13 @@ feature -- Supporting Builders
 							l_hdr_string := a_id.twin
 							l_hdr_string.append_string (footer_suffix)
 							l_hdr_short := l_hdr_string.twin
-							l_hdr_string.append_character ('-')
-							l_hdr_string.append_character ('c')
+							l_hdr_string.append_character (hyphen_char)
+							l_hdr_string.append_character (col_char)
 							l_hdr_string.append_string (l_col_number.out)
 							last_new_th.set_id (l_hdr_string)
 
 							l_classes := l_hdr_short.twin
-							l_classes.append_character (' ')
+							l_classes.append_character (space_char)
 							l_classes.append_string_general (l_hdr_string)
 							last_new_th.set_class_names (l_classes)
 
@@ -282,23 +307,23 @@ feature -- Supporting Builders
 							l_inp_string := a_id.twin
 							l_inp_string.append_string_general (Input_suffix)
 							l_classes := l_inp_string.twin
-							l_inp_string.append_character ('-')
-							l_inp_string.append_character ('r')
+							l_inp_string.append_character (hyphen_char)
+							l_inp_string.append_character (row_char)
 							l_inp_string.append_string_general (a_row_number.out)
-							l_classes.append_character (' ')
+							l_classes.append_character (space_char)
 							l_classes.append_string_general (l_inp_string)
-							l_inp_string.append_character ('-')
-							l_inp_string.append_character ('c')
+							l_inp_string.append_character (hyphen_char)
+							l_inp_string.append_character (col_char)
 							l_inp_string.append_string_general (a_row_number.out)
-							l_classes.append_character (' ')
+							l_classes.append_character (space_char)
 							l_classes.append_string_general (l_inp_string)
 							last_new_input.set_id (l_inp_string)
 
-							l_classes.append_character (' ')
+							l_classes.append_character (space_char)
 							l_classes.append_string_general (a_id.twin)
 							l_classes.append_string_general (input_suffix)
-							l_classes.append_character ('-')
-							l_classes.append_character ('c')
+							l_classes.append_character (hyphen_char)
+							l_classes.append_character (col_char)
 							l_classes.append_string_general (l_col_number.out)
 
 							last_new_input.set_class_names (l_classes)
@@ -314,7 +339,7 @@ feature -- Supporting Builders
 			end
 				-- Row deletion
 			last_new_tr.add_content (new_td)
-				last_new_td.add_content (build_row_deletion_new_input ("this"))
+				last_new_td.add_content (build_row_deletion_new_input (this_js_kw))
 			Result := last_new_tr
 		end
 
@@ -403,7 +428,11 @@ feature {NONE} -- Metadata: Internals
 
 feature -- JavaScript
 
-	build_table_row_insertion_script (a_id: STRING; a_caption: detachable STRING; a_object: G; a_include_footers: BOOLEAN): like new_script
+	build_table_row_insertion_script (a_id: STRING): like new_script
+			-- `build_table_row_insertion_script' using `a_id' and `a_caption' for <table>
+			--		and filling a row with `a_object', with optional <tfoot>s.
+		require
+			has_id: not a_id.is_empty
 		local
 			l_js,
 			l_row_insertion_js: STRING
@@ -412,28 +441,30 @@ feature -- JavaScript
 			l_col_number: INTEGER
 			l_def_value_text,
 			l_type: STRING
+			l_object: G
 		do
+			create l_object
 			-- For <table> `a_id', and each <col> of it,
 			-- Construct a Javascript <script>, building each <col> according to metadata in `a_objects'
-			l_js := table_row_insertion_js.twin
-			l_js.replace_substring_all ("<<TABLE_NAME>>", a_id)
+			l_js := {JS_BASE}.table_row_insertion_js_template.twin
+			l_js.replace_substring_all ({JS_BASE}.table_name_rtag, a_id)
 			create l_row_insertion_js.make_empty
 			across
-				a_object.attributes_hash_on_name (a_object) as ic_attrs
+				l_object.attributes_hash_on_name (l_object) as ic_attrs
 			from
 				l_col_number := 1
 			loop
-				if metadata_is_for_output (a_object, not refresh)[ic_attrs.cursor_index] then
-					l_def_value_text := build_metadata_new_input (a_object.metadata (a_object)[ic_attrs.cursor_index]).html_out
-					l_def_value_text.replace_substring_all ("%"", "\%"")
+				if metadata_is_for_output (l_object, not refresh)[ic_attrs.cursor_index] then
+					l_def_value_text := build_metadata_new_input (l_object.metadata (l_object)[ic_attrs.cursor_index]).html_out
+					l_def_value_text.replace_substring_all (double_quote, esc_double_quote)
 					l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_def_value_text))
 					l_col_number := l_col_number + 1
 				end
 			end
-			l_del_button_js := build_row_deletion_new_input ("this").html_out
-			l_del_button_js.replace_substring_all ("%"", "\%"")
+			l_del_button_js := build_row_deletion_new_input (this_js_kw).html_out
+			l_del_button_js.replace_substring_all (double_quote, esc_double_quote)
 			l_row_insertion_js.append_string_general (build_table_row_cell_insertion_script (l_col_number, l_del_button_js))
-			l_js.replace_substring_all ("<<ROW_INSERTION_SCRIPTS>>", l_row_insertion_js)
+			l_js.replace_substring_all ({JS_BASE}.row_insertion_scripts_rtag, l_row_insertion_js)
 
 			Result := new_script
 			last_new_script.add_text_content (l_js)
@@ -441,26 +472,31 @@ feature -- JavaScript
 
 	build_table_row_cell_insertion_script (a_col_number: INTEGER; a_default_value_text: STRING): STRING
 		do
-			Result := table_row_cell_insertion_js.twin
-			Result.replace_substring_all ("<<COL_NUMBER>>", (a_col_number - 1).out)
-			Result.replace_substring_all ("<<DEFAULT_VALUE_TEXT>>", a_default_value_text)
+			Result := {JS_BASE}.table_row_cell_insertion_js_template.twin
+			Result.replace_substring_all ({JS_BASE}.col_number_rtag, (a_col_number - 1).out)
+			Result.replace_substring_all ({JS_BASE}.default_value_text_rtag, a_default_value_text)
 		end
 
-	table_row_cell_insertion_js: STRING = "[
-var cell<<COL_NUMBER>> = row.insertCell(<<COL_NUMBER>>);
-cell<<COL_NUMBER>>.innerHTML = "<<DEFAULT_VALUE_TEXT>>";
-]"
-
-	table_row_insertion_js: STRING = "[
-function insertRow() {
-  var table = document.getElementById("<<TABLE_NAME>>");
-  var count = table.rows.length;
-  var row = table.insertRow(count);
-  <<ROW_INSERTION_SCRIPTS>>
-}
-]"
-
 feature -- Constants
+
+	double_quote: STRING = "%""
+
+	esc_double_quote: STRING = "\%""
+			-- `esc_double_quote' used to replace `double_quote' in strings inserted into "innerHTML" on html-injections.
+
+	this_js_kw: STRING = "this"
+
+	button_type_kw: STRING = "button"
+
+	add_button_name: STRING = "Add"
+
+	delete_button_name: STRING = "Delete"
+
+	insert_row_fn_text: STRING = "insertRow()"
+
+	sort_table_fn_text: STRING = "sortTable"
+
+	delete_row_fn_text: STRING = "deleteRow"
 
 	refresh: BOOLEAN = True
 
@@ -470,11 +506,19 @@ feature -- Constants
 
 	col_suffix: STRING = "-col"
 
+	col_char: CHARACTER = 'c'
+
+	row_char: CHARACTER = 'r'
+
 	header_suffix: STRING = "-hdr"
 
 	footer_suffix: STRING = "-ftr"
 
 	input_suffix: STRING = "-inp"
+
+	hyphen_char: CHARACTER = '-'
+
+	space_char: CHARACTER = ' '
 
 note
 	design: "[
