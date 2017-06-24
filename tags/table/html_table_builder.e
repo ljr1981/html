@@ -1,3 +1,15 @@
+note
+	description: "<table> builder(s) based on {JSON_TRANSFORMABLE} items."
+	design: "[
+		Given a set or list of {G}, create a table that is:
+		
+		(1) Column-Sortable
+		(2) Row-Insertable
+		(3) Row-deleteable
+		(4) CSS-presentation-pliable
+		(5) Editable (by way of <input> tags w/type-masking|controlling)
+		]"
+
 class
 	HTML_TABLE_BUILDER [G -> JSON_TRANSFORMABLE create default_create end]
 
