@@ -1,11 +1,11 @@
 note
 	description: "[
-		Representation of an {HTML_SCRIPT_SUPPORTED}.
+		Representation of an {HTML_SUPPORTED}.
 		]"
 	design: "See notes at the end of this class."
 
 class
-	HTML_SCRIPT_SUPPORTED
+	HTML_SUPPORTED
 
 feature -- Access
 
@@ -19,7 +19,7 @@ feature -- Contents
 
 	supported_contents: ARRAYED_LIST [attached like supported_content_anchor] attribute create Result.make (10) end
 
-	supported_content_anchor: detachable HTML_SCRIPT_SUPPORTED
+	supported_content_anchor: detachable HTML_SUPPORTED
 
 feature -- Hashes
 
@@ -114,11 +114,6 @@ feature -- Hashes
 				ic.item.style_items_get (a_list)
 			end
 		end
-
-feature {HTML_SCRIPT_SUPPORTED} -- Implementation: Internals
-
-	-- <title>
-	-- <meta>
 
 note
 	design: "[
