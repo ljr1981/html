@@ -9,6 +9,8 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			media, set_media,
+			title, set_title,
 			type, set_type
 		end
 

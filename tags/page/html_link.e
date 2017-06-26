@@ -9,9 +9,13 @@ class
 inherit
 	HTML_TAG
 		export {ANY}
+			crossorigin, set_crossorigin,
+			href, set_href,
+			hreflang, set_hreflang,
+			media, set_media,
 			rel, set_rel,
-			type, set_type,
-			href, set_href
+			sizes, set_sizes,
+			type, set_type
 		end
 
 create
@@ -26,6 +30,15 @@ feature {NONE} -- Initialization
 			-- Sets rel="stylesheet" and type="text/css" as well.
 		do
 			default_create
+			set_rel ("stylesheet")
+			set_type ("text/css")
+			set_href (a_css_file_name)
+		end
+
+feature -- Setters
+
+	set_as_css_file_link (a_css_file_name: STRING)
+		do
 			set_rel ("stylesheet")
 			set_type ("text/css")
 			set_href (a_css_file_name)

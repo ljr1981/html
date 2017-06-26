@@ -36,6 +36,18 @@ feature {NONE} -- Initialization
 			type_set: attached {STRING} type.attr_value as al_value and then al_value.same_string ({HTTP_MIME_TYPES}.text_javascript)
 		end
 
+feature -- Setters
+
+	set_as_javascript_file (a_js_file_name: STRING)
+		require
+			has_js_ext: a_js_file_name.substring (a_js_file_name.count - 2, a_js_file_name.count).same_string (".js")
+		do
+			set_type ({HTTP_MIME_TYPES}.text_javascript)
+			set_src (a_js_file_name)
+		ensure
+			type_set: attached {STRING} type.attr_value as al_value and then al_value.same_string ({HTTP_MIME_TYPES}.text_javascript)
+		end
+
 feature -- Output
 
 	tag_name: STRING = "script"

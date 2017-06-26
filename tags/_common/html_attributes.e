@@ -165,6 +165,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=https://www.w3schools.com/tags/att_global_contenteditable.asp"
 		attribute Result := ["", "|false|true", Void, contenteditable_kw, is_quoted] ensure Result.attr_name.same_string (contenteditable_kw) end
 
+	crossorigin: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_crossorigin.asp"
+		attribute Result := ["", "", Void, crossorigin_kw, is_quoted] ensure Result.attr_name.same_string (crossorigin_kw) end
+
 	for: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/attr_for.asp"
 		attribute Result := ["", "", Void, for_kw, is_quoted] ensure Result.attr_name.same_string (for_kw) end
@@ -185,6 +189,10 @@ feature {NONE} -- Tag-specific Attributes
 		note EIS: "src=http://www.w3schools.com/tags/att_a_href.asp"
 		attribute Result := ["", "", Void, href_kw, is_quoted] ensure Result.attr_name.same_string (href_kw) end
 
+	hreflang: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_a_hreflang.asp"
+		attribute Result := ["", "", Void, hreflang_kw, is_quoted] ensure Result.attr_name.same_string (hreflang_kw) end
+
 	itemscope: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_itemscope.asp"
 		attribute Result := ["", "", Void, itemscope_kw, is_quoted] ensure Result.attr_name.same_string (itemscope_kw) end
@@ -196,6 +204,10 @@ feature {NONE} -- Tag-specific Attributes
 	lang, language: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_lang.asp"
 		attribute Result := ["", "", Void, lang_kw, is_quoted] ensure Result.attr_name.same_string (lang_kw) end
+
+	media: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/att_media.asp"
+		attribute Result := ["", "", Void, media_kw, is_quoted] ensure Result.attr_name.same_string (media_kw) end
 
 	method: attached like attribute_tuple_anchor
 		note EIS: "src=http://www.w3schools.com/tags/att_method.asp"
@@ -238,10 +250,13 @@ feature {NONE} -- Tag-specific Attributes
 		attribute Result := ["", "", Void, rowspan_kw, is_quoted] ensure Result.attr_name.same_string (rowspan_kw) end
 
 	size: attached like attribute_tuple_anchor
-		note EIS: "src=http://www.w3schools.com/tags/attr_rows.asp"
+		note EIS: "src=http://www.w3schools.com/tags/attr_size.asp"
 		attribute Result := ["", "", Void, size_kw, is_quoted] ensure Result.attr_name.same_string (size_kw) end
 	no_size: INTEGER = 0
 
+	sizes: attached like attribute_tuple_anchor
+		note EIS: "src=http://www.w3schools.com/tags/attr_sizes.asp"
+		attribute Result := ["", "", Void, sizes_kw, is_quoted] ensure Result.attr_name.same_string (sizes_kw) end
 
 	src, source: attached like attribute_tuple_anchor
 		note EIS: "srcattribute //www.w3schools.com/tags/attr_src.asp"
@@ -1017,100 +1032,108 @@ feature {NONE} -- Aria Setters
 
 feature {NONE} -- Implementation: Setters
 
-	set_action (a_action: STRING)
-			-- `set_action' with `a_action'
+	set_action (a_value: STRING)
+			-- `set_action' with `a_value'
 		do
-			set_attribute_value (agent action, a_action)
+			set_attribute_value (agent action, a_value)
 		ensure
-			set: attached {STRING} action.attr_value as al_value and then al_value.same_string (a_action)
+			set: attached {STRING} action.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_align (a_align: STRING)
-			-- `set_align' with `a_align'
+	set_align (a_value: STRING)
+			-- `set_align' with `a_value'
 		do
-			set_attribute_value (agent align, a_align)
+			set_attribute_value (agent align, a_value)
 		ensure
-			set: attached {STRING} align.attr_value as al_value and then al_value.same_string (a_align)
+			set: attached {STRING} align.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_border (a_border: STRING)
-			-- `set_border' with `a_border'
+	set_border (a_value: STRING)
+			-- `set_border' with `a_value'
 		do
-			set_attribute_value (agent border, a_border)
+			set_attribute_value (agent border, a_value)
 		ensure
-			set: attached {STRING} border.attr_value as al_value and then al_value.same_string (a_border)
+			set: attached {STRING} border.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_content (a_content: STRING)
-			-- `set_content' with `a_content'
+	set_content (a_value: STRING)
+			-- `set_content' with `a_value'
 		do
-			set_attribute_value (agent content, a_content)
+			set_attribute_value (agent content, a_value)
 		ensure
-			set: attached {STRING} content.attr_value as al_value and then al_value.same_string (a_content)
+			set: attached {STRING} content.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_contenteditable (a_contenteditable: STRING)
-			-- `set_contenteditable' with `a_contenteditable'
+	set_contenteditable (a_value: STRING)
+			-- `set_contenteditable' with `a_value'
 		do
-			set_attribute_value (agent contenteditable, a_contenteditable)
+			set_attribute_value (agent contenteditable, a_value)
 		ensure
-			set: attached {STRING} contenteditable.attr_value as al_value and then al_value.same_string (a_contenteditable)
+			set: attached {STRING} contenteditable.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_valign (a_valign: STRING)
-			-- `set_valign' with `a_valign'
+	set_crossorigin (a_value: STRING)
+			-- `set_crossorigin' with `a_value'
 		do
-			set_attribute_value (agent valign, a_valign)
+			set_attribute_value (agent crossorigin, a_value)
 		ensure
-			set: attached {STRING} valign.attr_value as al_value and then al_value.same_string (a_valign)
+			set: attached {STRING} crossorigin.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_alt (a_alt: STRING)
-			-- `set_alt' with `a_alt'
+	set_valign (a_value: STRING)
+			-- `set_valign' with `a_value'
 		do
-			set_attribute_value (agent alt, a_alt)
+			set_attribute_value (agent valign, a_value)
 		ensure
-			set: attached {STRING} alt.attr_value as al_value and then al_value.same_string (a_alt)
+			set: attached {STRING} valign.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_autocomplete (a_autocomplete: STRING)
-			-- `set_alt' with `a_autocomplete'
+	set_alt (a_value: STRING)
+			-- `set_alt' with `a_value'
 		do
-			set_attribute_value (agent autocomplete, a_autocomplete)
+			set_attribute_value (agent alt, a_value)
 		ensure
-			set: attached {STRING} autocomplete.attr_value as al_value and then al_value.same_string (a_autocomplete)
+			set: attached {STRING} alt.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_cols (a_cols: STRING)
-			-- `set_cols' with `a_cols'
+	set_autocomplete (a_value: STRING)
+			-- `set_alt' with `a_value'
 		do
-			set_attribute_value (agent cols, a_cols)
+			set_attribute_value (agent autocomplete, a_value)
 		ensure
-			set: attached {STRING} cols.attr_value as al_value and then al_value.same_string (a_cols)
+			set: attached {STRING} autocomplete.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_colspan (a_colspan: STRING)
-			-- `set_colspan' with `a_colspan'
+	set_cols (a_value: STRING)
+			-- `set_cols' with `a_value'
 		do
-			set_attribute_value (agent colspan, a_colspan)
+			set_attribute_value (agent cols, a_value)
 		ensure
-			set: attached {STRING} colspan.attr_value as al_value and then al_value.same_string (a_colspan)
+			set: attached {STRING} cols.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_cell_spacing (a_cell_spacing: STRING)
+	set_colspan (a_value: STRING)
+			-- `set_colspan' with `a_value'
+		do
+			set_attribute_value (agent colspan, a_value)
+		ensure
+			set: attached {STRING} colspan.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_cell_spacing (a_value: STRING)
 			-- `set_cell_spacing' with `a_cell_spacing'
 		do
-			set_attribute_value (agent cell_spacing, a_cell_spacing)
+			set_attribute_value (agent cell_spacing, a_value)
 		ensure
-			set: attached {STRING} cell_spacing.attr_value as al_value and then al_value.same_string (a_cell_spacing)
+			set: attached {STRING} cell_spacing.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_cell_padding (a_cell_padding: STRING)
-			-- `set_cell_padding' with `a_cell_padding'
+	set_cell_padding (a_value: STRING)
+			-- `set_cell_padding' with `a_value'
 		do
-			set_attribute_value (agent cell_padding, a_cell_padding)
+			set_attribute_value (agent cell_padding, a_value)
 		ensure
-			set: attached {STRING} cell_padding.attr_value as al_value and then al_value.same_string (a_cell_padding)
+			set: attached {STRING} cell_padding.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_charset (a_value: STRING)
@@ -1156,6 +1179,12 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent href, a_value)
 		end
 
+	set_hreflang (a_value: STRING)
+			-- `set_href' with `a_value'.
+		do
+			set_attribute_value (agent hreflang, a_value)
+		end
+
 	set_html_equiv (a_value: STRING)
 			-- `set_html_equiv' with `a_value'.
 		do
@@ -1174,36 +1203,44 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent itemtype, a_value)
 		end
 
-	set_lang (a_lang: STRING)
-			-- `set_lang' with `a_lang'
+	set_lang (a_value: STRING)
+			-- `set_lang' with `a_value'
 		do
-			set_attribute_value (agent lang, a_lang)
+			set_attribute_value (agent lang, a_value)
 		ensure
-			set: attached {STRING} lang.attr_value as al_value and then al_value.same_string (a_lang)
+			set: attached {STRING} lang.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_maxlength (a_maxlength: STRING)
-			-- `set_maxlength' with `a_maxlength'
+	set_maxlength (a_value: STRING)
+			-- `set_maxlength' with `a_value'
 		do
-			set_attribute_value (agent maxlength, a_maxlength)
+			set_attribute_value (agent maxlength, a_value)
 		ensure
-			set: attached {STRING} maxlength.attr_value as al_value and then al_value.same_string (a_maxlength)
+			set: attached {STRING} maxlength.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_method (a_method: STRING)
+	set_media (a_value: STRING)
 			-- `set_method' with `a_method'
 		do
-			set_attribute_value (agent method, a_method)
+			set_attribute_value (agent media, a_value)
 		ensure
-			set: attached {STRING} method.attr_value as al_value and then al_value.same_string (a_method)
+			set: attached {STRING} media.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_name (a_name: STRING)
-			-- `set_name' with `a_name'
+	set_method (a_value: STRING)
+			-- `set_method' with `a_value'
 		do
-			set_attribute_value (agent name, a_name)
+			set_attribute_value (agent method, a_value)
 		ensure
-			set: attached {STRING} name.attr_value as al_value and then al_value.same_string (a_name)
+			set: attached {STRING} method.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_name (a_value: STRING)
+			-- `set_name' with `a_value'
+		do
+			set_attribute_value (agent name, a_value)
+		ensure
+			set: attached {STRING} name.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_on_click (a_value: STRING)
@@ -1254,28 +1291,28 @@ feature {NONE} -- Implementation: Setters
 			set: attached {STRING} property.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_role (a_role: STRING)
-			-- `set_role' with `a_role'
+	set_role (a_value: STRING)
+			-- `set_role' with `a_value'
 		do
-			set_attribute_value (agent role, a_role)
+			set_attribute_value (agent role, a_value)
 		ensure
-			set: attached {STRING} role.attr_value as al_value and then al_value.same_string (a_role)
+			set: attached {STRING} role.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_rows (a_rows: STRING)
-			-- `set_rows' with `a_rows'
+	set_rows (a_value: STRING)
+			-- `set_rows' with `a_value'
 		do
-			set_attribute_value (agent rows, a_rows)
+			set_attribute_value (agent rows, a_value)
 		ensure
-			set: attached {STRING} rows.attr_value as al_value and then al_value.same_string (a_rows)
+			set: attached {STRING} rows.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_rowspan (a_rowspan: STRING)
-			-- `set_rowspan' with `a_rowspan'
+	set_rowspan (a_value: STRING)
+			-- `set_rowspan' with `a_value'
 		do
-			set_attribute_value (agent rowspan, a_rowspan)
+			set_attribute_value (agent rowspan, a_value)
 		ensure
-			set: attached {STRING} rowspan.attr_value as al_value and then al_value.same_string (a_rowspan)
+			set: attached {STRING} rowspan.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_rel (a_value: STRING)
@@ -1284,12 +1321,20 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent rel, a_value)
 		end
 
-	set_size (a_size: STRING)
-			-- `set_size' with `a_size'
+	set_size (a_value: STRING)
+			-- `set_size' with `a_value'
 		do
-			set_attribute_value (agent size, a_size)
+			set_attribute_value (agent size, a_value)
 		ensure
-			set: attached {STRING} size.attr_value as al_value and then al_value.same_string (a_size)
+			set: attached {STRING} size.attr_value as al_value and then al_value.same_string (a_value)
+		end
+
+	set_sizes (a_value: STRING)
+			-- `set_sizes' with `a_value'
+		do
+			set_attribute_value (agent sizes, a_value)
+		ensure
+			set: attached {STRING} sizes.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_source,
@@ -1299,44 +1344,44 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent src, a_value)
 		end
 
-	set_status (a_status_attr: STRING)
-			-- `set_status' with `a_status_attr'
+	set_status (a_value: STRING)
+			-- `set_status' with `a_value'
 		do
-			set_attribute_value (agent status, a_status_attr)
+			set_attribute_value (agent status, a_value)
 		ensure
-			set: attached {STRING} status.attr_value as al_value and then al_value.same_string (a_status_attr)
+			set: attached {STRING} status.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_style (a_style_attr: STRING)
-			-- `set_style' with `a_style_attr'
+	set_style (a_value: STRING)
+			-- `set_style' with `a_value'
 		do
-			set_attribute_value (agent style, a_style_attr)
+			set_attribute_value (agent style, a_value)
 		ensure
-			set: attached {STRING} style.attr_value as al_value and then al_value.same_string (a_style_attr)
+			set: attached {STRING} style.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_target (a_target: STRING)
-			-- `set_target' with `a_target'
+	set_target (a_value: STRING)
+			-- `set_target' with `a_value'
 		do
-			set_attribute_value (agent target, a_target)
+			set_attribute_value (agent target, a_value)
 		ensure
-			set: attached {STRING} target.attr_value as al_value and then al_value.same_string (a_target)
+			set: attached {STRING} target.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_title (a_title: STRING)
-			-- `set_title' with `a_title'
+	set_title (a_value: STRING)
+			-- `set_title' with `a_value'
 		do
-			set_attribute_value (agent title, a_title)
+			set_attribute_value (agent title, a_value)
 		ensure
-			set: attached {STRING} title.attr_value as al_value and then al_value.same_string (a_title)
+			set: attached {STRING} title.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_type (a_type: STRING)
-			-- `set_type' with `a_type'
+	set_type (a_value: STRING)
+			-- `set_type' with `a_value'
 		do
-			set_attribute_value (agent type, a_type)
+			set_attribute_value (agent type, a_value)
 		ensure
-			set: attached {STRING} type.attr_value as al_value and then al_value.same_string (a_type)
+			set: attached {STRING} type.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 	set_value (a_value: STRING)
@@ -1353,28 +1398,28 @@ feature {NONE} -- Implementation: Setters
 			set_attribute_value (agent width, a_value)
 		end
 
-	set_wrap (a_wrap: STRING)
-			-- `set_wrap' with `a_wrap'
+	set_wrap (a_value: STRING)
+			-- `set_wrap' with `a_value'
 		do
-			set_attribute_value (agent wrap, a_wrap)
+			set_attribute_value (agent wrap, a_value)
 		ensure
-			set: attached {STRING} wrap.attr_value as al_value and then al_value.same_string (a_wrap)
+			set: attached {STRING} wrap.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_xml_lang (a_xml_lang: STRING)
-			-- `set_xml_lang' with `a_xml_lang'
+	set_xml_lang (a_value: STRING)
+			-- `set_xml_lang' with `a_value'
 		do
-			set_attribute_value (agent xml_lang, a_xml_lang)
+			set_attribute_value (agent xml_lang, a_value)
 		ensure
-			set: attached {STRING} xml_lang.attr_value as al_value and then al_value.same_string (a_xml_lang)
+			set: attached {STRING} xml_lang.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
-	set_xmlns (a_xmlns: STRING)
-			-- `set_xmlns' with `a_xmlns'
+	set_xmlns (a_value: STRING)
+			-- `set_xmlns' with `a_value'
 		do
-			set_attribute_value (agent xmlns, a_xmlns)
+			set_attribute_value (agent xmlns, a_value)
 		ensure
-			set: attached {STRING} xmlns.attr_value as al_value and then al_value.same_string (a_xmlns)
+			set: attached {STRING} xmlns.attr_value as al_value and then al_value.same_string (a_value)
 		end
 
 feature {NONE} -- Attribute List
@@ -1416,22 +1461,25 @@ feature {NONE} -- Attribute List
 			Result.force (alt, alt.attr_name)
 			Result.force (autocomplete, autocomplete.attr_name)
 			Result.force (border, border.attr_name)
+			Result.force (cell_spacing, cell_spacing.attr_name)
+			Result.force (cell_padding, cell_padding.attr_name)
+			Result.force (charset, charset.attr_name)
 			Result.force (cols, cols.attr_name)
 			Result.force (colspan, colspan.attr_name)
 			Result.force (content, content.attr_name)
 			Result.force (contenteditable, contenteditable.attr_name)
-			Result.force (cell_spacing, cell_spacing.attr_name)
-			Result.force (cell_padding, cell_padding.attr_name)
-			Result.force (charset, charset.attr_name)
+			Result.force (crossorigin, crossorigin.attr_name)
 			Result.force (for, for.attr_name)
 			Result.force (frameborder, frameborder.attr_name)
 			Result.force (height, height.attr_name)
 			Result.force (href, href.attr_name)
+			Result.force (hreflang, hreflang.attr_name)
 			Result.force (html_equiv, html_equiv.attr_name)
 			Result.force (itemscope, itemscope.attr_name)
 			Result.force (itemtype, itemtype.attr_name)
 			Result.force (lang, lang.attr_name)
 			Result.force (maxlength, maxlength.attr_name)
+			Result.force (media, media.attr_name)
 			Result.force (method, method.attr_name)
 			Result.force (name, name.attr_name)
 			Result.force (pattern, pattern.attr_name)
@@ -1442,6 +1490,7 @@ feature {NONE} -- Attribute List
 			Result.force (rows, rows.attr_name)
 			Result.force (rowspan, rowspan.attr_name)
 			Result.force (size, size.attr_name)
+			Result.force (sizes, sizes.attr_name)
 			Result.force (src, src.attr_name)
 			Result.force (status, status.attr_name)
 			Result.force (style, style.attr_name)

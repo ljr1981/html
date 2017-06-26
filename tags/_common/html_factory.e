@@ -241,6 +241,9 @@ feature -- Inline Element Factories
 	new_a: HTML_A do create Result; last_new_a := Result end
 	last_new_a: like new_a attribute Result := new_a end
 
+	new_comment: HTML_COMMENT do create Result; last_new_comment := Result end
+	last_new_comment: like new_comment attribute Result := new_comment end
+
 	new_image: HTML_IMG do create Result; Result.set_alt ("missing_alt"); last_new_image := Result end
 	last_new_image: like new_image attribute Result := new_image end
 
