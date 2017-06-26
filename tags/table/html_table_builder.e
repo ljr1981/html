@@ -105,16 +105,6 @@ feature -- Primary Builders
 			has_one: not a_objects.is_empty
 		local
 			l_spec_obj: G -- to obtain specs like metadata, attributes_hash_on_name, et al
-			l_caption_string,
-			l_col_string,
-			l_col_short,
-			l_hdr_string,
-			l_hdr_short,
-			l_ftr_string,
-			l_ftr_short,
-			l_inp_string,
-			l_inp_short,
-			l_classes: STRING
 		do
 			l_spec_obj := a_objects.iteration_item (1)
 			Result := new_table
@@ -326,8 +316,7 @@ feature -- Supporting Builders
 	build_table_new_tr (a_id: STRING; a_object: G; a_row_number: INTEGER): like new_tr
 		local
 			l_inp_string,
-			l_classes,
-			l_inp_short: STRING
+			l_classes: STRING
 			l_col_number: INTEGER
 		do
 			new_tr.do_nothing
@@ -429,8 +418,6 @@ feature {NONE} -- Metadata: Internals
 			-- `metadata_is_required_attached' once-per-object patterned.
 			-- See also `metadata_is_required_internal'.
 			-- Temporary replacement for the once ("object") pattern.
-		local
-			l_list: ARRAYED_LIST [BOOLEAN]
 		do
 			check attached metadata (a_object, a_refresh) as al_meta then
 				create Result.make_filled (False, 1, al_meta.count)
@@ -482,10 +469,8 @@ feature -- JavaScript
 			l_js,
 			l_row_insertion_js: STRING
 			l_del_button_js: STRING
-			l_row_number,
 			l_col_number: INTEGER
-			l_def_value_text,
-			l_type: STRING
+			l_def_value_text: STRING
 			l_object: G
 		do
 			create l_object

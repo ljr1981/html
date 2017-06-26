@@ -12,7 +12,7 @@ deferred class
 inherit
 	HTML_TAG
 		export {NONE}
-			html_content_items,
+			contents,
 			status, set_status,
 			lang, set_lang,
 			xml_lang, set_xml_lang,
@@ -57,8 +57,6 @@ feature {NONE} -- Initialization
 				]"
 			EIS: "name=cache_control_max_age",
 					"src=https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching#cache-control"
-		local
-			l_javascript: HTML_SCRIPT
 		do
 			set_xmlns ("http://www.w3.org/1999/xhtml")
 			set_lang (a_language_code)
@@ -208,9 +206,9 @@ feature {NONE} -- Initialization Support
 		require
 			not_built: not is_head_built
 		local
-			l_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]
-			l_css_files: HASH_TABLE [HTML_LINK, INTEGER]
-			l_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER]
+--			l_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]
+--			l_css_files: HASH_TABLE [HTML_LINK, INTEGER]
+--			l_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER]
 		do
 --			create l_javascript_files.make (50)
 --			create l_css_files.make (50)

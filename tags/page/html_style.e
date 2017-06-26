@@ -23,14 +23,6 @@ feature -- Output
 	tag_name: STRING = "style"
 			-- <Precursor>
 
-feature -- Constants
-
-	hash_code: INTEGER_32
-			-- `hash_code' of `html_out'.
-		do
-			Result := html_out.hash_code
-		end
-
 note
 	design: "[
 Tag    Description

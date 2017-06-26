@@ -29,11 +29,11 @@ feature {NONE} -- Initialization
 			across
 				a_list_items as ic_list_items
 			loop
-				item.html_content_items.force (ic_list_items.item)
+				item.contents.force (ic_list_items.item)
 			end
 			default_create
 		ensure
-			set: across a_list_items as ic all item.html_content_items.has (ic.item) end
+			set: across a_list_items as ic all item.contents.has (ic.item) end
 		end
 
 	make_with_text_list_items (a_text_list_items: ARRAY [STRING])
@@ -43,12 +43,12 @@ feature {NONE} -- Initialization
 			across
 				a_text_list_items as ic_text_list_items
 			loop
-				item.html_content_items.force (create {HTML_LI}.make_with_raw_text (ic_text_list_items.item))
+				item.contents.force (create {HTML_LI}.make_with_raw_text (ic_text_list_items.item))
 			end
 			default_create
 		ensure
 			set: across a_text_list_items as ic all
-						across item.html_content_items as ic_html some
+						across item.contents as ic_html some
 							ic_html.item.text_content.same_string (ic.item)
 						end
 				end
@@ -60,9 +60,9 @@ feature -- Access
 			-- `item' content for {HTML_UNORDERED_LIST}.
 		attribute
 			create Result
-			html_content_items.force (Result)
+			contents.force (Result)
 		ensure
-			set: html_content_items.has (Result)
+			set: contents.has (Result)
 		end
 
 end

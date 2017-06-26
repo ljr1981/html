@@ -124,8 +124,8 @@ feature -- Testing: Creation Tests
 			create l_text.make_with_data ("text_label", "text_name", "10", "10", False)
 			create l_text_group.make_with_data (<<["text_label", "text_name", "10", "10", False]>>)
 
-			l_h1.html_content_items.force (l_h2)
-			l_h2.html_content_items.force (l_h3)
+			l_h1.contents.force (l_h2)
+			l_h2.contents.force (l_h3)
 			assert_strings_equal ("h1_h2_h3_1", "<h1><h2><h3></h3></h2></h1>", l_h1.html_out)
 
 			create l_h1.make_with_content (<<create {HTML_H2}.make_with_content (<<create {HTML_H3}>>)>>)
@@ -194,15 +194,15 @@ feature -- Testing: Creation Tests
 			create l_text
 
 			l_text.set_text_content ("This is some text.")
-			l_div.html_content_items.force (l_text)
+			l_div.contents.force (l_text)
 			assert_strings_equal ("div1", "<div>This is some text.</div>", l_div.html_out)
 			create l_text.make_with_buffered_text ("Another line of text.")
-			l_div.html_content_items.force (l_text)
+			l_div.contents.force (l_text)
 			assert_strings_equal ("div2", "<div>This is some text. Another line of text.</div>", l_div.html_out)
 			l_a.set_attribute_value (agent l_a.href, "http://www.w3schools.com")
 			l_a.set_text_content ("Visit W3Schools")
-			l_div.html_content_items.force (l_a)
-			l_div.html_content_items.force (create {HTML_TEXT}.make_with_text ("And this is the last line of text."))
+			l_div.contents.force (l_a)
+			l_div.contents.force (create {HTML_TEXT}.make_with_text ("And this is the last line of text."))
 			assert_strings_equal ("div3", "<div>This is some text. Another line of text.<a href=%"http://www.w3schools.com%">Visit W3Schools</a>And this is the last line of text.</div>", l_div.html_out)
 		end
 

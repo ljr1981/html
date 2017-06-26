@@ -62,12 +62,6 @@ feature -- Output
 
 feature -- Constants
 
-	hash_code: INTEGER_32
-			-- `hash_code' of `html_out'.
-		do
-			Result := html_out.hash_code
-		end
-
 	doc_ready_script_template: STRING = "[
 $("document").ready(function(){
 	<<CONTENT>>

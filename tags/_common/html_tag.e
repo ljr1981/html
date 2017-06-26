@@ -63,13 +63,13 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_content (a_content: ARRAY [attached like content_anchor])
-			-- `make_with_content' using `a_content' into `html_content_items'
+			-- `make_with_content' using `a_content' into `contents'
 		do
 			default_create
 			across
 				a_content as ic_content
 			loop
-				html_content_items.force (ic_content.item)
+				contents.force (ic_content.item)
 			end
 		end
 
@@ -140,7 +140,7 @@ feature -- Style
 	styles_item_anchor: detachable TUPLE [declaration: CSS_DECLARATION; is_inline: BOOLEAN; external_name: detachable STRING; selectors: STRING]
 
 	all_styles: like styles
-			-- `all_styles' for Current including those in `html_content_items'.
+			-- `all_styles' for Current including those in `contents'.
 		do
 			create Result.make (50)
 			gather_all_styles_into (Result)
@@ -155,7 +155,7 @@ feature -- Style
 			end
 
 			across
-				html_content_items as ic_html_content
+				contents as ic_html_content
 			loop
 				ic_html_content.item.gather_all_styles_into (a_all_styles)
 			end
@@ -268,8 +268,8 @@ feature -- Style
 
 feature -- HTML Content
 
-	html_content_items: ARRAYED_LIST [attached like content_anchor]
-			-- `html_content_items' for Current {HTML_TAG}
+	contents: ARRAYED_LIST [attached like content_anchor]
+			-- `contents' for Current {HTML_TAG}
 		attribute
 			create Result.make (Default_capacity)
 		end
@@ -314,20 +314,20 @@ feature -- Setting: Content
 
 	extend,
 	add_content (a_item: attached like content_anchor)
-			-- `add_content' `a_item' to `html_content_items'
+			-- `add_content' `a_item' to `contents'
 		note
 			EIS: "name=VNHO", "src=https://github.com/ljr1981/moonshot/blob/master/README.md"
 		require
 			not_has_but_has_object_as_reference: not html_content_items_has (a_item)
-				-- You cannot add an object reference to `html_content_items' more than once.
+				-- You cannot add an object reference to `contents' more than once.
 				-- See EIS: VNHO
 		do
 			--logger.write_information ("{" + Current.generating_type.out + "}" + ".add_content")
-			html_content_items.force (a_item)
+			contents.force (a_item)
 		end
 
 	add_contents (a_items: ARRAY [attached like content_anchor])
-			-- `add_contents' of `a_items' to `html_content_items'.
+			-- `add_contents' of `a_items' to `contents'.
 		do
 			across
 				a_items as ic
@@ -337,12 +337,12 @@ feature -- Setting: Content
 		ensure
 			expected_all_added_but_somethings_missing:
 					across a_items as ic all
-						across html_content_items as ic_content some
+						across contents as ic_content some
 							ic_content.item ~ ic.item
 						end
 					end
 				-- Promises that each ic.item in `a_items' list was added to the
-				--	`html_content_items', which is the goal of this feature.
+				--	`contents', which is the goal of this feature.
 		end
 
 	set_text_content (a_text: like text_content)
@@ -355,9 +355,9 @@ feature -- Setting: Content
 		end
 
 	add_text_content (a_text: STRING)
-			-- `add_text_content' as {HTML_TEXT} to `html_content_items'.
+			-- `add_text_content' as {HTML_TEXT} to `contents'.
 		do
-			html_content_items.force (create {HTML_TEXT}.make_with_text (a_text))
+			contents.force (create {HTML_TEXT}.make_with_text (a_text))
 		end
 
 feature -- Queries: Contents
@@ -366,7 +366,7 @@ feature -- Queries: Contents
 			-- `html_content_items_has' `a_item'?
 			-- Check if the content has `a_item', True if it does.
 		do
-			Result := html_content_items.has (a_item)
+			Result := contents.has (a_item)
 		end
 
 feature -- Output
@@ -388,6 +388,12 @@ feature -- Output
 		deferred
 		ensure
 			valid_tag: across valid_tags as ic some ic.item.same_string (Result) end
+		end
+
+	hash_code: INTEGER_32
+			-- hash_code of html_out.
+		do
+			Result := html_out.hash_code
 		end
 
 feature -- Gathering Functions
@@ -421,7 +427,7 @@ feature -- Gathering Functions
 				a_scripts.force (l_script, l_script.html_out.hash_code)
 			end
 			across
-				html_content_items as ic_content_items
+				contents as ic_content_items
 			loop
 				ic_content_items.item.gather_head_items_into (a_javascript_files, a_css_files, a_scripts)
 			end
@@ -436,7 +442,7 @@ feature -- Gathering Functions
 				a_body_scripts.force (ic.item, ic.item.hash_code)
 			end
 			across
-				html_content_items as ic
+				contents as ic
 			loop
 				ic.item.gather_body_scripts_into (a_body_scripts)
 			end
@@ -458,7 +464,7 @@ feature -- Gathering Functions
 			end
 
 			across
-				html_content_items as ic
+				contents as ic
 			loop
 				ic.item.gather_head_styles_into (a_head_styles)
 			end
@@ -542,7 +548,7 @@ feature {NONE} -- Implementation: Output
 	is_minifiable: BOOLEAN
 		do
 			Result := not start_tag.is_empty and
-						html_content_items.is_empty and
+						contents.is_empty and
 						text_content.is_empty and
 						(
 						attached {HTML_META} Current or
@@ -557,7 +563,7 @@ feature {NONE} -- Implementation: Output
 		do
 			create Result.make_empty
 			across
-				html_content_items as ic_content_list
+				contents as ic_content_list
 			loop
 
 				if a_prettified then
