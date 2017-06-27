@@ -15,8 +15,6 @@ deferred class
 	HTML_HEAD_ITEM_GENERATOR
 
 inherit
-	HTML_SUPPORTED
-
 	HTML_CSS_RENDERED
 
 feature -- Access

@@ -396,77 +396,257 @@ feature -- Output
 			Result := html_out.hash_code
 		end
 
-feature -- Gathering Functions
+feature -- Adders: <head>
 
-	gather_head_items_into (a_javascript_files: HASH_TABLE [HTML_SCRIPT, INTEGER]; a_css_files: HASH_TABLE [HTML_LINK, INTEGER]; a_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER])
-		local
-			l_script: HTML_SCRIPT
-			l_script_text: STRING
+	add_meta_head_item (a_item: HTML_META)
 		do
-			across
-				javascript_file_scripts as ic_scripts
-			loop
-				a_javascript_files.force (ic_scripts.item, ic_scripts.item.html_out.hash_code)
-			end
-			across
-				css_file_links as ic_links
-			loop
-				a_css_files.force (ic_links.item, ic_links.item.html_out.hash_code)
-			end
-			create l_script_text.make_empty
-			if not generated_script.is_empty then
-				l_script_text.append_string_general (generated_script)
-			end
-			if not custom_hand_coded_script.is_empty then
-				l_script_text.append_string_general (custom_hand_coded_script)
-			end
-			if not l_script_text.is_empty then
-				create l_script
-				l_script.set_type ("text/javascript")
-				l_script.set_text_content (l_script_text)
-				a_scripts.force (l_script, l_script.html_out.hash_code)
-			end
-			across
-				contents as ic_content_items
-			loop
-				ic_content_items.item.gather_head_items_into (a_javascript_files, a_css_files, a_scripts)
-			end
+			head_meta_items_internal.force (a_item, a_item.hash_code)
 		end
 
-	gather_body_scripts_into (a_body_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER_32])
-			--
+	add_link_head_item (a_item: HTML_LINK)
+		do
+			head_link_items_internal.force (a_item, a_item.hash_code)
+		end
+
+	add_script_head_item (a_item: HTML_SCRIPT)
+		do
+			head_script_items_internal.force (a_item, a_item.hash_code)
+		end
+
+	add_style_head_item (a_item: HTML_STYLE)
+		do
+			head_style_items_internal.force (a_item, a_item.hash_code)
+		end
+
+feature -- Adders: <body>
+
+	add_link_body_item (a_item: HTML_LINK)
+		do
+			body_link_items_internal.force (a_item, a_item.hash_code)
+		end
+
+	add_script_body_item (a_item: HTML_SCRIPT)
+		do
+			body_script_items_internal.force (a_item, a_item.hash_code)
+		end
+
+	add_style_body_item (a_item: HTML_STYLE)
+		do
+			body_style_items_internal.force (a_item, a_item.hash_code)
+		end
+
+feature -- Gathering Functions: <head>
+
+	-- <title>
+	-- <head><meta>
+	head_meta_items: like head_meta_items_internal
+		do
+			Result := head_meta_items_internal
+		end
+
+	head_meta_items_refresh
+			-- Refresh of `head_meta_items_internal' from `head_meta_items_get'.
+		do
+			head_meta_items_temp.wipe_out
+			across head_meta_items_internal as ic loop head_meta_items_temp.force (ic.item, ic.key) end
+			head_meta_items_get (head_meta_items_temp)
+		end
+
+	head_meta_items_get (a_list: like head_meta_items_internal)
+			-- Gather local `head_meta_items_internal' into `a_list'
+			-- Recursively gather `head_meta_items_internal' from `contents' into `a_list'
 		do
 			across
-				body_scripts as ic
+				head_meta_items_internal as ic
 			loop
-				a_body_scripts.force (ic.item, ic.item.hash_code)
+				a_list.force (ic.item, ic.item.hash_code)
 			end
 			across
 				contents as ic
 			loop
-				ic.item.gather_body_scripts_into (a_body_scripts)
+				ic.item.head_meta_items_get (a_list)
 			end
 		end
 
-	gather_head_styles_into (a_head_styles: ARRAYED_LIST [HTML_STYLE])
-			--
+	-- <head><link>
+	head_link_items: like head_link_items_internal
+		do
+			Result := head_link_items_internal
+		end
+
+	head_link_items_refresh
+			-- Refresh of `head_link_items_internal' from `head_link_items_get'.
+		do
+			head_link_items_temp.wipe_out
+			across head_link_items_internal as ic loop head_link_items_temp.force (ic.item, ic.key) end
+			head_link_items_get (head_link_items_temp)
+		end
+
+	head_link_items_get (a_list: like head_link_items_internal)
+			-- Gather local `head_link_items_internal' into `a_list'
+			-- Recursively gather `head_link_items_internal' from `contents' into `a_list'
 		do
 			across
-				head_styles as ic_internal
+				head_link_items_internal as ic
 			loop
-				if
-					across a_head_styles as ic_passed all
-						ic_internal.item.hash_code /= ic_passed.item.hash_code
-					end
-				then
-					a_head_styles.force (ic_internal.item)
-				end
+				a_list.force (ic.item, ic.item.hash_code)
 			end
-
 			across
 				contents as ic
 			loop
-				ic.item.gather_head_styles_into (a_head_styles)
+				ic.item.head_link_items_get (a_list)
+			end
+		end
+
+	-- <head><script>
+	head_script_items: like head_script_items_internal
+		do
+			Result := head_script_items_internal
+		end
+
+	head_script_items_refresh
+			-- Refresh of `head_script_items_internal' from `head_script_items_get'.
+		do
+			head_script_items_temp.wipe_out
+			across head_script_items_internal as ic loop head_script_items_temp.force (ic.item, ic.key) end
+			head_script_items_get (head_script_items_temp)
+		end
+
+	head_script_items_get (a_list: like head_script_items_internal)
+			-- Gather local `head_script_items_internal' into `a_list'
+			-- Recursively gather `head_script_items_internal' from `contents' into `a_list'
+		do
+			across
+				head_script_items_internal as ic
+			loop
+				a_list.force (ic.item, ic.item.hash_code)
+			end
+			across
+				contents as ic
+			loop
+				ic.item.head_script_items_get (a_list)
+			end
+		end
+
+	-- <head><style>
+	head_style_items: like head_style_items_internal
+		do
+			Result := head_style_items_internal
+		end
+
+	head_style_items_refresh
+			-- Refresh of `head_style_items_internal' from `head_style_items_get'.
+		do
+			head_style_items_temp.wipe_out
+			across head_style_items_internal as ic loop head_style_items_temp.force (ic.item, ic.key) end
+			head_style_items_get (head_style_items_temp)
+		end
+
+	head_style_items_get (a_list: like head_style_items_internal)
+			-- Gather local `head_style_items_internal' into `a_list'
+			-- Recursively gather `head_style_items_internal' from `contents' into `a_list'
+		do
+			across
+				head_style_items_internal as ic
+			loop
+				a_list.force (ic.item, ic.item.hash_code)
+			end
+			across
+				contents as ic
+			loop
+				ic.item.head_style_items_get (a_list)
+			end
+		end
+
+feature -- Gathering Functions: <body>
+
+	-- <body><link>
+	body_link_items: like body_link_items_internal
+		do
+			Result := body_link_items_internal
+		end
+
+	body_link_items_refresh
+			-- Refresh of `body_link_items_internal' from `body_link_items_get'.
+		do
+			body_link_items_temp.wipe_out
+			across body_link_items_internal as ic loop body_link_items_temp.force (ic.item, ic.key) end
+			body_link_items_get (body_link_items_temp)
+		end
+
+	body_link_items_get (a_list: like body_link_items_internal)
+			-- Gather local `body_link_items_internal' into `a_list'
+			-- Recursively gather `body_link_items_internal' from `contents' into `a_list'
+		do
+			across
+				body_link_items_internal as ic
+			loop
+				a_list.force (ic.item, ic.item.hash_code)
+			end
+			across
+				contents as ic
+			loop
+				ic.item.body_link_items_get (a_list)
+			end
+		end
+
+	-- <body><script>
+	body_script_items: like body_script_items_internal
+		do
+			Result := body_script_items_internal
+		end
+
+	body_script_items_refresh
+			-- Refresh of `body_script_items_internal' from `body_script_items_get'.
+		do
+			body_script_items_temp.wipe_out
+			across body_script_items_internal as ic loop body_script_items_temp.force (ic.item, ic.key) end
+			body_script_items_get (body_script_items_temp)
+		end
+
+	body_script_items_get (a_list: like body_script_items_internal)
+			-- Gather local `body_script_items_internal' into `a_list'
+			-- Recursively gather `body_script_items_internal' from `contents' into `a_list'
+		do
+			across
+				body_script_items_internal as ic
+			loop
+				a_list.force (ic.item, ic.item.hash_code)
+			end
+			across
+				contents as ic
+			loop
+				ic.item.body_script_items_get (a_list)
+			end
+		end
+
+	-- <body><style>
+	body_style_items: like body_style_items_internal
+		do
+			Result := body_style_items_internal
+		end
+
+	body_style_items_refresh
+			-- Refresh of `body_style_items_internal' from `body_style_items_get'.
+		do
+			body_style_items_temp.wipe_out
+			across body_style_items_internal as ic loop body_style_items_temp.force (ic.item, ic.key) end
+			body_style_items_get (body_style_items_temp)
+		end
+
+	body_style_items_get (a_list: like body_style_items_internal)
+			-- Gather local `body_style_items_internal' into `a_list'
+			-- Recursively gather `body_style_items_internal' from `contents' into `a_list'
+		do
+			across
+				body_style_items_internal as ic
+			loop
+				a_list.force (ic.item, ic.item.hash_code)
+			end
+			across
+				contents as ic
+			loop
+				ic.item.body_style_items_get (a_list)
 			end
 		end
 
@@ -481,6 +661,31 @@ feature -- Gathering Functions
 		ensure
 			set: content_wrapper_template ~ a_content_wrapper_template
 		end
+
+feature {NONE} -- Implementation: <head> items
+
+	head_meta_items_internal: HASH_TABLE [HTML_META, INTEGER] attribute create Result.make (10) end
+	head_meta_items_temp: HASH_TABLE [HTML_META, INTEGER] attribute create Result.make (10) end
+
+	head_link_items_internal: HASH_TABLE [HTML_LINK, INTEGER] attribute create Result.make (10) end
+	head_link_items_temp: HASH_TABLE [HTML_LINK, INTEGER] attribute create Result.make (10) end
+
+	head_script_items_internal: HASH_TABLE [HTML_SCRIPT, INTEGER] attribute create Result.make (10) end
+	head_script_items_temp: HASH_TABLE [HTML_SCRIPT, INTEGER] attribute create Result.make (10) end
+
+	head_style_items_internal: HASH_TABLE [HTML_STYLE, INTEGER] attribute create Result.make (10) end
+	head_style_items_temp: HASH_TABLE [HTML_STYLE, INTEGER] attribute create Result.make (10) end
+
+feature {NONE} -- Implementation: <body> items
+
+	body_link_items_internal: HASH_TABLE [HTML_LINK, INTEGER] attribute create Result.make (10) end
+	body_link_items_temp: HASH_TABLE [HTML_LINK, INTEGER] attribute create Result.make (10) end
+
+	body_script_items_internal: HASH_TABLE [HTML_SCRIPT, INTEGER] attribute create Result.make (10) end
+	body_script_items_temp: HASH_TABLE [HTML_SCRIPT, INTEGER] attribute create Result.make (10) end
+
+	body_style_items_internal: HASH_TABLE [HTML_STYLE, INTEGER] attribute create Result.make (10) end
+	body_style_items_temp: HASH_TABLE [HTML_STYLE, INTEGER] attribute create Result.make (10) end
 
 feature {NONE} -- Implementation: Output
 

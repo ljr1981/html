@@ -81,12 +81,8 @@ feature {NONE} -- Initialization
 			body.extend (a_widget)
 
 				-- CSS and JavaScript elements at the end of the <body> tag.
-			extend_body_css_link_references (a_widget)
-			extend_body_javascript_references (a_widget)
 
 				-- Other <script> and <style> tags
-			extend_body_scripts (a_widget)
-			extend_head_styles (a_widget)
 		end
 
 	make_standard_with_raw_text (a_title, a_language_code, a_raw_text: STRING)
@@ -115,78 +111,6 @@ feature -- Access
 	body: like new_body
 		attribute
 			Result := new_body
-		end
-
-feature {NONE} -- Initialization Support
-
-	extend_body_css_link_references (a_widget: HTML_DIV)
-			-- Extend CSS <link> references into `a_widget'.
-		local
-			l_css_link: HTML_LINK
-		do
-			across
-				manually_specified_css_files as ic
-			loop
-				create l_css_link.make_as_css_file_link (ic.item)
-				body.extend (l_css_link)
-			end
-		end
-
-	extend_body_javascript_references (a_widget: HTML_DIV)
-			-- Extend JS <script> file references into `a_widget'.
-		local
-			l_javascript: HTML_SCRIPT
-		do
-			across
-				manually_specified_javascript_files as ic
-			loop
-				create l_javascript.make_with_javascript_file_name (ic.item)
-				body.extend (l_javascript)
-			end
-		end
-
-	extend_body_scripts (a_widget: HTML_TAG)
-			-- `extend_body_scripts', which are <script> elements extracted from `a_widget' tree.
-		local
-			l_body_scripts: HASH_TABLE [HTML_SCRIPT, INTEGER_32]
-		do
-			create l_body_scripts.make (10)
-			a_widget.gather_body_scripts_into (l_body_scripts)
-			across l_body_scripts as ic_scripts loop body.extend (ic_scripts.item) end
-		end
-
-	extend_head_styles (a_widget: HTML_TAG)
-			-- `extend_head_styles', which are <style> elements extracted from `a_widget' tree.
-		note
-			design: "[
-				There are now two ways to specify <style> at the <tag> level:
-				(1) At each <tag>.head_styles array as collection of HTML_STYLE items.
-					These are rendered as many <style> tags, one for each item in array.
-				(2) At each <tag>.add_style (...) for each "CSS selector:property-value".
-					These are collected into a single <style> tags and added to <head>.
-					In-line CSS is added on each <tag> (elsewhere) and this function
-					adds Internal (e.g. <style> in <head>). External is handled elsewhere.
-				]"
-		local
-			l_head_styles: ARRAYED_LIST [HTML_STYLE]
-		do
-				-- Pull-together <styles> which are manually loaded in <tags>
-			create l_head_styles.make (10)
-			a_widget.gather_head_styles_into (l_head_styles)
-			across
-				l_head_styles as ic_styles
-			loop
-				head.extend (ic_styles.item)
-			end
-
-				-- Assemble all "internal CSS" recursively and put in 1 <style> tag on <head>
-			if attached {STRING} css_internal_out as al_internal_css and then
-				not al_internal_css.is_empty
-			then
-				head.extend (new_style)
-				last_new_style.extend (new_text)
-				last_new_text.set_text_content (al_internal_css)
-			end
 		end
 
 feature {NONE} -- Initialization Support
