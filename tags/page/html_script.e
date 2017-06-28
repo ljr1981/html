@@ -11,6 +11,7 @@ inherit
 		rename
 			make_with_raw_text as make_with_javascript
 		export {ANY}
+			crossorigin, set_crossorigin,
 			data_auto_init, set_data_auto_init,
 			src, set_src,
 			type, set_type
@@ -46,6 +47,13 @@ feature -- Setters
 			set_src (a_js_file_name)
 		ensure
 			type_set: attached {STRING} type.attr_value as al_value and then al_value.same_string ({HTTP_MIME_TYPES}.text_javascript)
+		end
+
+	set_as_cdn_javascript (a_src, a_integrity, a_crossorigin: STRING)
+		do
+			set_src (a_src)
+			set_attribute_manual ("integrity", a_integrity, True)
+			set_crossorigin (a_crossorigin)
 		end
 
 feature -- Output

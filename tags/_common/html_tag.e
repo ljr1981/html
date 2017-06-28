@@ -400,39 +400,39 @@ feature -- Adders: <head>
 
 	add_meta_head_item (a_item: HTML_META)
 		do
-			head_meta_items_internal.force (a_item, a_item.hash_code)
+			head_meta_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 	add_link_head_item (a_item: HTML_LINK)
 		do
-			head_link_items_internal.force (a_item, a_item.hash_code)
+			head_link_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 	add_script_head_item (a_item: HTML_SCRIPT)
 		do
-			head_script_items_internal.force (a_item, a_item.hash_code)
+			head_script_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 	add_style_head_item (a_item: HTML_STYLE)
 		do
-			head_style_items_internal.force (a_item, a_item.hash_code)
+			head_style_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 feature -- Adders: <body>
 
 	add_link_body_item (a_item: HTML_LINK)
 		do
-			body_link_items_internal.force (a_item, a_item.hash_code)
+			body_link_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 	add_script_body_item (a_item: HTML_SCRIPT)
 		do
-			body_script_items_internal.force (a_item, a_item.hash_code)
+			body_script_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 	add_style_body_item (a_item: HTML_STYLE)
 		do
-			body_style_items_internal.force (a_item, a_item.hash_code)
+			body_style_items_internal.force (a_item, a_item.html_out.hash_code)
 		end
 
 feature -- Gathering Functions: <head>

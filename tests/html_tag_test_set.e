@@ -30,6 +30,19 @@ inherit
 
 feature -- Test routines
 
+	html_tag_script_recursion_tests
+			-- `html_tag_script_recursion_tests'
+		do
+			new_script.set_href ("1")
+			new_div.add_script_head_item (last_new_script)
+
+			new_script.set_href ("2")
+			last_new_div.add_script_head_item (last_new_script)
+
+			assert_strings_equal ("multi_script", "<div></div>", last_new_div.html_out)
+			assert_integers_equal ("two_scripts", 2, last_new_div.head_script_items.count)
+		end
+
 	html_tag_basic_tests
 			-- `html_tag_basic_tests'.
 		local

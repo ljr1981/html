@@ -44,6 +44,14 @@ feature -- Setters
 			set_href (a_css_file_name)
 		end
 
+	set_as_cdn_stylesheet (a_href, a_integrity, a_crossorigin: STRING)
+		do
+			set_rel ("stylesheet")
+			set_href (a_href)
+			set_attribute_manual ("integrity", a_integrity, True)
+			set_crossorigin (a_crossorigin)
+		end
+
 feature -- Output
 
 	tag_name: STRING = "link"
