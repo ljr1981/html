@@ -96,6 +96,114 @@ feature -- HTML Components: Parallax Section
 			end
 		end
 
+feature -- CSS/JS Packages
+
+	set_bootstrap_4_package (a_div: HTML_DIV)
+		note
+			EIS: "src=https://v4-alpha.getbootstrap.com/"
+		do
+			a_div.add_link_head_item (bootstrap_4_0_0_alpha_6_min_css_cdn)
+			a_div.add_script_head_item (jquery_core_3_2_1_slim_min_js_cdn)
+			a_div.add_script_head_item (cloudfare_ajax_tether_min_js_cdn)
+			a_div.add_script_head_item (bootstrap_4_0_0_alpha_6_min_js_cnd)
+		end
+
+	set_datatables_zero_configuration_package (a_div: HTML_DIV)
+		note
+			EIS: "src=https://datatables.net/examples/basic_init/zero_configuration.html"
+		do
+			a_div.add_script_head_item (jquery_core_1_12_4_min_js_cdn)
+			a_div.add_script_head_item (datatables_1_10_15_jquery_min_js_cdn)
+			a_div.add_link_head_item (datatables_net_1_10_15_css_cdn)
+		end
+
+feature -- CSS
+
+	datatables_net_1_10_15_css_cdn: HTML_LINK
+			-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+		attribute
+			create Result
+			Result.set_rel ("stylesheet")
+			Result.set_type ("text/css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css")
+		end
+
+	bootstrap_4_0_0_alpha_6_min_css_cdn: HTML_LINK
+			--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+			--	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+		attribute
+			create Result
+			Result.set_rel ("stylesheet")
+			Result.set_href ("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css")
+			Result.set_attribute_manual ("integrity", "sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ", True)
+			Result.set_attribute_manual ("crossorigin", "anonymous", True)
+		end
+
+feature -- Javascript Links
+
+	cloudfare_ajax_tether_min_js_cdn: HTML_SCRIPT
+			--<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+			--	integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		attribute
+			create Result
+			Result.set_src ("https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js")
+			Result.set_attribute_manual ("integrity", "sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb", True)
+			Result.set_attribute_manual ("crossorigin", "anonymous", True)
+		end
+
+	bootstrap_4_0_0_alpha_6_min_js_cnd: HTML_SCRIPT
+			--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+			--	integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+		attribute
+			create Result
+			Result.set_src ("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js")
+			Result.set_attribute_manual ("integrity", "sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn", True)
+			Result.set_attribute_manual ("crossorigin", "anonymous", True)
+		end
+
+	jquery_core_3_2_1_slim_min_js_cdn: HTML_SCRIPT
+			-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		attribute
+			Result := javascript_script_template
+			Result.set_src ("https://code.jquery.com/jquery-3.2.1.slim.min.js")
+		end
+
+	jquery_core_3_2_1_min_js_cdn: HTML_SCRIPT
+			-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		attribute
+			Result := javascript_script_template
+			Result.set_src ("https://code.jquery.com/jquery-3.2.1.min.js")
+		end
+
+	jquery_core_2_2_4_min_js_cdn: HTML_SCRIPT
+			-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		attribute
+			Result := javascript_script_template
+			Result.set_src ("https://code.jquery.com/jquery-2.2.4.min.js")
+		end
+
+	jquery_core_1_12_4_min_js_cdn: HTML_SCRIPT
+			-- <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+		attribute
+			Result := javascript_script_template
+			Result.set_src ("https://code.jquery.com/jquery-1.12.4.min.js")
+		end
+
+	datatables_1_10_15_jquery_min_js_cdn: HTML_SCRIPT
+			-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+		attribute
+			Result := javascript_script_template
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js")
+		end
+
+	javascript_script_template: HTML_SCRIPT
+			-- Just add `set_src' to complete it.
+		do
+			create Result
+			Result.set_type ("text/javascript")
+			Result.set_attribute_manual ("language", "javascript", True)
+		end
+
 feature -- Text Element Factory
 
 	new_text_content: STRING do create Result.make_empty; last_new_text_content := Result end
