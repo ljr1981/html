@@ -274,18 +274,6 @@ feature -- HTML Content
 			create Result.make (Default_capacity)
 		end
 
-	body_scripts: ARRAYED_LIST [HTML_SCRIPT]
-			-- HTML <script> `body_scripts' to be applied to <body> ... </body>
-		attribute
-			create Result.make (Default_capacity)
-		end
-
-	head_styles: ARRAYED_LIST [HTML_STYLE]
-			-- HTML <script> `head_styles' to be applied to <head> ... </head>
-		attribute
-			create Result.make (Default_capacity)
-		end
-
 	text_content: STRING
 			-- `text_content' of Current {HTML_TAG}.
 		attribute
@@ -439,9 +427,9 @@ feature -- Gathering Functions: <head>
 
 	-- <title>
 	-- <head><meta>
-	head_meta_items: like head_meta_items_internal
+	head_meta_items: like head_meta_items_temp
 		do
-			Result := head_meta_items_internal
+			Result := head_meta_items_temp
 		end
 
 	head_meta_items_refresh
@@ -469,9 +457,9 @@ feature -- Gathering Functions: <head>
 		end
 
 	-- <head><link>
-	head_link_items: like head_link_items_internal
+	head_link_items: like head_link_items_temp
 		do
-			Result := head_link_items_internal
+			Result := head_link_items_temp
 		end
 
 	head_link_items_refresh
@@ -499,9 +487,9 @@ feature -- Gathering Functions: <head>
 		end
 
 	-- <head><script>
-	head_script_items: like head_script_items_internal
+	head_script_items: like head_script_items_temp
 		do
-			Result := head_script_items_internal
+			Result := head_script_items_temp
 		end
 
 	head_script_items_refresh
@@ -529,9 +517,9 @@ feature -- Gathering Functions: <head>
 		end
 
 	-- <head><style>
-	head_style_items: like head_style_items_internal
+	head_style_items: like head_style_items_temp
 		do
-			Result := head_style_items_internal
+			Result := head_style_items_temp
 		end
 
 	head_style_items_refresh
@@ -561,9 +549,9 @@ feature -- Gathering Functions: <head>
 feature -- Gathering Functions: <body>
 
 	-- <body><link>
-	body_link_items: like body_link_items_internal
+	body_link_items: like body_link_items_temp
 		do
-			Result := body_link_items_internal
+			Result := body_link_items_temp
 		end
 
 	body_link_items_refresh
@@ -591,9 +579,9 @@ feature -- Gathering Functions: <body>
 		end
 
 	-- <body><script>
-	body_script_items: like body_script_items_internal
+	body_script_items: like body_script_items_temp
 		do
-			Result := body_script_items_internal
+			Result := body_script_items_temp
 		end
 
 	body_script_items_refresh
@@ -621,9 +609,9 @@ feature -- Gathering Functions: <body>
 		end
 
 	-- <body><style>
-	body_style_items: like body_style_items_internal
+	body_style_items: like body_style_items_temp
 		do
-			Result := body_style_items_internal
+			Result := body_style_items_temp
 		end
 
 	body_style_items_refresh

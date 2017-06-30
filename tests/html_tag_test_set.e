@@ -40,6 +40,7 @@ feature -- Test routines
 			last_new_div.add_script_head_item (last_new_script)
 
 			assert_strings_equal ("multi_script", "<div></div>", last_new_div.html_out)
+			last_new_div.head_script_items_refresh
 			assert_integers_equal ("two_scripts", 2, last_new_div.head_script_items.count)
 		end
 
