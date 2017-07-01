@@ -21,9 +21,17 @@ inherit
 create
 	default_create,
 	make_with_content,
-	make_as_css_file_link
+	make_as_css_file_link,
+	make_with_rel_type_href
 
 feature {NONE} -- Initialization
+
+	make_with_rel_type_href (a_rel, a_type, a_href: STRING)
+		do
+			set_rel (a_rel)
+			set_type (a_type)
+			set_href (a_href)
+		end
 
 	make_as_css_file_link (a_css_file_name: STRING)
 			-- `make_as_css_file_link' with `a_css_file_name'
@@ -37,6 +45,13 @@ feature {NONE} -- Initialization
 
 feature -- Setters
 
+	set_as_rel_type_href (a_rel, a_type, a_href: STRING): HTML_LINK
+		do
+			set_rel (a_rel)
+			set_type (a_type)
+			set_href (a_href)
+			Result := Current
+		end
 	set_as_css_file_link (a_css_file_name: STRING)
 		do
 			set_rel ("stylesheet")

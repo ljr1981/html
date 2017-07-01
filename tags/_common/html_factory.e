@@ -98,58 +98,81 @@ feature -- HTML Components: Parallax Section
 
 feature -- CSS/JS Packages
 
-	set_bootstrap_4_package (a_div: HTML_DIV)
+	set_bootstrap_4_package (a_tag: HTML_TAG)
 		note
 			EIS: "src=https://v4-alpha.getbootstrap.com/"
 		do
-			set_package_contents (a_div, <<
+			set_package_contents (a_tag, <<
 											bootstrap_4_0_0_alpha_6_min_css_cdn,
-											jquery_core_3_2_1_slim_min_js_cdn,
+											jquery_core_1_12_4_min_js_cdn,
 											cloudfare_ajax_tether_min_js_cdn,
 											bootstrap_4_0_0_alpha_6_min_js_cnd
-											>>, True)
+											>>, to_body)
 		end
 
-	set_datatables_zero_configuration_package (a_div: HTML_DIV)
+	set_datatables_zero_configuration_package (a_tag: HTML_TAG)
 		note
 			EIS: "src=https://datatables.net/examples/basic_init/zero_configuration.html"
 		do
-			set_package_contents (a_div, <<
-											jquery_core_1_12_4_min_js_cdn,
+			set_package_contents (a_tag, <<jquery_core_1_12_4_min_js_cdn>>, to_head)
+			set_package_contents (a_tag, <<
 											datatables_1_10_15_js_jqueryui_min_js_cdn,
 											datatables_1_10_15_css_datatables_min_css_cdn
-											>>, True)
+											>>, to_body)
 		end
 
-	set_datatables_bootstrap_4_editable_grid_package (a_div: HTML_DIV)
+	set_datatables_bootstrap_4_table_package (a_tag: HTML_TAG)
 		note
-			EIS: "src=https://editor.datatables.net/examples/styling/bootstrap4.html"
+			EIS: "src=https://datatables.net/examples/styling/bootstrap4.html"
 		do
-			set_package_contents (a_div, <<
-											jquery_core_1_12_4_min_js_cdn,
-											cloudfare_ajax_tether_min_js_cdn,
-											datatables_1_10_15_js_jqueryui_min_js_cdn,
-											datatables_1_10_15_js_bootstrap4_min_js_cdn,
-											datatables_buttons_1_3_1_buttons_min_js_cdn,
-											datatables_buttons_1_3_1_bootstrap_4_min_js_cdn,
-											datatables_select_1_2_2_js_select_min_js_cdn,
-											datatables_extensions_editor_min_js_cdn,
-											datatables_extensions_editor_bootstrap_4_min_js_cdn
-											>>, True)
+			set_package_contents (a_tag, <<jquery_core_1_12_4_min_js_cdn>>, to_head)
+			set_package_contents (a_tag, <<
+											datatables_1_10_15_js_datatables_min_js_cdn,
+											datatables_1_10_15_js_bootstrap4_min_js_cdn
+											>>, to_body)
+		end
+
+	set_datatables_bootstrap_4_editable_grid_package (a_tag: HTML_TAG)
+			--
+		note
+			dependency: "[
+				(1) Presumes have a subscription/access to the DataTables Editor CSS/JS package.
+				(2) Presumes you have placed the DataTables Editor CSS/JS package files in your "files" folder.
+				]"
+			EIS: "src=https://editor.datatables.net/examples/styling/bootstrap4.html"
+			EIS: "src=https://editor.datatables.net/manual/getting-started",
+					"name=place_editor_datatables_files_in_assets"
+		do
+			set_datatables_bootstrap_4_table_package (a_tag)
+			set_package_contents (a_tag, <<
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css"),
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.css"),
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "editor.dataTables.css"),
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/select/1.2.2/css/select.dataTables.min.css")
+											>>, to_body)
+			set_package_contents (a_tag, <<
+											new_script.set_as_type_src ("text/javascript", "https://cdn.datatables.net/select/1.2.2/js/dataTables.select.min.js"),
+											new_script.set_as_type_src ("text/javascript", "https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.js"),
+											new_script.set_as_type_src ("text/javascript", "dataTables.editor.js")
+											>>, to_body)
+
 		end
 
 feature {NONE} -- Package Builder
 
-	set_package_contents (a_div: HTML_DIV; a_list: ARRAY [HTML_TAG]; a_set_to_head: BOOLEAN)
+	to_head: BOOLEAN = True
+	to_body: BOOLEAN = False
+
+	set_package_contents (a_tag: HTML_TAG; a_list: ARRAY [HTML_TAG]; a_set_to_head: BOOLEAN)
 		do
 			if a_set_to_head then
 				across
 					a_list as ic
 				loop
 					if attached {HTML_LINK} ic.item as al_item then
-						a_div.add_link_head_item (al_item)
+						a_tag.add_link_head_item (al_item)
 					elseif attached {HTML_SCRIPT} ic.item as al_item then
-						a_div.add_script_head_item (al_item)
+						a_tag.add_script_head_item (al_item)
 					else
 						check unknown_type: False end
 					end
@@ -159,9 +182,9 @@ feature {NONE} -- Package Builder
 					a_list as ic
 				loop
 					if attached {HTML_LINK} ic.item as al_item then
-						a_div.add_link_body_item (al_item)
+						a_tag.add_link_body_item (al_item)
 					elseif attached {HTML_SCRIPT} ic.item as al_item then
-						a_div.add_script_body_item (al_item)
+						a_tag.add_script_body_item (al_item)
 					else
 						check unknown_type: False end
 					end
@@ -177,37 +200,28 @@ feature -- Cloudfare CDN: JS
 
 	cloudfare_ajax_tether_min_js_cdn: HTML_SCRIPT
 			--<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
-			--	integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 		attribute
 			create Result
 			Result.set_src ("https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js")
-			Result.set_attribute_manual ("integrity", "sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb", True)
-			Result.set_attribute_manual ("crossorigin", "anonymous", True)
 		end
 
 feature -- Bootstrap 4 CDN: CSS
 
 	bootstrap_4_0_0_alpha_6_min_css_cdn: HTML_LINK
 			--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-			--	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
 			Result.set_href ("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css")
-			Result.set_attribute_manual ("integrity", "sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ", True)
-			Result.set_attribute_manual ("crossorigin", "anonymous", True)
 		end
 
 feature -- Bootstrap 4 CDN: JS
 
 	bootstrap_4_0_0_alpha_6_min_js_cnd: HTML_SCRIPT
 			--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
-			--	integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 		attribute
 			create Result
 			Result.set_src ("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js")
-			Result.set_attribute_manual ("integrity", "sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn", True)
-			Result.set_attribute_manual ("crossorigin", "anonymous", True)
 		end
 
 feature -- JQeury CDN: CSS
@@ -688,7 +702,6 @@ feature {NONE} -- JS <script> Template
 		do
 			create Result
 			Result.set_type ("text/javascript")
-			Result.set_attribute_manual ("language", "javascript", True)
 		end
 
 feature -- Text Element Factory

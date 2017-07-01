@@ -22,9 +22,23 @@ create
 	make_with_content,
 	make_with_src,
 	make_with_javascript,
-	make_with_javascript_file_name
+	make_with_javascript_file_name,
+	make_with_type_src,
+	make_with_type_and_code_text
 
 feature {NONE} -- Initialization
+
+	make_with_type_src (a_type, a_src: STRING)
+		do
+			set_type (a_type)
+			set_src (a_src)
+		end
+
+	make_with_type_and_code_text (a_type, a_code: STRING)
+		do
+			set_type (a_type)
+			add_text_content (a_code)
+		end
 
 	make_with_javascript_file_name (a_js_file_name: STRING)
 			-- `make_with_javascript_file_name' with `a_js_file_name'.
@@ -38,6 +52,20 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Setters
+
+	set_as_type_and_code_text (a_type, a_code: STRING): HTML_SCRIPT
+		do
+			set_type (a_type)
+			add_text_content (a_code)
+			Result := Current
+		end
+
+	set_as_type_src (a_type, a_src: STRING): HTML_SCRIPT
+		do
+			set_type (a_type)
+			set_src (a_src)
+			Result := Current
+		end
 
 	set_as_javascript_file (a_js_file_name: STRING)
 		require
