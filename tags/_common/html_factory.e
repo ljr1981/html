@@ -102,8 +102,8 @@ feature -- CSS/JS Packages
 		note
 			EIS: "src=https://v4-alpha.getbootstrap.com/"
 		do
+			set_package_contents (a_tag, <<bootstrap_4_0_0_alpha_6_min_css_cdn>>, to_head)
 			set_package_contents (a_tag, <<
-											bootstrap_4_0_0_alpha_6_min_css_cdn,
 											jquery_core_1_12_4_min_js_cdn,
 											cloudfare_ajax_tether_min_js_cdn,
 											bootstrap_4_0_0_alpha_6_min_js_cnd
