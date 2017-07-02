@@ -145,15 +145,15 @@ feature -- CSS/JS Packages
 		do
 			set_datatables_bootstrap_4_table_package (a_tag)
 			set_package_contents (a_tag, <<
-											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css"),
-											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.css"),
-											new_link.set_as_rel_type_href ("stylesheet", "text/css", "editor.dataTables.css"),
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"),
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css"),
+											new_link.set_as_rel_type_href ("stylesheet", "text/css", "editor.dataTables.min.css"),
 											new_link.set_as_rel_type_href ("stylesheet", "text/css", "https://cdn.datatables.net/select/1.2.2/css/select.dataTables.min.css")
-											>>, to_body)
+											>>, to_head)
 			set_package_contents (a_tag, <<
 											new_script.set_as_type_src ("text/javascript", "https://cdn.datatables.net/select/1.2.2/js/dataTables.select.min.js"),
-											new_script.set_as_type_src ("text/javascript", "https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.js"),
-											new_script.set_as_type_src ("text/javascript", "dataTables.editor.js")
+											new_script.set_as_type_src ("text/javascript", "https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"),
+											new_script.set_as_type_src ("text/javascript", "dataTables.editor.min.js")
 											>>, to_body)
 
 		end
