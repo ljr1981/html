@@ -241,21 +241,24 @@ feature -- JQuery CDN: JS
 			-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		attribute
 			Result := javascript_script_template
-			Result.set_src ("https://code.jquery.com/jquery-3.2.1.min.js")
+--			Result.set_src ("https://code.jquery.com/jquery-3.2.1.min.js")
+			Result.set_src ("https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
 		end
 
 	jquery_core_2_2_4_min_js_cdn: HTML_SCRIPT
 			-- <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 		attribute
 			Result := javascript_script_template
-			Result.set_src ("https://code.jquery.com/jquery-2.2.4.min.js")
+--			Result.set_src ("https://code.jquery.com/jquery-2.2.4.min.js")
+			Result.set_src ("https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js")
 		end
 
 	jquery_core_1_12_4_min_js_cdn: HTML_SCRIPT
 			-- <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
 		attribute
 			Result := javascript_script_template
-			Result.set_src ("https://code.jquery.com/jquery-1.12.4.min.js")
+--			Result.set_src ("https://code.jquery.com/jquery-1.12.4.min.js")
+			Result.set_src ("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
 		end
 
 feature -- DataTable's CDN: CSS
