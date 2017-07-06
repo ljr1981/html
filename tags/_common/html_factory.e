@@ -11,7 +11,19 @@ class
 
 feature -- HTML Components
 
-	google_map_frame (a_height, a_width, a_frameborder, a_style, a_API_key, a_address: STRING): HTML_IFRAME
+	new_youtube_video (a_src, a_frameborder: STRING a_height, a_width: INTEGER; a_is_allowfullscreen: BOOLEAN): HTML_IFRAME
+		do
+			Result := new_iframe
+				last_new_iframe.set_src (a_src)
+				last_new_iframe.set_frameborder (a_frameborder)
+				last_new_iframe.set_height (a_height.out)
+				last_new_iframe.set_width (a_width.out)
+				if a_is_allowfullscreen then
+					last_new_iframe.set_attribute_manual ("allowfullscreen", Void, False)
+				end
+		end
+
+	new_google_map (a_height, a_width, a_frameborder, a_style, a_API_key, a_address: STRING): HTML_IFRAME
 		note
 			google: "[
 				To use this {HTML_FACTORY} feature you will first need to do the following:

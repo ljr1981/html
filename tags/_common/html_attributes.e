@@ -761,13 +761,13 @@ feature {NONE} -- Attributes: Datums
 
 feature -- Setters
 
-	set_attribute_manual (a_attr_name, a_attr_value: STRING; a_is_quoted: BOOLEAN)
+	set_attribute_manual (a_attr_name: STRING; a_attr_value: detachable STRING; a_is_quoted: BOOLEAN)
 		require
-			not_has_attribute: not has_manually_set_attribute (a_attr_value)
+			not_has_attribute: not has_manually_set_attribute (a_attr_name)
 		local
 			l_attr: attached like attribute_tuple_anchor
 		do
-			l_attr := [a_attr_value, "", 0, a_attr_name, a_is_quoted]
+			l_attr := [a_attr_value, Void, 0, a_attr_name, a_is_quoted]
 			manually_added_attributes_list.force (l_attr, a_attr_name)
 		ensure
 			has: manually_added_attributes_list.has (a_attr_name)
