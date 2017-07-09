@@ -767,7 +767,7 @@ feature -- Setters
 		local
 			l_attr: attached like attribute_tuple_anchor
 		do
-			l_attr := [a_attr_value, Void, 0, a_attr_name, a_is_quoted]
+			l_attr := [a_attr_value, "", 0, a_attr_name, a_is_quoted]
 			manually_added_attributes_list.force (l_attr, a_attr_name)
 		ensure
 			has: manually_added_attributes_list.has (a_attr_name)
