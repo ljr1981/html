@@ -774,6 +774,19 @@ feature -- Setters
 			count: manually_added_attributes_list.count = (old manually_added_attributes_list.count + 1)
 		end
 
+	set_attribute_manual_key_only (a_attr_name: STRING)
+		require
+			not_has_attribute: not has_manually_set_attribute (a_attr_name)
+		local
+			l_attr: attached like attribute_tuple_anchor
+		do
+			l_attr := [Void, Void, 0, a_attr_name, False]
+			manually_added_attributes_list.force (l_attr, a_attr_name)
+		ensure
+			has: manually_added_attributes_list.has (a_attr_name)
+			count: manually_added_attributes_list.count = (old manually_added_attributes_list.count + 1)
+		end
+
 	has_manually_set_attribute (a_attr_name: STRING): BOOLEAN
 		require
 			not_empty: not a_attr_name.is_empty

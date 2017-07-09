@@ -19,7 +19,7 @@ feature -- HTML Components
 				last_new_iframe.set_height (a_height.out)
 				last_new_iframe.set_width (a_width.out)
 				if a_is_allowfullscreen then
-					last_new_iframe.set_attribute_manual ("allowfullscreen", Void, False)
+					last_new_iframe.set_attribute_manual_key_only ("allowfullscreen")
 				end
 		end
 
