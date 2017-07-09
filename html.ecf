@@ -18,12 +18,12 @@
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="css" location="..\css\css.ecf"/>
-		<library name="framework" location="..\framework\framework.ecf"/>
-		<library name="http-safe" location="..\ewf\library\network\protocol\http\http-safe.ecf"/>
-		<library name="json_ext" location="$GitHub\json_ext\json_ext.ecf"/>
+		<library name="framework" location="..\Framework\framework.ecf"/>
+		<library name="http-safe" location="$GITHUB\EWF\library\network\protocol\http\http-safe.ecf"/>
+		<library name="json_ext" location="$GITHUB\json_ext\json_ext.ecf"/>
 		<library name="logging" location="$ISE_LIBRARY\library\runtime\logging\logging-safe.ecf"/>
 		<library name="logging_extension" location="..\logging_extension\logging_extension.ecf"/>
-		<library name="randomizer" location="$GitHub\randomizer\randomizer.ecf"/>
+		<library name="randomizer" location="$GITHUB\randomizer\randomizer.ecf"/>
 		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
 		<cluster name="html" location=".\" recursive="true">
 			<file_rule>
