@@ -276,387 +276,387 @@ feature -- JQuery CDN: JS
 feature -- DataTable's CDN: CSS
 
 	dataTables_1_10_15_css_bootstrap_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.css")
 		end
 
 	dataTables_1_10_15_css_bootstrap_min_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css")
 		end
 
 	dataTables_1_10_15_css_bootstrap_4_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.css")
 		end
 
 	dataTables_1_10_15_css_bootstrap_4_min_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css")
 		end
 
 	dataTables_1_10_15_css_foundation_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.foundation.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.foundation.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.foundation.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.foundation.css")
 		end
 
 	dataTables_1_10_15_css_foundation_min_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.foundation.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.foundation.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.foundation.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.foundation.min.css")
 		end
 
 	dataTables_1_10_15_css_jqueryui_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.css")
 		end
 
 	dataTables_1_10_15_css_jqueryui_min_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css")
 		end
 
 	dataTables_1_10_15_css_material_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.material.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.material.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.material.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.material.css")
 		end
 
 	dataTables_1_10_15_css_material_min_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.material.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.material.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.material.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.material.min.css")
 		end
 
 	dataTables_1_10_15_css_semanticui_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.semanticui.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.semanticui.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.css")
 		end
 
 	dataTables_1_10_15_css_semanticui_min_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.semanticui.min.css")
 		end
 
 	dataTables_1_10_15_css_uikit_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.uikit.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.uikit.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.uikit.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.uikit.css")
 		end
 
 	dataTables_1_10_15_css_uikit_min_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/dataTables.uikit.min.css
+			--https://cdn.datatables.net/1.10.15/css/dataTables.uikit.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/dataTables.uikit.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/dataTables.uikit.min.css")
 		end
 
 	dataTables_1_10_15_css_dataTables_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/jquery.dataTables.css
+			--https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/jquery.dataTables.css")
 		end
 
 	dataTables_1_10_15_css_dataTables_min_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css
+			--https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css")
 		end
 
 	dataTables_1_10_15_css_dataTables_themeroller_css_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/css/jquery.dataTables_themeroller.css
+			--https://cdn.datatables.net/1.10.15/css/jquery.dataTables_themeroller.css
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("stylesheet")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/css/jquery.dataTables_themeroller.css")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/css/jquery.dataTables_themeroller.css")
 		end
 
 feature -- DataTable's CDN: Images
 
 	dataTables_1_10_15_images_sort_asc_png_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/images/sort_asc.png
+			--https://cdn.datatables.net/1.10.15/images/sort_asc.png
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("image")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/images/sort_asc.png")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/images/sort_asc.png")
 		end
 
 	dataTables_1_10_15_images_sort_asc_disabled_png_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/images/sort_asc_disabled.png
+			--https://cdn.datatables.net/1.10.15/images/sort_asc_disabled.png
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("image")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/images/sort_asc_disabled.png")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/images/sort_asc_disabled.png")
 		end
 
 	dataTables_1_10_15_images_sort_both_png_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/images/sort_both.png
+			--https://cdn.datatables.net/1.10.15/images/sort_both.png
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("image")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/images/sort_both.png")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/images/sort_both.png")
 		end
 
 	dataTables_1_10_15_images_sort_desc_png_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/images/sort_desc.png
+			--https://cdn.datatables.net/1.10.15/images/sort_desc.png
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("image")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/images/sort_desc.png")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/images/sort_desc.png")
 		end
 
 	dataTables_1_10_15_images_sort_desc_disabled_png_cdn: HTML_LINK
-			--http://cdn.datatables.net/1.10.15/images/sort_desc_disabled.png
+			--https://cdn.datatables.net/1.10.15/images/sort_desc_disabled.png
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result.set_rel ("image")
-			Result.set_href ("http://cdn.datatables.net/1.10.15/images/sort_desc_disabled.png")
+			Result.set_href ("https://cdn.datatables.net/1.10.15/images/sort_desc_disabled.png")
 		end
 
 feature -- DataTable's CDN: JS
 
 	dataTables_1_10_15_js_bootstrap_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.js")
 		end
 
 	dataTables_1_10_15_js_bootstrap_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js")
 		end
 
 	dataTables_1_10_15_js_bootstrap4_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.js")
 		end
 
 	dataTables_1_10_15_js_bootstrap4_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js")
 		end
 
 	dataTables_1_10_15_js_foundation_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.foundation.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.foundation.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.foundation.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.foundation.js")
 		end
 
 	dataTables_1_10_15_js_foundation_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.foundation.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.foundation.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.foundation.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.foundation.min.js")
 		end
 
 	dataTables_1_10_15_js_jqueryui_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.js")
 		end
 
 	dataTables_1_10_15_js_jqueryui_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js")
 		end
 
 	dataTables_1_10_15_js_material_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.material.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.material.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.material.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.material.js")
 		end
 
 	dataTables_1_10_15_js_material_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.material.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.material.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.material.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.material.min.js")
 		end
 
 	dataTables_1_10_15_js_semanticui_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.semanticui.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.semanticui.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.semanticui.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.semanticui.js")
 		end
 
 	dataTables_1_10_15_js_semanticui_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.semanticui.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.semanticui.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.semanticui.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.semanticui.min.js")
 		end
 
 	dataTables_1_10_15_js_uikit_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.uikit.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.uikit.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.uikit.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.uikit.js")
 		end
 
 	dataTables_1_10_15_js_uikit_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/dataTables.uikit.min.js
+			--https://cdn.datatables.net/1.10.15/js/dataTables.uikit.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/dataTables.uikit.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/dataTables.uikit.min.js")
 		end
 
 	dataTables_1_10_15_js_dataTables_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js
+			--https://cdn.datatables.net/1.10.15/js/jquery.dataTables.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/jquery.dataTables.js")
 		end
 
 	dataTables_1_10_15_js_dataTables_min_js_cdn: HTML_SCRIPT
-			--http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js
+			--https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js
 		note
-			EIS: "src=http://cdn.datatables.net/1.10.15/"
+			EIS: "src=https://cdn.datatables.net/1.10.15/"
 		attribute
 			create Result
 			Result := javascript_script_template
-			Result.set_src ("http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js")
+			Result.set_src ("https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js")
 		end
 
 
