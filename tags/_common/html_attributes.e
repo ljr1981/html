@@ -1456,7 +1456,7 @@ feature {NONE} -- Attribute List
 	core_attribute_list: HASH_TABLE [TUPLE [attr_value: detachable ANY; attr_default: detachable ANY; attr_minimum: detachable NUMERIC; attr_name: STRING_8; is_quoted: BOOLEAN], STRING]
 		do
 				-- Global
-			create Result.make (Default_capacity)
+			create Result.make (6) --(Default_capacity)
 			Result.force (global_accesskey, global_accesskey.attr_name)
 			Result.force (global_class, global_class.attr_name)
 			Result.force (global_id, global_id.attr_name)
@@ -1599,7 +1599,7 @@ feature {NONE} -- Attribute List
 			Result.force (on_mouse_out, on_mouse_out.attr_name)
 			Result.force (on_mouse_over, on_mouse_over.attr_name)
 			Result.force (on_mouse_up, on_mouse_up.attr_name)
-			Result.force (on_mouse_wheel, on_mouse_wheel.attr_name)
+			Result.force (on_wheel, on_wheel.attr_name)
 			Result.force (on_scroll, on_scroll.attr_name)
 			Result.force (on_wheel, on_wheel.attr_name)
 
@@ -1645,6 +1645,5 @@ feature {NONE} -- Constants
 feature -- Constants
 
 	Default_capacity: INTEGER
-		attribute Result := 6 end
 
 end
