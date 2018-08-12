@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 				a_values as ic_values
 			loop
 				extend (create {HTML_TEXT}.make_with_text (ic_values.item))
-				extend (create {HTML_INPUT}.make_as_checkbox (a_name, ic_values.item))
+				extend (create {HTML_INPUT}.make_as_checkbox (a_name, ic_values.item, False))
 				if a_is_with_line_breaks then
 					extend (create {HTML_BR})
 				end

@@ -127,6 +127,8 @@ feature -- Testing: Creation Tests
 			create l_check_group.make_with_data ("check_label", "check_name", <<"value_1">>, False)
 			create l_fieldset
 			create l_input
+			create l_input.make_as_checkbox ("blah", "", True)
+			assert_strings_equal ("HTML_INPUT_as_checkbox", "<input name=%"blah%"  type=%"checkbox%"  checked/>", l_input.html_out)
 			create l_label
 			create l_legend
 			create l_optgroup

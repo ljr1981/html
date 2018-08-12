@@ -37,10 +37,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make_as_checkbox (a_name, a_value: STRING)
+	make_as_checkbox (a_name, a_value: STRING; a_is_checked: BOOLEAN)
 			-- `make_as_text_field' of `a_name', `a_maxlength', and `a_size'.
 		do
 			make_with_attributes (checkbox_kw, a_name, a_value, empty_string, empty_string)
+			if a_is_checked then
+				set_attribute_manual_key_only ("checked")
+			end
 		end
 
 	make_as_radio (a_name, a_value: STRING)
