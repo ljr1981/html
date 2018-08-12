@@ -970,4 +970,8 @@ feature -- Table Element Factories
 	new_tr: HTML_TR do create Result; last_new_tr := Result end
 	last_new_tr: like new_tr attribute Result := new_tr end
 
+feature -- Constants
+
+	Mark_as_checked: BOOLEAN = True
+
 end
