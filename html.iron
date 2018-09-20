@@ -1,0 +1,15 @@
+package html
+
+project
+	html = "html.ecf"
+
+note
+	title: HTML Lib
+	description: "A library for computing HTML instead of writing it."
+
+	tags: html,eiffel,web,framework,ewf
+	license: Eiffel Forum License v2 
+	copyright: 2018 Larry Rix
+	link[license]: http://www.eiffel.com/licensing/forum.txt external
+
+end

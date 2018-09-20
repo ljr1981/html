@@ -1,0 +1,1 @@
+tar -jcvf ".\archive.tar.bz2" "." --exclude-from="tar_exclude_patterns.txt"
