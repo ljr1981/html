@@ -21,7 +21,7 @@
 		<library name="framework" location="iron:framework:framework.ecf"/>
 		<library name="http-safe" location="$GITHUB\EWF\library\network\protocol\http\http-safe.ecf"/>
 		<library name="json_ext" location="iron:json_ext:json_ext.ecf"/>
-		<library name="logging" location="$ISE_LIBRARY\library\runtime\logging\logging-safe.ecf"/>
+		<library name="logging" location="iron:logging:logging.ecf"/>
 		<library name="logging_extension" location="iron:logging_extension:logging_extension.ecf"/>
 		<library name="randomizer" location="iron:randomizer:randomizer.ecf"/>
 		<library name="test_extension" location="iron:test_extension:test_extension.ecf"/>
